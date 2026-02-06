@@ -1,283 +1,133 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  <title>Tag: SSTI | smileless的博客</title>
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="theme-color" content="#1a1a1a"><meta name="msapplication-navbutton-color" content="#1a1a1a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>smileless的博客</title><script>(function() {
+  // 尽早应用暗色模式，防止闪烁
+  var savedDarkMode = localStorage.getItem('darkMode') === 'true';
+  if (savedDarkMode) {
+    document.documentElement.classList.add('dark-mode');
+  }
+})();
+</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:wght@400;500;600;700&amp;family=Fira+Code:wght@400;500&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="icon" href="/blog/null">
+<link rel="stylesheet" href="/blog/css/main.css">
 
-  <!-- keywords -->
-  
+<link rel="stylesheet" href="/blog/css/tags.css">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="smileless的博客">
-<meta property="og:url" content="https://smileless-1.github.io/blog/tags/SSTI/index.html">
-<meta property="og:site_name" content="smileless的博客">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="smileless">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternative" href="/atom.xml" title="smileless的博客" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="https://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
-  
-  
-<link rel="stylesheet" href="/blog/css/style.css">
+<link rel="stylesheet" href="/blog/css/categories.css">
 
-  
-  
+<link rel="stylesheet" href="/blog/css/categories-accordion.css">
 
-  <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/blog/css/highlight.css">
 
-  
-<meta name="generator" content="Hexo 8.1.1"></head>
-<body>
-  <div id="container">
-    <div id="particles-js"></div>
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img lazy-src="/images/image.jpg" class="js-avatar">
-			
-		</a>
+<link rel="stylesheet" href="/blog/css/toc.css">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/"></a></h1>
-		</hgroup>
+<link rel="stylesheet" href="/blog/css/image-zoom.css">
 
-		
+<link rel="stylesheet" href="/blog/css/share.css">
 
-		
-			<div class="switch-btn">
-				<div class="icon">
-					<div class="icon-ctn">
-						<div class="icon-wrap icon-house" data-idx="0">
-							<div class="birdhouse"></div>
-							<div class="birdhouse_holes"></div>
-						</div>
-						<div class="icon-wrap icon-ribbon hide" data-idx="1">
-							<div class="ribbon"></div>
-						</div>
-						
-						<div class="icon-wrap icon-link hide" data-idx="2">
-							<div class="loopback_l"></div>
-							<div class="loopback_r"></div>
-						</div>
-						
-						
-					</div>
-					
-				</div>
-				<div class="tips-box hide">
-					<div class="tips-arrow"></div>
-					<ul class="tips-inner">
-						<li>菜单</li>
-						<li>标签</li>
-						
-						<li>友情链接</li>
-						
-						
-					</ul>
-				</div>
-			</div>
-		
+<link rel="stylesheet" href="/blog/css/mobile-nav.css">
 
-		<div class="switch-area">
-			<div class="switch-wrap">
-				<section class="switch-part switch-part1">
-					<nav class="header-menu">
-						<ul>
-						
-							<li><a href="/blog/">主页</a></li>
-				        
-							<li><a href="/blog/archives">所有文章</a></li>
-				        
-						</ul>
-					</nav>
-					<nav class="header-nav">
-						<div class="social">
-							
-						</div>
-					</nav>
-				</section>
-				
-				
-				<section class="switch-part switch-part2">
-					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/blog/tags/PHP/" style="font-size: 20px;">PHP</a> <a href="/blog/tags/SQL/" style="font-size: 20px;">SQL</a> <a href="/blog/tags/SSRF/" style="font-size: 10px;">SSRF</a> <a href="/blog/tags/SSTI/" style="font-size: 10px;">SSTI</a>
-					</div>
-				</section>
-				
-				
-				
-				<section class="switch-part switch-part3">
-					<div id="js-friends">
-					
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
-			        
-			        </div>
-				</section>
-				
+<link rel="stylesheet" href="/blog/css/search.css">
 
-				
-			</div>
-		</div>
-	</header>				
-</div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide"></h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				<img lazy-src="/images/image.jpg" class="js-avatar">
-			</div>
-			<hgroup>
-			  <h1 class="header-author"></h1>
-			</hgroup>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/blog/">主页</a></li>
-		        
-					<li><a href="/blog/archives">所有文章</a></li>
-		        
-		        <div class="clearfix"></div>
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-				</div>
-			</nav>
-		</header>				
-	</div>
-</nav>
-      <div class="body-wrap">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/blog/archives/2026" class="archive-year">2026</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/blog/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2026-01-28T13:45:00.000Z" itemprop="datePublished">1月 28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/blog/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/">
-        SSTI简记
-        
-      </a>
-    </h1>
-  
+<link rel="stylesheet" href="/blog/css/scrollbar.css">
 
-        <div class="article-info info-on-left">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/SSTI/" rel="tag">SSTI</a></li></ul>
-	</div>
+<link rel="stylesheet" href="/blog/css/timeline.css">
 
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/blog/categories/SSTI/">SSTI</a>
-	</div>
+<link rel="stylesheet" href="/blog/css/animations.css">
 
+<link rel="stylesheet" href="/blog/css/ai-theme.css">
 
-          
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+<link rel="stylesheet" href="/blog/css/loading-animation.css">
 
-    
+<link rel="stylesheet" href="/blog/css/article-modal.css">
+<!-- 条件加载关于页面样式--><style>:root {
+  --primary-color: #1a1a1a;
+  --secondary-color: #666666;
+  --accent-color: #ff6b6b;
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --overlay-color: rgba(0, 0, 0, 0.7);
+  --tag-background-color: #ffffff;
+  --card-background-color: #ffffff;
+}
+</style><link rel="stylesheet" href="https://cdn1.tianli0.top/gh/qxchuckle/Post-Summary-AI/chuckle-post-ai.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/blog/atom.xml" title="smileless的博客" type="application/atom+xml">
+</head><body><div id="app"><header class="header navbar-bubble"><nav class="nav"><div class="nav-container"><div class="nav-logo"><a href="/blog/"><span class="nav-title">smileless的博客</span></a></div><div class="nav-menu"><a class="nav-item" href="/blog/">首页</a><a class="nav-item" href="/blog/about/">关于</a><a class="nav-item" href="/blog/archives/">归档</a><a class="nav-item" href="/blog/categories/">分类</a><a class="nav-item active" href="/blog/tags/">标签</a><a class="nav-item" href="/blog/link/">友链</a><div class="nav-item has-submenu"><span class="nav-link">网站</span><div class="submenu"><a class="submenu-item" target="_blank" rel="noopener" href="https://example.com">示例网站</a></div></div><!-- 搜索按钮--><div class="search-toggle"><i class="fas fa-search"></i></div></div><div class="nav-toggle"><span></span><span></span><span></span></div></div></nav></header><div class="search-overlay"><div class="search-container"><div class="search-form"><input class="search-input" type="text" placeholder="搜索文章..."/><div class="search-close">×</div></div><div class="search-results"></div></div></div><main class="main"><div class="post-wrapper"><article class="post-container"><div class="post-header"><h1 class="post-title">Tags</h1><div class="post-subtitle">探索与 &quot;SSTI&quot; 相关的所有文章</div></div><div class="tags-content"><!-- 显示特定标签的文章列表--><div class="tag-posts"><div class="tag-header"><div class="tag-info"><h2 class="tag-name"> <i class="fas fa-tag"></i> SSTI</h2><div class="tag-description">共有 1 篇文章</div></div><div class="tag-back"><a href="/tags/"> <i class="fas fa-arrow-left"></i> 返回所有标签</a></div></div><div class="post-list"><!-- 根据索引创建不同大小的卡片--><div class="post-item post-item--large"><div class="post-item-inner"><div class="post-item-title"><a href="/blog/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/">SSTI简记</a></div><div class="post-item-excerpt"><!-- 使用 strip_html 过滤器移除 HTML 标签后再截取文本--><p>SSTI简记标签（空格分隔）： ssti
 
-</div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-      <div class="footer-left">
-        &copy; 2026 smileless
-      </div>
-        <div class="footer-right">
-          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
-        </div>
-    </div>
-  </div>
-</footer>
-    </div>
-    
-  
-<link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+##识别模板引擎##
+1234&#123;&#123;7*7&#125;&#125; → 49 (成功)     # Jinja2, Twig$&#123;7*7&#125; → 49 (成功)      # FreeMarker&lt;%= 7*7 %&gt; → 49 (成功)  # ERB, Ruby#&#123;7*7&#125; → 49 (成功)      # Jade/Pug
+
+###基础知识类###
 
 
 
-<script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: true,
-		animate: true,
-		isHome: false,
-		isPost: false,
-		isArchive: false,
-		isTag: true,
-		isCategory: false,
-		open_in_new: false
-	}
+组件
+作用
+
+
+
+‘’
+一个具体的对象
+
+
+class
+查看这个对象的类
+
+
+mro
+查看类的继承关系
+
+
+mro[1]
+获取基类...</p></div><div class="post-item-meta"><div class="post-meta-left"><span class="post-date"><i class="far fa-calendar"></i> 2026-01-28</span><span class="post-category"> <i class="fas fa-folder"></i><a href="/blog/categories/web/">Web</a></span></div><div class="post-meta-right"><a class="read-more" href="/blog/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/">阅读全文 <i class="fas fa-arrow-right"></i></a></div></div></div></div></div></div></div></article></div></main><footer class="footer"><div class="footer-bottom"><div class="footer-copyright">© 2025 李思然. All rights reserved.</div><!-- Footer centered image with link--><div class="footer-image" style="text-align: center; margin: 15px 0;"><a href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral" target="_blank" rel="noopener noreferrer"><img src="https://s21.ax1x.com/2024/08/23/pAFm0cq.png" alt="Footer Image" style="max-width: 100%; height: auto;"/></a></div><div class="footer-badges"><a target="_blank" rel="noopener" href="https://hexo.io/" title="博客框架为Hexo_v5.4.0"><img src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Frame-Hexo.svg" alt="博客框架为Hexo_v5.4.0"/></a><a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"><img src="https://npm.elemecdn.com/anzhiyu-blog@2.2.0/img/badge/Copyright-BY-NC-SA.svg" alt="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a></div></div></footer></div><!-- 立即应用暗色模式，避免页面闪烁--><script>(function() {
+  // 检查本地存储中的暗色模式设置
+  const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+  // 如果设置为暗色模式，立即应用到body
+  if (savedDarkMode) {
+    document.body.classList.add('dark-mode');
+  }
+
+  // 防止页面闪烁，在DOM加载完成前设置一个初始类
+  document.documentElement.style.visibility = 'hidden';
+  document.addEventListener('DOMContentLoaded', function() {
+    document.documentElement.style.visibility = 'visible';
+  });
+})();
 </script>
-
 <script src="/blog/js/main.js"></script>
 
+<script src="/blog/js/tags.js"></script>
 
+<script src="/blog/js/categories-accordion.js"></script>
 
+<script src="/blog/js/highlight.js"></script>
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    }
-});
+<script src="/blog/js/load-more.js"></script>
 
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';                 
-    }       
-});
-</script>
+<script src="/blog/js/header-scroll.js"></script>
 
-<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+<script src="/blog/js/toc.js"></script>
 
+<script src="/blog/js/image-zoom.js"></script>
 
-  </div>
-</body>
-</html>
+<script src="/blog/js/share.js"></script>
+
+<script src="/blog/js/search.js"></script>
+
+<script src="/blog/js/hide-inline-interaction.js"></script>
+
+<script src="/blog/js/hide-toggle-interaction.js"></script>
+
+<script src="/blog/js/dark-mode-sync.js"></script>
+
+<script src="/blog/js/animations.js"></script>
+
+<script src="/blog/js/ai-theme.js"></script>
+
+<script src="/blog/js/loading-animation.js"></script>
+
+<script src="/blog/js/article-modal.js"></script>
+<script>window.theme = {
+  features: {"dark_mode":true,"smooth_scroll":true,"back_to_top":true,"loading_animation":true},
+  code_block: {"height_limit":200,"enable_folding":true,"max_height":"300px","show_lang":true},
+  ai_summary: {"enable":true,"api_key":"","summary_directly":false,"ai_name":"然-AI","ai_introduce":"我是文章辅助AI: 然-AI，一个基于deepseek的强大语言模型，有什么可以帮到您？😊","ai_version":"deepseekv3","buttons":["介绍自己","来点灵感","生成AI简介"]},
+  categories: {"layout":"accordion","accordion_animation":true,"show_empty_categories":true},
+  article_list: {"card_size":"normal","view_mode":"modal"}
+};
+</script><script src="/js/ai.js"></script><script src="/js/postai.js"></script></body></html>
