@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>smileless的博客</title>
+  <title>smileless-L的博客</title>
   
   
-  <link href="https://smileless-1.github.io/atom.xml" rel="self"/>
+  <link href="https://smileless-l.github.io/atom.xml" rel="self"/>
   
-  <link href="https://smileless-1.github.io/"/>
+  <link href="https://smileless-l.github.io/"/>
   <updated>2026-02-08T16:51:32.570Z</updated>
-  <id>https://smileless-1.github.io/</id>
+  <id>https://smileless-l.github.io/</id>
   
   <author>
-    <name>smileless</name>
+    <name>smileless-L</name>
     
   </author>
   
@@ -18,8 +18,8 @@
   
   <entry>
     <title>LCG（线性同余生成器）简记</title>
-    <link href="https://smileless-1.github.io/2026/02/08/LCG/"/>
-    <id>https://smileless-1.github.io/2026/02/08/LCG/</id>
+    <link href="https://smileless-l.github.io/2026/02/08/LCG/"/>
+    <id>https://smileless-l.github.io/2026/02/08/LCG/</id>
     <published>2026-02-08T15:40:00.000Z</published>
     <updated>2026-02-08T16:51:32.570Z</updated>
     
@@ -39,17 +39,17 @@ MathJax = {
     
     
     
-    <category term="Crypto" scheme="https://smileless-1.github.io/categories/crypto/"/>
+    <category term="Crypto" scheme="https://smileless-l.github.io/categories/crypto/"/>
     
     
-    <category term="LCG" scheme="https://smileless-1.github.io/tags/LCG/"/>
+    <category term="LCG" scheme="https://smileless-l.github.io/tags/LCG/"/>
     
   </entry>
   
   <entry>
     <title>PHP伪协议</title>
-    <link href="https://smileless-1.github.io/2026/02/08/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/"/>
-    <id>https://smileless-1.github.io/2026/02/08/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/</id>
+    <link href="https://smileless-l.github.io/2026/02/08/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/"/>
+    <id>https://smileless-l.github.io/2026/02/08/PHP%E4%BC%AA%E5%8D%8F%E8%AE%AE/</id>
     <published>2026-02-07T20:04:00.000Z</published>
     <updated>2026-02-07T20:04:51.941Z</updated>
     
@@ -58,50 +58,29 @@ MathJax = {
       
         
         
-    <summary type="html">&lt;h1 id=&quot;PHP伪协议&quot;&gt;&lt;a href=&quot;#PHP伪协议&quot; class=&quot;headerlink&quot; title=&quot;PHP伪协议&quot;&gt;&lt;/a&gt;PHP伪协议&lt;/h1&gt;&lt;p&gt;标签 ： PHP&lt;/p&gt;
+    <summary type="html">&lt;h1&gt;PHP伪协议&lt;/h1&gt;
+&lt;p&gt;标签 ： PHP&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&quot;伪装协议&quot;&gt;&lt;a href=&quot;#伪装协议&quot;</summary>
+&lt;h2 id=&quot;伪装协议&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#伪装协议&quot;&gt;¶&lt;/a&gt;伪装协议&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;1 file://
+2 http://
+3</summary>
         
       
     
     
     
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
     
     
-    <category term="PHP" scheme="https://smileless-1.github.io/tags/PHP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL&quot;,&quot;号绕过</title>
-    <link href="https://smileless-1.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-1.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:04:54.362Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;SQL”-”号绕过&quot;&gt;&lt;a href=&quot;#SQL”-”号绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL”,”号绕过&quot;&gt;&lt;/a&gt;SQL”,”号绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）：</summary>
-        
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
-    
-    
-    <category term="SQL绕过" scheme="https://smileless-1.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
+    <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
     
   </entry>
   
   <entry>
     <title>SQL union联合注入</title>
-    <link href="https://smileless-1.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
-    <id>https://smileless-1.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</id>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</id>
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T16:58:56.357Z</updated>
     
@@ -110,50 +89,25 @@ MathJax = {
       
         
         
-    <summary type="html">&lt;h1 id=&quot;SQL-union联合注入&quot;&gt;&lt;a href=&quot;#SQL-union联合注入&quot; class=&quot;headerlink&quot; title=&quot;SQL union联合注入&quot;&gt;&lt;/a&gt;SQL union联合注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）：</summary>
+    <summary type="html">&lt;h1&gt;SQL union联合注入&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
+&lt;p&gt;—首先数据库的定义:</summary>
         
       
     
     
     
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
     
     
-    <category term="SQL" scheme="https://smileless-1.github.io/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQLite</title>
-    <link href="https://smileless-1.github.io/2026/01/28/SQLite/"/>
-    <id>https://smileless-1.github.io/2026/01/28/SQLite/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:00:08.341Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;SQLite&quot;&gt;&lt;a href=&quot;#SQLite&quot; class=&quot;headerlink&quot; title=&quot;SQLite&quot;&gt;&lt;/a&gt;SQLite&lt;/h1&gt;&lt;hr&gt;
-&lt;p&gt;join注入：当，被过滤的时候可以使用该方法&lt;/p&gt;
-&lt;figure</summary>
-        
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
-    
-    
-    <category term="SQL" scheme="https://smileless-1.github.io/tags/SQL/"/>
+    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
     
   </entry>
   
   <entry>
     <title>SQL&#39;select&#39;绕过</title>
-    <link href="https://smileless-1.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-1.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</id>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</id>
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T17:05:20.554Z</updated>
     
@@ -162,23 +116,29 @@ MathJax = {
       
         
         
-    <summary type="html">&lt;h1 id=&quot;SQL’select’绕过&quot;&gt;&lt;a href=&quot;#SQL’select’绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL’select’绕过&quot;&gt;&lt;/a&gt;SQL’select’绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）：</summary>
+    <summary type="html">&lt;h1&gt;SQL’select’绕过&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;##直接查询&lt;br&gt;
+handler函数使用&lt;br&gt;
+&lt;code&gt;语法&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight</summary>
         
       
     
     
     
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
     
     
-    <category term="SQL绕过" scheme="https://smileless-1.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
+    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
     
   </entry>
   
   <entry>
     <title>SQL堆叠注入</title>
-    <link href="https://smileless-1.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
-    <id>https://smileless-1.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</id>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</id>
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T17:00:57.003Z</updated>
     
@@ -187,48 +147,53 @@ MathJax = {
       
         
         
-    <summary type="html">&lt;h1 id=&quot;SQL堆叠注入&quot;&gt;&lt;a href=&quot;#SQL堆叠注入&quot; class=&quot;headerlink&quot; title=&quot;SQL堆叠注入&quot;&gt;&lt;/a&gt;SQL堆叠注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）：</summary>
+    <summary type="html">&lt;h1&gt;SQL堆叠注入&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）：</summary>
         
       
     
     
     
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
     
     
-    <category term="SQL" scheme="https://smileless-1.github.io/tags/SQL/"/>
+    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
     
   </entry>
   
   <entry>
-    <title>SQL空格绕过</title>
-    <link href="https://smileless-1.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-1.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</id>
+    <title>SQL&quot;,&quot;号绕过</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</id>
     <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:05:40.978Z</updated>
+    <updated>2026-02-06T17:04:54.362Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;SQL空格绕过&quot;&gt;&lt;a href=&quot;#SQL空格绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL空格绕过&quot;&gt;&lt;/a&gt;SQL空格绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）：</summary>
+    <summary type="html">&lt;h1&gt;SQL&amp;quot;,&amp;quot;号绕过&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;join注入：当，被过滤的时候可以使用该方法&lt;/p&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
         
       
     
     
     
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
     
     
-    <category term="SQL绕过" scheme="https://smileless-1.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
+    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
     
   </entry>
   
   <entry>
     <title>SSTI简记</title>
-    <link href="https://smileless-1.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/"/>
-    <id>https://smileless-1.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/</id>
+    <link href="https://smileless-l.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/</id>
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T17:01:54.618Z</updated>
     
@@ -237,26 +202,57 @@ MathJax = {
       
         
         
-    <summary type="html">&lt;h1 id=&quot;SSTI简记&quot;&gt;&lt;a href=&quot;#SSTI简记&quot; class=&quot;headerlink&quot; title=&quot;SSTI简记&quot;&gt;&lt;/a&gt;SSTI简记&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： ssti&lt;/p&gt;
+    <summary type="html">&lt;h1&gt;SSTI简记&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： ssti&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;##识别模板引擎##&lt;/p&gt;
-&lt;figure</summary>
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
         
       
     
     
     
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
     
     
-    <category term="SSTI" scheme="https://smileless-1.github.io/tags/SSTI/"/>
+    <category term="SSTI" scheme="https://smileless-l.github.io/tags/SSTI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL空格绕过</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:05:40.978Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;SQL空格绕过&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;##内联绕过&lt;br&gt;
+首先是空格被过滤了可以使用内联绕过具体使用例子如下&lt;/p&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
+        
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    
+    
+    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
     
   </entry>
   
   <entry>
     <title>gopher_协议使用</title>
-    <link href="https://smileless-1.github.io/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/"/>
-    <id>https://smileless-1.github.io/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/</id>
+    <link href="https://smileless-l.github.io/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/"/>
+    <id>https://smileless-l.github.io/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/</id>
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T16:53:33.343Z</updated>
     
@@ -265,23 +261,142 @@ MathJax = {
       
         
         
-    <summary type="html">&lt;h1 id=&quot;gopher-协议使用&quot;&gt;&lt;a href=&quot;#gopher-协议使用&quot; class=&quot;headerlink&quot; title=&quot;gopher:&amp;#x2F;&amp;#x2F;协议使用&quot;&gt;&lt;/a&gt;gopher:&amp;#x2F;&amp;#x2F;协议使用&lt;/h1&gt;&lt;p&gt;标签（空格分隔）：</summary>
+    <summary type="html">&lt;h1&gt;gopher://协议使用&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： SSRF&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;|gopher|发送原始 TCP 数据（高级利用）|构造gopher://127.0.0.1:3306/_%23…（向 MySQL 发送恶意 SQL</summary>
         
       
     
     
     
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
     
     
-    <category term="SSRF" scheme="https://smileless-1.github.io/tags/SSRF/"/>
+    <category term="SSRF" scheme="https://smileless-l.github.io/tags/SSRF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Crypto实用函数类</title>
+    <link href="https://smileless-l.github.io/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/"/>
+    <id>https://smileless-l.github.io/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:47:27.964Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;crypto python函数类&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： crypto&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;求$a^{x} = c &#92;mod m $&lt;/p&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
+        
+      
+    
+    
+    
+    <category term="Crypto" scheme="https://smileless-l.github.io/categories/crypto/"/>
+    
+    
+    <category term="python" scheme="https://smileless-l.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PHP魔术技巧</title>
+    <link href="https://smileless-l.github.io/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/"/>
+    <id>https://smileless-l.github.io/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T16:56:27.596Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;php魔术技巧&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： PHP #魔术技巧#&lt;/p&gt;
+&lt;p&gt;—php&lt;/p&gt;
+&lt;p&gt;反序列化的基本格式：O:组的字节:“定义的组的名字”:有几个参数:{s:4:“flag”;s:3:“111”;}&lt;/p&gt;
+&lt;p&gt;构造脚本可以在后面这么加$A</summary>
+        
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    
+    
+    <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>预编译拼接字符法</title>
+    <link href="https://smileless-l.github.io/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/"/>
+    <id>https://smileless-l.github.io/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:06:07.346Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;预编译拼接字符法&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;直接concat函数来进行一个拼接字符串的方法&lt;br&gt;
+&lt;code&gt;语法&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight</summary>
+        
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    
+    
+    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQLite</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQLite/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQLite/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:00:08.341Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;SQLite&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;join注入：当，被过滤的时候可以使用该方法&lt;/p&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
+    
+    
+    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
     
   </entry>
   
   <entry>
     <title>php函数简记</title>
-    <link href="https://smileless-1.github.io/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
-    <id>https://smileless-1.github.io/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</id>
+    <link href="https://smileless-l.github.io/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
+    <id>https://smileless-l.github.io/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</id>
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T16:56:12.049Z</updated>
     
@@ -291,50 +406,25 @@ MathJax = {
         
         
     <summary type="html">&lt;p&gt;一些简单php函数简记&lt;/p&gt;
-&lt;p&gt;标签（空格分隔）： PHP &lt;/p&gt;
+&lt;p&gt;标签（空格分隔）： PHP&lt;/p&gt;
 &lt;p&gt;–PHP 函数&lt;/p&gt;
-&lt;h2 id=&quot;php函数简记&quot;&gt;&lt;a href=&quot;#php函数简记&quot; class=&quot;headerlink&quot;</summary>
+&lt;h2 id=&quot;php函数简记&quot;&gt;&lt;a class=&quot;header-anchor&quot;</summary>
         
       
     
     
     
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
     
     
-    <category term="PHP" scheme="https://smileless-1.github.io/tags/PHP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PHP魔术技巧</title>
-    <link href="https://smileless-1.github.io/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/"/>
-    <id>https://smileless-1.github.io/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T16:56:27.596Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;php魔术技巧&quot;&gt;&lt;a href=&quot;#php魔术技巧&quot; class=&quot;headerlink&quot; title=&quot;php魔术技巧&quot;&gt;&lt;/a&gt;php魔术技巧&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： PHP</summary>
-        
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
-    
-    
-    <category term="PHP" scheme="https://smileless-1.github.io/tags/PHP/"/>
+    <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
     
   </entry>
   
   <entry>
     <title>文件包含漏洞</title>
-    <link href="https://smileless-1.github.io/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://smileless-1.github.io/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</id>
+    <link href="https://smileless-l.github.io/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
+    <id>https://smileless-l.github.io/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</id>
     <published>2026-01-28T13:45:00.000Z</published>
     <updated>2026-02-06T16:57:15.390Z</updated>
     
@@ -343,73 +433,29 @@ MathJax = {
       
         
         
-    <summary type="html">&lt;h1 id=&quot;文件包含漏洞&quot;&gt;&lt;a href=&quot;#文件包含漏洞&quot; class=&quot;headerlink&quot; title=&quot;文件包含漏洞&quot;&gt;&lt;/a&gt;文件包含漏洞&lt;/h1&gt;&lt;p&gt;标签（空格分隔）：</summary>
+    <summary type="html">&lt;h1&gt;文件包含漏洞&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： 文件类&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;通常没有看到可以输入的框的时候可以试着看看URL的构造来进行分析&lt;br&gt;
+以攻防世界----catcat-new为例&lt;br&gt;
+看着没有什么输入口但是观察URL–&lt;/p&gt;
+&lt;p&gt;&lt;a</summary>
         
       
     
     
     
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
     
     
-    <category term="PHP" scheme="https://smileless-1.github.io/tags/PHP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>预编译拼接字符法</title>
-    <link href="https://smileless-1.github.io/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/"/>
-    <id>https://smileless-1.github.io/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:06:07.346Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;预编译拼接字符法&quot;&gt;&lt;a href=&quot;#预编译拼接字符法&quot; class=&quot;headerlink&quot; title=&quot;预编译拼接字符法&quot;&gt;&lt;/a&gt;预编译拼接字符法&lt;/h1&gt;&lt;p&gt;标签（空格分隔）：</summary>
-        
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
-    
-    
-    <category term="SQL绕过" scheme="https://smileless-1.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Crypto实用函数类</title>
-    <link href="https://smileless-1.github.io/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/"/>
-    <id>https://smileless-1.github.io/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:47:27.964Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;crypto-python函数类&quot;&gt;&lt;a href=&quot;#crypto-python函数类&quot; class=&quot;headerlink&quot; title=&quot;crypto python函数类&quot;&gt;&lt;/a&gt;crypto python函数类&lt;/h1&gt;&lt;p&gt;标签（空格分隔）：</summary>
-        
-      
-    
-    
-    
-    <category term="Crypto" scheme="https://smileless-1.github.io/categories/crypto/"/>
-    
-    
-    <category term="python" scheme="https://smileless-1.github.io/tags/python/"/>
+    <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
     
   </entry>
   
   <entry>
     <title>SQL报错注入</title>
-    <link href="https://smileless-1.github.io/2026/01/28/SQL%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/"/>
-    <id>https://smileless-1.github.io/2026/01/28/SQL%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/</id>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5/</id>
     <published>2026-01-27T16:00:00.000Z</published>
     <updated>2026-02-06T17:08:18.429Z</updated>
     
@@ -418,16 +464,22 @@ MathJax = {
       
         
         
-    <summary type="html">&lt;h1 id=&quot;SQL报错注入&quot;&gt;&lt;a href=&quot;#SQL报错注入&quot; class=&quot;headerlink&quot; title=&quot;SQL报错注入&quot;&gt;&lt;/a&gt;SQL报错注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）：</summary>
+    <summary type="html">&lt;h1&gt;SQL报错注入&lt;/h1&gt;
+&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;–首先引入两个函数&lt;/p&gt;
+&lt;p&gt;##updatexml（）函数&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;函数语法:&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight</summary>
         
       
     
     
     
-    <category term="Web" scheme="https://smileless-1.github.io/categories/web/"/>
+    <category term="Web" scheme="https://smileless-l.github.io/categories/web/"/>
     
     
-    <category term="SQL" scheme="https://smileless-1.github.io/tags/SQL/"/>
+    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
     
   </entry>
   
