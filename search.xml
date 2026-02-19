@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>AES大致介绍</title>
+      <link href="/blog/2026/02/19/AES%E7%AE%80%E8%AE%B0/"/>
+      <url>/blog/2026/02/19/AES%E7%AE%80%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[<h1 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h1><p>标签（空格分隔）： 未分类</p><hr><h2 id="AES大致介绍"><a href="#AES大致介绍" class="headerlink" title="AES大致介绍"></a>AES大致介绍</h2><table>    <tr>        <th>AES类型</th>        <th>密钥长度（位）</th>        <th>加密轮数</th>        <th>密钥长度（字节）</th>        <th>需要的子密钥总数</th>    </tr>    <tr>        <td>AES-128</td>        <td>128</td>        <td>10</td>        <td>16</td>        <td>11</td>    </tr>    <tr>        <td>AES-192</td>        <td>192</td>        <td>12</td>        <td>24</td>        <td>13</td>    </tr>    <tr>        <td>AES-256</td>        <td>256</td>        <td>14</td>        <td>32</td>        <td>15</td>    </tr></table><hr><h2 id="加密流程"><a href="#加密流程" class="headerlink" title="加密流程"></a>加密流程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">          密匙K                        密匙</span><br><span class="line">            |                 传输      |</span><br><span class="line">明文P -&gt;AES加密函数 - &gt; 密文C -------&gt;  解密 ---&gt; 明文</span><br></pre></td></tr></table></figure><hr><h3 id="开始加密"><a href="#开始加密" class="headerlink" title="开始加密"></a>开始加密</h3><p>开始加密<br>首先通过将已知明文进行一个判断，由于AES加密只能用16个字节，所以得分块情况进行加密，当进行加密的字节刚好是16字节的话正好，如果是少于16字节就必须要进行一个填充（按照自己的方式进行补充）。</p><h3 id="明文处理"><a href="#明文处理" class="headerlink" title="明文处理"></a>明文处理</h3><p>明文转化为ASCLL值。<br>然后再将16字节的明文放到一个状态矩阵里面，具体顺序如下:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入字节： b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 b13 b14 b15</span><br><span class="line"> </span><br><span class="line">状态矩阵排列：</span><br><span class="line">      Column 0  Column 1  Column 2  Column 3</span><br><span class="line">Row 0:   b0       b4       b8       b12</span><br><span class="line">Row 1:   b1       b5       b9       b13</span><br><span class="line">Row 2:   b2       b6       b10      b14</span><br><span class="line">Row 3:   b3       b7       b11      b15</span><br></pre></td></tr></table></figure><hr><h3 id="密匙拓展"><a href="#密匙拓展" class="headerlink" title="密匙拓展"></a>密匙拓展</h3><p>先进行密匙转换为ASCLL值然后再进行排列<br>例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">密匙16进制:4D 79 53 65 63 72 65 74 4B 65 79 31 32 33 34 35</span><br><span class="line">w[0] = [4D, 79, 53, 65]</span><br><span class="line">w[1] = [63, 72, 65, 74]</span><br><span class="line">w[2] = [4B, 65, 79, 31]</span><br><span class="line">w[3] = [32, 33, 34, 35]</span><br></pre></td></tr></table></figure><p>注：<code>这是初始密匙k0</code></p><p>就是4个4个的分组排列。</p><p><code>然后进行判断!!!</code></p><p><code>如果 i % 4 == 0，执行特殊变换</code></p><p><code>如果i没有满足的话直接进行异或运算  w [ i ] = w [ i - 4 ] ⊕ w [ i-1 ]可以得到下一步的</code></p><p>特殊变换如下:</p><h4 id="循环左移"><a href="#循环左移" class="headerlink" title="循环左移"></a>循环左移</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">原始: [byte0, byte1, byte2, byte3]</span><br><span class="line">循环左移后: [byte1, byte2, byte3, byte0]</span><br></pre></td></tr></table></figure><hr><h4 id="沙盒替换"><a href="#沙盒替换" class="headerlink" title="沙盒替换"></a>沙盒替换</h4><p>由于1个16进制字节转为2进制就是8个字节，此时用这个16进制转为的2进制字节的高4位为行号（转为整数值进行查询），低四位为列号（转为整数值进行查询）。<br>如此重复将每个字将查询到的值进行替换。<br>沙盒数值如下:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F</span><br><span class="line">00: 63 7C 77 7B F2 6B 6F C5 30 01 67 2B FE D7 AB 76</span><br><span class="line">10: CA 82 C9 7D FA 59 47 F0 AD D4 A2 AF 9C A4 72 C0</span><br><span class="line">20: B7 FD 93 26 36 3F F7 CC 34 A5 E5 F1 71 D8 31 15</span><br><span class="line">30: 04 C7 23 C3 18 96 05 9A 07 12 80 E2 EB 27 B2 75</span><br><span class="line">40: 09 83 2C 1A 1B 6E 5A A0 52 3B D6 B3 29 E3 2F 84</span><br><span class="line">50: 53 D1 00 ED 20 FC B1 5B 6A CB BE 39 4A 4C 58 CF</span><br><span class="line">60: D0 EF AA FB 43 4D 33 85 45 F9 02 7F 50 3C 9F A8</span><br><span class="line">70: 51 A3 40 8F 92 9D 38 F5 BC B6 DA 21 10 FF F3 D2</span><br><span class="line">80: CD 0C 13 EC 5F 97 44 17 C4 A7 7E 3D 64 5D 19 73</span><br><span class="line">90: 60 81 4F DC 22 2A 90 88 46 EE B8 14 DE 5E 0B DB</span><br><span class="line">A0: E0 32 3A 0A 49 06 24 5C C2 D3 AC 62 91 95 E4 79</span><br><span class="line">B0: E7 C8 37 6D 8D D5 4E A9 6C 56 F4 EA 65 7A AE 08</span><br><span class="line">C0: BA 78 25 2E 1C A6 B4 C6 E8 DD 74 1F 4B BD 8B 8A</span><br><span class="line">D0: 70 3E B5 66 48 03 F6 0E 61 35 57 B9 86 C1 1D 9E</span><br><span class="line">E0: E1 F8 98 11 69 D9 8E 94 9B 1E 87 E9 CE 55 28 DF</span><br><span class="line">F0: 8C A1 89 0D BF E6 42 68 41 99 2D 0F B0 54 BB 16</span><br></pre></td></tr></table></figure><hr><h4 id="与Rcon-round-异或"><a href="#与Rcon-round-异或" class="headerlink" title="与Rcon[round]异或"></a>与Rcon[round]异或</h4><p>Rcon &#x3D; Round Constant，每轮一个常数。<br>Rcon[round] 是一个字：[RC[round], 0x00, 0x00, 0x00]</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SubWord结果: [C3, 18, 96, 23]</span><br><span class="line">Rcon[1]:     [01, 00, 00, 00]</span><br><span class="line">            ⊕  ⊕  ⊕  ⊕</span><br><span class="line">结果:      [C2, 18, 96, 23]</span><br></pre></td></tr></table></figure><p>然后再与w[i-4]异或得到w[4]</p><hr><h3 id="加密开始"><a href="#加密开始" class="headerlink" title="加密开始"></a>加密开始</h3><hr><h4 id="初始轮"><a href="#初始轮" class="headerlink" title="初始轮"></a>初始轮</h4><p>初始状态进行异或</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">状态矩阵：    轮密钥K0：      异或结果：</span><br><span class="line">48 6F 53 6C  ⊕  4D 63 4B 32  =  05 0C 18 5E</span><br><span class="line">65 20 20 64  ⊕  79 72 65 33  =  1C 52 45 57</span><br><span class="line">6C 41 57 21  ⊕  53 65 79 34  =  3F 24 2E 15</span><br><span class="line">6C 45 6F 72  ⊕  65 74 31 35  =  09 31 5E 47</span><br></pre></td></tr></table></figure><h4 id="主循环轮"><a href="#主循环轮" class="headerlink" title="主循环轮"></a>主循环轮</h4><p><code>沙盒替换</code><br>和密匙的特殊处理中沙盒的一样</p><p>这里就不多进行阐述了</p><p><code>行移位</code><br>假设此时为第n行那么字符向右移动n位例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">第0行：不移位 → [6B, FE, B8, 4A]</span><br><span class="line"> </span><br><span class="line">第1行：左移1字节 → [9C, 6F, 6E, 5B] → [6F, 6E, 5B, 9C]</span><br><span class="line"> </span><br><span class="line">第2行：左移2字节 → [76, 36, 95, 59] → [95, 59, 76, 36]</span><br><span class="line"> </span><br><span class="line">第3行：左移3字节 → [01, C7, 4A, 5B] → [5B, 01, C7, 4A]</span><br></pre></td></tr></table></figure><p><code>列混淆</code><br>首先是在进行行移位后的状态表列出来<br>例子如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">6B FE B8 4A</span><br><span class="line">6F 6E 5B 9C</span><br><span class="line">95 59 76 36</span><br><span class="line">5B 01 C7 4A</span><br></pre></td></tr></table></figure><p>然后获得第一列的数值：<br>6B 6F 95 5B<br>然后对每一列运用矩阵乘法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">固定矩阵：</span><br><span class="line">02 03 01 01</span><br><span class="line">01 02 03 01</span><br><span class="line">01 01 02 03</span><br><span class="line">03 01 01 02</span><br></pre></td></tr></table></figure><p>新行0 &#x3D; (02·6B) ⊕ (03·6F) ⊕ (01·95) ⊕ (01·5B)<br>新行1 &#x3D; (01·6B) ⊕ (02·6F) ⊕ (03·95) ⊕ (01·5B)<br>新行2 &#x3D; (01·6B) ⊕ (01·6F) ⊕ (02·95) ⊕ (03·5B)<br>新行3 &#x3D; (03·6B) ⊕ (01·6F) ⊕ (01·95) ⊕ (02·5B)<br>先进行乘法运算然后再进行异或运算得到每一列</p><p>随后对每一列重复那样的计算<br><code>总结</code>：先提出一列然后对固定矩阵的每一行进行矩阵乘法后得到新列</p><p><code>轮密匙加密</code><br>与第n轮的密匙进行异或运算例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">状态：         轮密钥K1：     异或结果：</span><br><span class="line">AF 45 32 8D  ⊕  AD CF F7 E5  =  02 8A C5 68</span><br><span class="line">80 23 9E 4C  ⊕  E1 93 92 D1  =  61 B0 0C 9D</span><br><span class="line">C6 F1 5A B7  ⊕  F6 D7 2B F7  =  30 26 71 40</span><br><span class="line">FB DC 88 29  ⊕  46 77 15 32  =  BD AB 9D 1B</span><br></pre></td></tr></table></figure><p>这样一轮便是结束了<br>如此重复9轮</p><p><code>第10轮</code><br>只在前几轮的基础上去掉列混淆<br>最后输出结果便是加密方式</p><p>##总结<br>大致加密流程可以画成这样</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">明文 → 轮密钥加(K0) </span><br><span class="line">      → [字节替换 → 行移位 → 列混淆 → 轮密钥加(Ki)] 循环9次</span><br><span class="line">      → 字节替换 → 行移位 → 轮密钥加(K10) </span><br><span class="line">      → 密文</span><br></pre></td></tr></table></figure><p>解密的流程是这样</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">密文 → 轮密钥加(K10) </span><br><span class="line">      → 逆行移位 → 逆字节替换 </span><br><span class="line">      → [轮密钥加(Ki) → 逆列混淆 → 逆行移位 → 逆字节替换] 循环9次</span><br><span class="line">      → 轮密钥加(K0) </span><br><span class="line">      → 明文</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Crypto </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> AES </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>维纳攻击(wiener attack)</title>
       <link href="/blog/2026/02/15/%E7%BB%B4%E7%BA%B3%E6%94%BB%E5%87%BB(wiener%20attack)/"/>
       <url>/blog/2026/02/15/%E7%BB%B4%E7%BA%B3%E6%94%BB%E5%87%BB(wiener%20attack)/</url>
@@ -104,6 +129,56 @@
     
     
     <entry>
+      <title>SQL&#39;select&#39;绕过</title>
+      <link href="/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
+      <url>/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><h2 id="直接查询handler函数使用语法"><a href="#直接查询handler函数使用语法" class="headerlink" title="##直接查询handler函数使用语法"></a>##直接查询<br>handler函数使用<br><code>语法</code><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL绕过 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQLite</title>
+      <link href="/blog/2026/01/28/SQLite/"/>
+      <url>/blog/2026/01/28/SQLite/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SQL union联合注入</title>
       <link href="/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
       <url>/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</url>
@@ -129,11 +204,11 @@
     
     
     <entry>
-      <title>SQL&#39;select&#39;绕过</title>
-      <link href="/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
-      <url>/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</url>
+      <title>SQL空格绕过</title>
+      <link href="/blog/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
+      <url>/blog/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</url>
       
-        <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><h2 id="直接查询handler函数使用语法"><a href="#直接查询handler函数使用语法" class="headerlink" title="##直接查询handler函数使用语法"></a>##直接查询<br>handler函数使用<br><code>语法</code><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
       
       
       <categories>
@@ -196,56 +271,6 @@
         <tags>
             
             <tag> SQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SQLite</title>
-      <link href="/blog/2026/01/28/SQLite/"/>
-      <url>/blog/2026/01/28/SQLite/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SQL空格绕过</title>
-      <link href="/blog/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
-      <url>/blog/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL绕过 </tag>
             
         </tags>
       
@@ -329,11 +354,11 @@
     
     
     <entry>
-      <title>PHP魔术技巧</title>
-      <link href="/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/"/>
-      <url>/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/</url>
+      <title>php函数简记</title>
+      <link href="/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
+      <url>/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</url>
       
-        <content type="html"><![CDATA[<h1 id="php魔术技巧"><a href="#php魔术技巧" class="headerlink" title="php魔术技巧"></a>php魔术技巧</h1><p>标签（空格分隔）： PHP #魔术技巧#</p><p>—php</p><p>反序列化的基本格式：O:组的字节:”定义的组的名字”:有几个参数:{s:4:”flag”;s:3:”111”;}</p><p>构造脚本可以在后面这么加$A &#x3D; new Demo (‘fl4g.php’);&#x2F;&#x2F;创建对象<br>                                      $C &#x3D; serialize($A); </p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">_wakeup()：如果察觉到有反序列化的参数值那么将会拒绝执行</span><br><span class="line">//绕过方法：将序列化的对象的属性（参数个数）个数改了</span><br><span class="line"></span><br><span class="line">__destruct():当对象的所有引用被删除或脚本执行结束时，PHP 会自动调用析构函数。</span><br><span class="line"></span><br><span class="line">preg_match(’/[oc]:\d+:/i’, $var)：当中括号的东西出现就会被过滤&#123;应对办法：单双引号绕过</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__construct()：这是一个构造函数，在实例化一个对象的时候，首先会去自动执行的一个方法。</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<p>一些简单php函数简记</p><p>标签（空格分隔）： PHP </p><p>–PHP 函数</p><h2 id="php函数简记"><a href="#php函数简记" class="headerlink" title="php函数简记"></a>php函数简记</h2><p>在此输入正文</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mb_substr()：函数返回字符串的一部分。substr() 函数，它只针对英文字符，如果要分割的中文文字则需要使用mb_substr()。</span><br><span class="line">//注释：如果 start 参数是负数且 length 小于或等于 start，则 length 为 0。</span><br><span class="line"></span><br><span class="line">mb_strpos()：查找字符串在另一个字符串中首次出现的位置</span><br><span class="line"></span><br><span class="line">in_array()函数：搜索数组中是否存在指定的值。</span><br><span class="line">//注释：如果 search 参数是字符串且 type 参数被设置为 TRUE，则搜索区分大小写。</span><br><span class="line"></span><br><span class="line">strstr()函数：用于在一个字符串查找另一个字符串的第一次出现</span><br><span class="line">//注释：区分大小写</span><br><span class="line"></span><br><span class="line">urldecode()：解码已编码的 URL 字符串</span><br><span class="line"></span><br><span class="line">ord()：返回字符串第一个字符的ASCll值</span><br><span class="line"></span><br><span class="line">strrev()：用于反转字符串</span><br><span class="line">//如：strrev(&quot;hello&quot;)  echo: olleh</span><br><span class="line"></span><br><span class="line">strlen()：用于获取字符串的长度。返回字节数</span><br><span class="line"></span><br><span class="line">str_rot：用于对字符串进行ROT13编码</span><br><span class="line"></span><br><span class="line">chr()：用于从指定的ASCll值返回字符</span><br><span class="line">//注释：可以是10/8/16进制</span><br><span class="line"></span><br><span class="line">file_get_contents()： 是PHP中用于读取文件内容的函数</span><br><span class="line">//注释：将文件中数据提取为字符串的函数，要用data://协议构造数据流，使它当作php文件。</span><br><span class="line">//所以需要这样设计代码：?file2=data://text/plain,hello ctf</span><br><span class="line"></span><br><span class="line">str_split() 函数用于将字符串按指定的分隔符分割成多个子字符串，并返回一个包含这些子字符串的列表</span><br><span class="line"></span><br><span class="line">ctype_alpha 函数用于检测字符串中的所有字符是否都是字母。它返回布尔值：如果字符串中的每个字符都是字母，则返回 true，否则返回 false</span><br><span class="line"></span><br><span class="line">ctype_upper：检测提供的 string 类型的 text 里面的所有字符是否都是大写字符</span><br><span class="line"></span><br><span class="line">strlen() :检测字符串长度</span><br><span class="line">__destruct()：这是一个析构函数，在对象的所有引用被删除或者当对象被显示销毁执行的魔术方法。注意：在实例化对象后，代码运行完全销毁，会触发析构函数__destruct()；反序列化得到的是对象，用完之后会销毁，触发析构函数。这道题中发序列化之后就会触发析构函数。</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
@@ -354,11 +379,11 @@
     
     
     <entry>
-      <title>php函数简记</title>
-      <link href="/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
-      <url>/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</url>
+      <title>PHP魔术技巧</title>
+      <link href="/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/"/>
+      <url>/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/</url>
       
-        <content type="html"><![CDATA[<p>一些简单php函数简记</p><p>标签（空格分隔）： PHP </p><p>–PHP 函数</p><h2 id="php函数简记"><a href="#php函数简记" class="headerlink" title="php函数简记"></a>php函数简记</h2><p>在此输入正文</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mb_substr()：函数返回字符串的一部分。substr() 函数，它只针对英文字符，如果要分割的中文文字则需要使用mb_substr()。</span><br><span class="line">//注释：如果 start 参数是负数且 length 小于或等于 start，则 length 为 0。</span><br><span class="line"></span><br><span class="line">mb_strpos()：查找字符串在另一个字符串中首次出现的位置</span><br><span class="line"></span><br><span class="line">in_array()函数：搜索数组中是否存在指定的值。</span><br><span class="line">//注释：如果 search 参数是字符串且 type 参数被设置为 TRUE，则搜索区分大小写。</span><br><span class="line"></span><br><span class="line">strstr()函数：用于在一个字符串查找另一个字符串的第一次出现</span><br><span class="line">//注释：区分大小写</span><br><span class="line"></span><br><span class="line">urldecode()：解码已编码的 URL 字符串</span><br><span class="line"></span><br><span class="line">ord()：返回字符串第一个字符的ASCll值</span><br><span class="line"></span><br><span class="line">strrev()：用于反转字符串</span><br><span class="line">//如：strrev(&quot;hello&quot;)  echo: olleh</span><br><span class="line"></span><br><span class="line">strlen()：用于获取字符串的长度。返回字节数</span><br><span class="line"></span><br><span class="line">str_rot：用于对字符串进行ROT13编码</span><br><span class="line"></span><br><span class="line">chr()：用于从指定的ASCll值返回字符</span><br><span class="line">//注释：可以是10/8/16进制</span><br><span class="line"></span><br><span class="line">file_get_contents()： 是PHP中用于读取文件内容的函数</span><br><span class="line">//注释：将文件中数据提取为字符串的函数，要用data://协议构造数据流，使它当作php文件。</span><br><span class="line">//所以需要这样设计代码：?file2=data://text/plain,hello ctf</span><br><span class="line"></span><br><span class="line">str_split() 函数用于将字符串按指定的分隔符分割成多个子字符串，并返回一个包含这些子字符串的列表</span><br><span class="line"></span><br><span class="line">ctype_alpha 函数用于检测字符串中的所有字符是否都是字母。它返回布尔值：如果字符串中的每个字符都是字母，则返回 true，否则返回 false</span><br><span class="line"></span><br><span class="line">ctype_upper：检测提供的 string 类型的 text 里面的所有字符是否都是大写字符</span><br><span class="line"></span><br><span class="line">strlen() :检测字符串长度</span><br><span class="line">__destruct()：这是一个析构函数，在对象的所有引用被删除或者当对象被显示销毁执行的魔术方法。注意：在实例化对象后，代码运行完全销毁，会触发析构函数__destruct()；反序列化得到的是对象，用完之后会销毁，触发析构函数。这道题中发序列化之后就会触发析构函数。</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h1 id="php魔术技巧"><a href="#php魔术技巧" class="headerlink" title="php魔术技巧"></a>php魔术技巧</h1><p>标签（空格分隔）： PHP #魔术技巧#</p><p>—php</p><p>反序列化的基本格式：O:组的字节:”定义的组的名字”:有几个参数:{s:4:”flag”;s:3:”111”;}</p><p>构造脚本可以在后面这么加$A &#x3D; new Demo (‘fl4g.php’);&#x2F;&#x2F;创建对象<br>                                      $C &#x3D; serialize($A); </p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">_wakeup()：如果察觉到有反序列化的参数值那么将会拒绝执行</span><br><span class="line">//绕过方法：将序列化的对象的属性（参数个数）个数改了</span><br><span class="line"></span><br><span class="line">__destruct():当对象的所有引用被删除或脚本执行结束时，PHP 会自动调用析构函数。</span><br><span class="line"></span><br><span class="line">preg_match(’/[oc]:\d+:/i’, $var)：当中括号的东西出现就会被过滤&#123;应对办法：单双引号绕过</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__construct()：这是一个构造函数，在实例化一个对象的时候，首先会去自动执行的一个方法。</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>

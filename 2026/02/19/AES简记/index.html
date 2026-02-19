@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="zh-CN"><head><!-- hexo injector head_begin start -->
+<!-- MathJax 数学公式支持 -->
+<% if (page.mathjax || page.math) { %>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+<% } %>
+<!-- hexo injector head_begin end --><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="theme-color" content="#1a1a1a"><meta name="msapplication-navbutton-color" content="#1a1a1a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>smileless-L的博客</title><script>(function() {
+  // 尽早应用暗色模式，防止闪烁
+  var savedDarkMode = localStorage.getItem('darkMode') === 'true';
+  if (savedDarkMode) {
+    document.documentElement.classList.add('dark-mode');
+  }
+})();
+</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:wght@400;500;600;700&amp;family=Fira+Code:wght@400;500&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="icon" href="/blog/null">
+<link rel="stylesheet" href="/blog/css/main.css">
+
+<link rel="stylesheet" href="/blog/css/tags.css">
+
+<link rel="stylesheet" href="/blog/css/categories.css">
+
+<link rel="stylesheet" href="/blog/css/categories-accordion.css">
+
+<link rel="stylesheet" href="/blog/css/highlight.css">
+
+<link rel="stylesheet" href="/blog/css/toc.css">
+
+<link rel="stylesheet" href="/blog/css/image-zoom.css">
+
+<link rel="stylesheet" href="/blog/css/share.css">
+
+<link rel="stylesheet" href="/blog/css/mobile-nav.css">
+
+<link rel="stylesheet" href="/blog/css/search.css">
+
+<link rel="stylesheet" href="/blog/css/scrollbar.css">
+
+<link rel="stylesheet" href="/blog/css/timeline.css">
+
+<link rel="stylesheet" href="/blog/css/animations.css">
+
+<link rel="stylesheet" href="/blog/css/ai-theme.css">
+
+<link rel="stylesheet" href="/blog/css/loading-animation.css">
+
+<link rel="stylesheet" href="/blog/css/article-modal.css">
+<!-- 条件加载关于页面样式--><style>:root {
+  --primary-color: #1a1a1a;
+  --secondary-color: #666666;
+  --accent-color: #ff6b6b;
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --overlay-color: rgba(0, 0, 0, 0.7);
+  --tag-background-color: #ffffff;
+  --card-background-color: #ffffff;
+}
+</style><link rel="stylesheet" href="https://cdn1.tianli0.top/gh/qxchuckle/Post-Summary-AI/chuckle-post-ai.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/blog/atom.xml" title="smileless-L的博客" type="application/atom+xml">
+</head><body><div id="app"><header class="header navbar-bubble"><nav class="nav"><div class="nav-container"><div class="nav-logo"><a href="/blog/"><span class="nav-title">smileless-L的博客</span></a></div><div class="nav-menu"><a class="nav-item" href="/blog/">首页</a><a class="nav-item" href="/blog/about/">关于</a><a class="nav-item" href="/blog/archives/">归档</a><a class="nav-item" href="/blog/categories/">分类</a><a class="nav-item" href="/blog/tags/">标签</a><a class="nav-item" href="/blog/link/">友链</a><div class="nav-item has-submenu"><span class="nav-link">网站</span><div class="submenu"><a class="submenu-item" target="_blank" rel="noopener" href="https://example.com">示例网站</a></div></div><!-- 搜索按钮--><div class="search-toggle"><i class="fas fa-search"></i></div></div><div class="nav-toggle"><span></span><span></span><span></span></div></div></nav></header><div class="search-overlay"><div class="search-container"><div class="search-form"><input class="search-input" type="text" placeholder="搜索文章..."/><div class="search-close">×</div></div><div class="search-results"></div></div></div><main class="main"><div class="post-wrapper"><div class="toc-sidebar"><div class="toc-container"><div class="toc-title">目录</div><div class="toc-content" id="table-of-contents"><!-- Table of contents will be generated by JavaScript--></div></div></div><article class="post-container"><div class="post-header"><div class="post-cover"><img src="/blog/images/19.png" alt="AES大致介绍"/></div><div class="post-meta"><div class="post-category"><a href="/blog/categories/Crypto/">Crypto</a></div><div class="post-date"><time datetime="2026-02-19T15:04:00.000Z">二月 19, 2026</time></div><div class="post-author"><span>By smileless-L</span></div></div><h1 class="post-title">AES大致介绍</h1><div class="post-tags"><a class="tag" href="/blog/tags/AES/">AES</a></div></div><!-- AI摘要模块容器--><div id="post-ai-container"></div><div class="post-content"><h1 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h1><p>标签（空格分隔）： 未分类</p>
+<hr>
+<h2 id="AES大致介绍"><a href="#AES大致介绍" class="headerlink" title="AES大致介绍"></a>AES大致介绍</h2><table>
+    <tr>
+        <th>AES类型</th>
+        <th>密钥长度（位）</th>
+        <th>加密轮数</th>
+        <th>密钥长度（字节）</th>
+        <th>需要的子密钥总数</th>
+    </tr>
+    <tr>
+        <td>AES-128</td>
+        <td>128</td>
+        <td>10</td>
+        <td>16</td>
+        <td>11</td>
+    </tr>
+    <tr>
+        <td>AES-192</td>
+        <td>192</td>
+        <td>12</td>
+        <td>24</td>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>AES-256</td>
+        <td>256</td>
+        <td>14</td>
+        <td>32</td>
+        <td>15</td>
+    </tr>
+</table>
+
+
+<hr>
+<h2 id="加密流程"><a href="#加密流程" class="headerlink" title="加密流程"></a>加密流程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">          密匙K                        密匙</span><br><span class="line">            |                 传输      |</span><br><span class="line">明文P -&gt;AES加密函数 - &gt; 密文C -------&gt;  解密 ---&gt; 明文</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="开始加密"><a href="#开始加密" class="headerlink" title="开始加密"></a>开始加密</h3><p>开始加密<br>首先通过将已知明文进行一个判断，由于AES加密只能用16个字节，所以得分块情况进行加密，当进行加密的字节刚好是16字节的话正好，如果是少于16字节就必须要进行一个填充（按照自己的方式进行补充）。</p>
+<h3 id="明文处理"><a href="#明文处理" class="headerlink" title="明文处理"></a>明文处理</h3><p>明文转化为ASCLL值。<br>然后再将16字节的明文放到一个状态矩阵里面，具体顺序如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入字节： b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 b13 b14 b15</span><br><span class="line"> </span><br><span class="line">状态矩阵排列：</span><br><span class="line">      Column 0  Column 1  Column 2  Column 3</span><br><span class="line">Row 0:   b0       b4       b8       b12</span><br><span class="line">Row 1:   b1       b5       b9       b13</span><br><span class="line">Row 2:   b2       b6       b10      b14</span><br><span class="line">Row 3:   b3       b7       b11      b15</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="密匙拓展"><a href="#密匙拓展" class="headerlink" title="密匙拓展"></a>密匙拓展</h3><p>先进行密匙转换为ASCLL值然后再进行排列<br>例子如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">密匙16进制:4D 79 53 65 63 72 65 74 4B 65 79 31 32 33 34 35</span><br><span class="line">w[0] = [4D, 79, 53, 65]</span><br><span class="line">w[1] = [63, 72, 65, 74]</span><br><span class="line">w[2] = [4B, 65, 79, 31]</span><br><span class="line">w[3] = [32, 33, 34, 35]</span><br></pre></td></tr></table></figure>
+<p>注：<code>这是初始密匙k0</code></p>
+<p>就是4个4个的分组排列。</p>
+<p><code>然后进行判断!!!</code></p>
+<p><code>如果 i % 4 == 0，执行特殊变换</code></p>
+<p><code>如果i没有满足的话直接进行异或运算  w [ i ] = w [ i - 4 ] ⊕ w [ i-1 ]可以得到下一步的</code></p>
+<p>特殊变换如下:</p>
+<h4 id="循环左移"><a href="#循环左移" class="headerlink" title="循环左移"></a>循环左移</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">原始: [byte0, byte1, byte2, byte3]</span><br><span class="line">循环左移后: [byte1, byte2, byte3, byte0]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="沙盒替换"><a href="#沙盒替换" class="headerlink" title="沙盒替换"></a>沙盒替换</h4><p>由于1个16进制字节转为2进制就是8个字节，此时用这个16进制转为的2进制字节的高4位为行号（转为整数值进行查询），低四位为列号（转为整数值进行查询）。<br>如此重复将每个字将查询到的值进行替换。<br>沙盒数值如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F</span><br><span class="line">00: 63 7C 77 7B F2 6B 6F C5 30 01 67 2B FE D7 AB 76</span><br><span class="line">10: CA 82 C9 7D FA 59 47 F0 AD D4 A2 AF 9C A4 72 C0</span><br><span class="line">20: B7 FD 93 26 36 3F F7 CC 34 A5 E5 F1 71 D8 31 15</span><br><span class="line">30: 04 C7 23 C3 18 96 05 9A 07 12 80 E2 EB 27 B2 75</span><br><span class="line">40: 09 83 2C 1A 1B 6E 5A A0 52 3B D6 B3 29 E3 2F 84</span><br><span class="line">50: 53 D1 00 ED 20 FC B1 5B 6A CB BE 39 4A 4C 58 CF</span><br><span class="line">60: D0 EF AA FB 43 4D 33 85 45 F9 02 7F 50 3C 9F A8</span><br><span class="line">70: 51 A3 40 8F 92 9D 38 F5 BC B6 DA 21 10 FF F3 D2</span><br><span class="line">80: CD 0C 13 EC 5F 97 44 17 C4 A7 7E 3D 64 5D 19 73</span><br><span class="line">90: 60 81 4F DC 22 2A 90 88 46 EE B8 14 DE 5E 0B DB</span><br><span class="line">A0: E0 32 3A 0A 49 06 24 5C C2 D3 AC 62 91 95 E4 79</span><br><span class="line">B0: E7 C8 37 6D 8D D5 4E A9 6C 56 F4 EA 65 7A AE 08</span><br><span class="line">C0: BA 78 25 2E 1C A6 B4 C6 E8 DD 74 1F 4B BD 8B 8A</span><br><span class="line">D0: 70 3E B5 66 48 03 F6 0E 61 35 57 B9 86 C1 1D 9E</span><br><span class="line">E0: E1 F8 98 11 69 D9 8E 94 9B 1E 87 E9 CE 55 28 DF</span><br><span class="line">F0: 8C A1 89 0D BF E6 42 68 41 99 2D 0F B0 54 BB 16</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="与Rcon-round-异或"><a href="#与Rcon-round-异或" class="headerlink" title="与Rcon[round]异或"></a>与Rcon[round]异或</h4><p>Rcon &#x3D; Round Constant，每轮一个常数。<br>Rcon[round] 是一个字：[RC[round], 0x00, 0x00, 0x00]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SubWord结果: [C3, 18, 96, 23]</span><br><span class="line">Rcon[1]:     [01, 00, 00, 00]</span><br><span class="line">            ⊕  ⊕  ⊕  ⊕</span><br><span class="line">结果:      [C2, 18, 96, 23]</span><br></pre></td></tr></table></figure>
+<p>然后再与w[i-4]异或得到w[4]</p>
+<hr>
+<h3 id="加密开始"><a href="#加密开始" class="headerlink" title="加密开始"></a>加密开始</h3><hr>
+<h4 id="初始轮"><a href="#初始轮" class="headerlink" title="初始轮"></a>初始轮</h4><p>初始状态进行异或</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">状态矩阵：    轮密钥K0：      异或结果：</span><br><span class="line">48 6F 53 6C  ⊕  4D 63 4B 32  =  05 0C 18 5E</span><br><span class="line">65 20 20 64  ⊕  79 72 65 33  =  1C 52 45 57</span><br><span class="line">6C 41 57 21  ⊕  53 65 79 34  =  3F 24 2E 15</span><br><span class="line">6C 45 6F 72  ⊕  65 74 31 35  =  09 31 5E 47</span><br></pre></td></tr></table></figure>
+
+<h4 id="主循环轮"><a href="#主循环轮" class="headerlink" title="主循环轮"></a>主循环轮</h4><p><code>沙盒替换</code><br>和密匙的特殊处理中沙盒的一样</p>
+<p>这里就不多进行阐述了</p>
+<p><code>行移位</code><br>假设此时为第n行那么字符向右移动n位例子如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">第0行：不移位 → [6B, FE, B8, 4A]</span><br><span class="line"> </span><br><span class="line">第1行：左移1字节 → [9C, 6F, 6E, 5B] → [6F, 6E, 5B, 9C]</span><br><span class="line"> </span><br><span class="line">第2行：左移2字节 → [76, 36, 95, 59] → [95, 59, 76, 36]</span><br><span class="line"> </span><br><span class="line">第3行：左移3字节 → [01, C7, 4A, 5B] → [5B, 01, C7, 4A]</span><br></pre></td></tr></table></figure>
+
+<p><code>列混淆</code><br>首先是在进行行移位后的状态表列出来<br>例子如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">6B FE B8 4A</span><br><span class="line">6F 6E 5B 9C</span><br><span class="line">95 59 76 36</span><br><span class="line">5B 01 C7 4A</span><br></pre></td></tr></table></figure>
+<p>然后获得第一列的数值：<br>6B 6F 95 5B<br>然后对每一列运用矩阵乘法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">固定矩阵：</span><br><span class="line">02 03 01 01</span><br><span class="line">01 02 03 01</span><br><span class="line">01 01 02 03</span><br><span class="line">03 01 01 02</span><br></pre></td></tr></table></figure>
+<p>新行0 &#x3D; (02·6B) ⊕ (03·6F) ⊕ (01·95) ⊕ (01·5B)<br>新行1 &#x3D; (01·6B) ⊕ (02·6F) ⊕ (03·95) ⊕ (01·5B)<br>新行2 &#x3D; (01·6B) ⊕ (01·6F) ⊕ (02·95) ⊕ (03·5B)<br>新行3 &#x3D; (03·6B) ⊕ (01·6F) ⊕ (01·95) ⊕ (02·5B)<br>先进行乘法运算然后再进行异或运算得到每一列</p>
+<p>随后对每一列重复那样的计算<br><code>总结</code>：先提出一列然后对固定矩阵的每一行进行矩阵乘法后得到新列</p>
+<p><code>轮密匙加密</code><br>与第n轮的密匙进行异或运算例子如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">状态：         轮密钥K1：     异或结果：</span><br><span class="line">AF 45 32 8D  ⊕  AD CF F7 E5  =  02 8A C5 68</span><br><span class="line">80 23 9E 4C  ⊕  E1 93 92 D1  =  61 B0 0C 9D</span><br><span class="line">C6 F1 5A B7  ⊕  F6 D7 2B F7  =  30 26 71 40</span><br><span class="line">FB DC 88 29  ⊕  46 77 15 32  =  BD AB 9D 1B</span><br></pre></td></tr></table></figure>
+<p>这样一轮便是结束了<br>如此重复9轮</p>
+<p><code>第10轮</code><br>只在前几轮的基础上去掉列混淆<br>最后输出结果便是加密方式</p>
+<p>##总结<br>大致加密流程可以画成这样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">明文 → 轮密钥加(K0) </span><br><span class="line">      → [字节替换 → 行移位 → 列混淆 → 轮密钥加(Ki)] 循环9次</span><br><span class="line">      → 字节替换 → 行移位 → 轮密钥加(K10) </span><br><span class="line">      → 密文</span><br></pre></td></tr></table></figure>
+<p>解密的流程是这样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">密文 → 轮密钥加(K10) </span><br><span class="line">      → 逆行移位 → 逆字节替换 </span><br><span class="line">      → [轮密钥加(Ki) → 逆列混淆 → 逆行移位 → 逆字节替换] 循环9次</span><br><span class="line">      → 轮密钥加(K0) </span><br><span class="line">      → 明文</span><br></pre></td></tr></table></figure>
+</div><!-- 初始化AI摘要--><script>document.addEventListener('DOMContentLoaded', function() {
+  if (typeof ChucklePostAI !== 'undefined') {
+    // 获取按钮文本，如果未定义则使用默认值
+    const buttons = [
+      "介绍自己",
+      "来点灵感",
+      "生成AI简介"
+    ];
+
+    new ChucklePostAI({
+      el: '#post-ai-container',
+      title_el: '.post-title',
+      summary_directly: false,
+      interface: {
+        name: "然-AI",
+        introduce: "我是文章辅助AI: 然-AI，一个基于deepseek的强大语言模型，有什么可以帮到您？😊",
+        version: "deepseekv3",
+        button: buttons
+      }
+    });
+  }
+});
+</script><!-- 传递TOC配置给前端--><script>// 创建全局TOC配置对象
+window.tocConfig = {
+  empty_toc_behavior: "placeholder"
+};
+</script><div class="post-navigation"><div class="post-nav next"><a href="/blog/2026/02/15/%E7%BB%B4%E7%BA%B3%E6%94%BB%E5%87%BB(wiener%20attack)/"><span class="nav-label">Next →</span><span class="nav-title">维纳攻击(wiener attack)</span></a></div></div><div class="post-share"><h3 class="share-title">Share this article</h3><div class="share-buttons"><a class="share-btn twitter" href="https://twitter.com/intent/tweet?text=AES%E5%A4%A7%E8%87%B4%E4%BB%8B%E7%BB%8D&amp;url=%2Fblog%2F2026%2F02%2F19%2FAES%25E7%25AE%2580%25E8%25AE%25B0%2F" target="_blank" rel="noopener"><span>Twitter</span></a><a class="share-btn facebook" href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2F2026%2F02%2F19%2FAES%25E7%25AE%2580%25E8%25AE%25B0%2F" target="_blank" rel="noopener"><span>Facebook</span></a><a class="share-btn linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=%2Fblog%2F2026%2F02%2F19%2FAES%25E7%25AE%2580%25E8%25AE%25B0%2F" target="_blank" rel="noopener"><span>LinkedIn</span></a><a class="share-btn wechat" href="#" data-wechat="/blog/2026/02/19/AES%E7%AE%80%E8%AE%B0/"><span>微信</span></a><a class="share-btn qq" href="https://connect.qq.com/widget/shareqq/index.html?url=%2Fblog%2F2026%2F02%2F19%2FAES%25E7%25AE%2580%25E8%25AE%25B0%2F&amp;title=AES%E5%A4%A7%E8%87%B4%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener"><span>QQ</span></a><a class="share-btn weibo" href="https://service.weibo.com/share/share.php?url=%2Fblog%2F2026%2F02%2F19%2FAES%25E7%25AE%2580%25E8%25AE%25B0%2F&amp;title=AES%E5%A4%A7%E8%87%B4%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener"><span>微博</span></a><a class="share-btn copy" href="#" data-copy="/blog/2026/02/19/AES%E7%AE%80%E8%AE%B0/"><span>Copy Link</span></a></div></div></article></div></main><footer class="footer"><div class="footer-bottom"><div class="footer-copyright">© 2025 李思然. All rights reserved.</div><!-- Footer centered image with link--><div class="footer-image" style="text-align: center; margin: 15px 0;"><a href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral" target="_blank" rel="noopener noreferrer"><img src="https://s21.ax1x.com/2024/08/23/pAFm0cq.png" alt="Footer Image" style="max-width: 100%; height: auto;"/></a></div><div class="footer-badges"><a target="_blank" rel="noopener" href="https://hexo.io/" title="博客框架为Hexo_v5.4.0"><img src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Frame-Hexo.svg" alt="博客框架为Hexo_v5.4.0"/></a><a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"><img src="https://npm.elemecdn.com/anzhiyu-blog@2.2.0/img/badge/Copyright-BY-NC-SA.svg" alt="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a></div></div></footer></div><!-- 立即应用暗色模式，避免页面闪烁--><script>(function() {
+  // 检查本地存储中的暗色模式设置
+  const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+  // 如果设置为暗色模式，立即应用到body
+  if (savedDarkMode) {
+    document.body.classList.add('dark-mode');
+  }
+
+  // 防止页面闪烁，在DOM加载完成前设置一个初始类
+  document.documentElement.style.visibility = 'hidden';
+  document.addEventListener('DOMContentLoaded', function() {
+    document.documentElement.style.visibility = 'visible';
+  });
+})();
+</script>
+<script src="/blog/js/main.js"></script>
+
+<script src="/blog/js/tags.js"></script>
+
+<script src="/blog/js/categories-accordion.js"></script>
+
+<script src="/blog/js/highlight.js"></script>
+
+<script src="/blog/js/load-more.js"></script>
+
+<script src="/blog/js/header-scroll.js"></script>
+
+<script src="/blog/js/toc.js"></script>
+
+<script src="/blog/js/image-zoom.js"></script>
+
+<script src="/blog/js/share.js"></script>
+
+<script src="/blog/js/search.js"></script>
+
+<script src="/blog/js/hide-inline-interaction.js"></script>
+
+<script src="/blog/js/hide-toggle-interaction.js"></script>
+
+<script src="/blog/js/dark-mode-sync.js"></script>
+
+<script src="/blog/js/animations.js"></script>
+
+<script src="/blog/js/ai-theme.js"></script>
+
+<script src="/blog/js/loading-animation.js"></script>
+
+<script src="/blog/js/article-modal.js"></script>
+<script>window.theme = {
+  features: {"dark_mode":true,"smooth_scroll":true,"back_to_top":true,"loading_animation":true},
+  code_block: {"height_limit":200,"enable_folding":true,"max_height":"300px","show_lang":true},
+  ai_summary: {"enable":true,"api_key":"","summary_directly":false,"ai_name":"然-AI","ai_introduce":"我是文章辅助AI: 然-AI，一个基于deepseek的强大语言模型，有什么可以帮到您？😊","ai_version":"deepseekv3","buttons":["介绍自己","来点灵感","生成AI简介"]},
+  categories: {"layout":"accordion","accordion_animation":true,"show_empty_categories":true},
+  article_list: {"card_size":"normal","view_mode":"modal"}
+};
+</script><script src="/js/ai.js"></script><script src="/js/postai.js"></script></body></html>
