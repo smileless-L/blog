@@ -77,7 +77,7 @@ window.MathJax = {
 <hr>
 <h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>确定明文m，然后选取随机数r，r满足 $r\in Z_{p-1}$</p>
 <p>加密为$E_{k}(m,r)&#x3D;(y_{1},y_{2})$</p>
-<p>$y_{1}\equiv g^{r} \ mod \ (p),   y_{2}\equiv m*g^{r} \ mod \ (p)$</p>
+<p>$y_{1}\equiv g^{r} \ mod \ (p),   y_{2}\equiv m*y^{r} \ mod \ (p)$</p>
 <hr>
 <h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>$D_k(y_1,y_2) &#x3D; y_2*(y_1^{k})^{-1} \ mod \ (p) \equiv m*(g^k)^r(g^{kr})^{-1} \equiv m \ mod  \ p$</p>
 </div><!-- 初始化AI摘要--><script>document.addEventListener('DOMContentLoaded', function() {

