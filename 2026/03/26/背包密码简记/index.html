@@ -91,7 +91,7 @@ window.MathJax = {
 
 <p>之后再生成公匙$b_i&#x3D;w*a_i \ mod \ m$,最后将$b_i$和$m$作为公匙</p>
 <h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>假设要加密的密文为v，每一个比特位对应的是$v_i$<br>直接$W &#x3D;  \sum_{1}^ib_i*v_i \ mod \ m $</p>
-<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>因为$W &#x3D; \sum_{1}^{i}b_i<em>v_{i}$，那么$W * w^{-1} \ mod \ m &#x3D; \sum_1^ia_i</em>v_i \ mod \ m$<br>由于m是大于$\sum_1^ia_i*v_i$的所以可以直接解。</p>
+<h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>因为$W &#x3D; sum_{1}^{i}b_i<em>v_{i}$，<br>那么$W * w^{-1}  mod  m &#x3D; \sum_1^ia_i</em>v_i  mod  m$<br>由于m是大于$sum_1^ia_i*v_i$的所以可以直接解。</p>
 <p>本文写到这里但是背包密码在提出后两年便被破解了，后续小编将写出破解的笔记</p>
 </div><!-- 初始化AI摘要--><script>document.addEventListener('DOMContentLoaded', function() {
   if (typeof ChucklePostAI !== 'undefined') {
