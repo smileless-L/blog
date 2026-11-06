@@ -1,23 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><!-- hexo injector head_begin start -->
-<!-- MathJax 数学公式支持 -->
-<% if (page.mathjax || page.math) { %>
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    processEscapes: true
-  },
-  options: {
-    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  }
-};
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
-<% } %>
-<!-- hexo injector head_begin end --><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="theme-color" content="#1a1a1a"><meta name="msapplication-navbutton-color" content="#1a1a1a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>smileless-L的博客</title><script>(function() {
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="theme-color" content="#1a1a1a"><meta name="msapplication-navbutton-color" content="#1a1a1a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>smileless-L的博客</title><script>(function() {
   // 尽早应用暗色模式，防止闪烁
   var savedDarkMode = localStorage.getItem('darkMode') === 'true';
   if (savedDarkMode) {
@@ -56,7 +37,7 @@ window.MathJax = {
 <link rel="stylesheet" href="/blog/css/loading-animation.css">
 
 <link rel="stylesheet" href="/blog/css/article-modal.css">
-<!-- 条件加载关于页面样式--><style>:root {
+<!-- 条件加载关于页面样式--><link rel="stylesheet" href="/blog/katex/katex.min.css"><style>:root {
   --primary-color: #1a1a1a;
   --secondary-color: #666666;
   --accent-color: #ff6b6b;
@@ -66,7 +47,7 @@ window.MathJax = {
   --tag-background-color: #ffffff;
   --card-background-color: #ffffff;
 }
-</style><link rel="stylesheet" href="https://cdn1.tianli0.top/gh/qxchuckle/Post-Summary-AI/chuckle-post-ai.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><!-- hexo injector head_end start -->
+</style><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
@@ -92,23 +73,21 @@ window.MathJax = {
 首先得知道ECC的一个定理$ \phi(G)^n&#x3D;\phi(...</p></div><div class="post-item-meta"><div class="post-meta-left"><span class="post-date"><i class="far fa-calendar"></i> 2026-04-23</span><span class="post-tags"><i class="fas fa-tags"></i><a href="/blog/tags/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0/">离散对数</a></span></div><div class="post-meta-right"><a class="read-more" href="/blog/2026/04/23/ECC%EF%BC%88%E5%A5%87%E5%BC%82%E6%9B%B2%E7%BA%BF%EF%BC%89/">阅读全文<i class="fas fa-arrow-right"></i></a></div></div></div></div><!-- 根据索引创建不同大小的卡片--><div class="post-item post-item--large"><div class="post-item-inner"><div class="post-item-title"><a href="/blog/2026/03/26/%E8%83%8C%E5%8C%85%E5%AF%86%E7%A0%81%E7%AE%80%E8%AE%B0/">背包密码简记</a></div><div class="post-item-excerpt"><!-- 使用 strip_html 过滤器移除 HTML 标签后再截取文本--><p>背包密码简记标签（空格分隔）： 背包密码
 
 基本介绍假如一个背包 W 满足以下
- $W=a_1*x_1+a_2*x_2+a_3*x_3+...+a_ix_i$
+ W=a1∗x1+a2∗x2+a3∗x3+...+aixiW=a_1*x_1+a_2*x_2+a_3*x_3+...+a_ix_iW=a1​∗x1​+a2​∗x2​+a3​∗x3​+...+ai​xi​
 
-&amp;emsp;其中$a_1,a_2,…a_i$是货物，$x_1,x_2,…,x_i$都只等于0或者1，x相当于决定是否装货物。式子表示而当货物装载的量等于 W 的时候。&amp;emsp;此时很显然，如果我们知道$a_1,a_2,…,a_i$的时候要逆推回去W的话可能要重复$2^i$次（$x_i$只可能等于1&#x2F;2）&amp;emsp;此时如果我们要对一个密文m进行加密的话可以将m转化为对应的二进制的数值然后再用对应的$...</p></div><div class="post-item-meta"><div class="post-meta-left"><span class="post-date"><i class="far fa-calendar"></i> 2026-03-26</span><span class="post-tags"><i class="fas fa-tags"></i><a href="/blog/tags/%E8%83%8C%E5%8C%85%E5%AF%86%E7%A0%81/">背包密码</a></span></div><div class="post-meta-right"><a class="read-more" href="/blog/2026/03/26/%E8%83%8C%E5%8C%85%E5%AF%86%E7%A0%81%E7%AE%80%E8%AE%B0/">阅读全文<i class="fas fa-arrow-right"></i></a></div></div></div></div><!-- 根据索引创建不同大小的卡片--><div class="post-item post-item--small"><div class="post-item-inner"><div class="post-item-title"><a href="/blog/2026/03/18/pem%E6%89%8B%E5%8A%A8%E5%88%86%E6%9E%90/">pem分析</a></div><div class="post-item-excerpt"><!-- 使用 strip_html 过滤器移除 HTML 标签后再截取文本--><p>pem分析标签（空格分隔）： 技巧
+&amp;emsp;其中a1,a2,...aia_1,a_2,…a_ia1​,a2​,…ai​是货物，x1,x2,...,xix_1,x_2,…,x_ix1​,x2​,…,xi​都只等于0或者1，x相当于决定是否装货物。式子表示而当货物装载的量等于 W 的时候。&amp;emsp;此时很显然，如果我们知道a1,a...</p></div><div class="post-item-meta"><div class="post-meta-left"><span class="post-date"><i class="far fa-calendar"></i> 2026-03-26</span><span class="post-tags"><i class="fas fa-tags"></i><a href="/blog/tags/%E8%83%8C%E5%8C%85%E5%AF%86%E7%A0%81/">背包密码</a></span></div><div class="post-meta-right"><a class="read-more" href="/blog/2026/03/26/%E8%83%8C%E5%8C%85%E5%AF%86%E7%A0%81%E7%AE%80%E8%AE%B0/">阅读全文<i class="fas fa-arrow-right"></i></a></div></div></div></div><!-- 根据索引创建不同大小的卡片--><div class="post-item post-item--small"><div class="post-item-inner"><div class="post-item-title"><a href="/blog/2026/03/18/pem%E6%89%8B%E5%8A%A8%E5%88%86%E6%9E%90/">pem分析</a></div><div class="post-item-excerpt"><!-- 使用 strip_html 过滤器移除 HTML 标签后再截取文本--><p>pem分析标签（空格分隔）： 技巧
 
 内容介绍：X.509 是定义公钥证书格式的标准。 因此，这种格式描述了其他信息中的公钥。
 DER是最流行的编码格式，用于在文件中存储 X.509 证书、PKCS8...</p></div><div class="post-item-meta"><div class="post-meta-left"><span class="post-date"><i class="far fa-calendar"></i> 2026-03-18</span><span class="post-tags"><i class="fas fa-tags"></i><a href="/blog/tags/%E6%8A%80%E5%B7%A7%E7%B1%BB/">技巧类</a></span></div><div class="post-meta-right"><a class="read-more" href="/blog/2026/03/18/pem%E6%89%8B%E5%8A%A8%E5%88%86%E6%9E%90/">阅读全文<i class="fas fa-arrow-right"></i></a></div></div></div></div><!-- 根据索引创建不同大小的卡片--><div class="post-item post-item--small"><div class="post-item-inner"><div class="post-item-title"><a href="/blog/2026/03/01/Pollard's%20p-1%E7%AE%97%E6%B3%95/">Pollard's p-1算法</a></div><div class="post-item-excerpt"><!-- 使用 strip_html 过滤器移除 HTML 标签后再截取文本--><p>Pollard’s p-1算法标签（空格分隔）： RSA
 
 如果 p是一个素数，且 a 不是 p 的倍数，那么：
-$a^{p-1}≡1 \ mod \ p$
-
-$a^{(p-1)*k}≡1^k ≡1 ...</p></div><div class="post-item-meta"><div class="post-meta-left"><span class="post-date"><i class="far fa-calendar"></i> 2026-03-01</span><span class="post-tags"><i class="fas fa-tags"></i><a href="/blog/tags/RSA/">RSA</a></span></div><div class="post-meta-right"><a class="read-more" href="/blog/2026/03/01/Pollard's%20p-1%E7%AE%97%E6%B3%95/">阅读全文<i class="fas fa-arrow-right"></i></a></div></div></div></div><!-- 根据索引创建不同大小的卡片--><div class="post-item post-item--medium"><div class="post-item-inner"><div class="post-item-title"><a href="/blog/2026/03/01/DES%E5%8A%A0%E5%AF%86%E8%AF%A6%E7%BB%86%E8%A7%A3%E6%9E%90/">DES加密详细解析</a></div><div class="post-item-excerpt"><!-- 使用 strip_html 过滤器移除 HTML 标签后再截取文本--><p>DES加密详细解析标签（空格分隔）： DES
+ap−1≡1 mod pa^{p-1}≡1 \ mod \ pap−1≡1 mod p...</p></div><div class="post-item-meta"><div class="post-meta-left"><span class="post-date"><i class="far fa-calendar"></i> 2026-03-01</span><span class="post-tags"><i class="fas fa-tags"></i><a href="/blog/tags/RSA/">RSA</a></span></div><div class="post-meta-right"><a class="read-more" href="/blog/2026/03/01/Pollard's%20p-1%E7%AE%97%E6%B3%95/">阅读全文<i class="fas fa-arrow-right"></i></a></div></div></div></div><!-- 根据索引创建不同大小的卡片--><div class="post-item post-item--medium"><div class="post-item-inner"><div class="post-item-title"><a href="/blog/2026/03/01/DES%E5%8A%A0%E5%AF%86%E8%AF%A6%E7%BB%86%E8%A7%A3%E6%9E%90/">DES加密详细解析</a></div><div class="post-item-excerpt"><!-- 使用 strip_html 过滤器移除 HTML 标签后再截取文本--><p>DES加密详细解析标签（空格分隔）： DES
 
 DES概述64位明文明文分组进行16轮完全相同的变换（轮函数）
 56位有效密钥长度（外加8位奇偶校验位，总输入为64位）。
 分组长度：64位
 
-加密核心流程整体流程如下1234567891011121314151617181920212223    64位明文        |        ↓初始置换（IP）        |        ↓将6...</p></div><div class="post-item-meta"><div class="post-meta-left"><span class="post-date"><i class="far fa-calendar"></i> 2026-03-01</span><span class="post-tags"><i class="fas fa-tags"></i><a href="/blog/tags/DES/">DES</a></span></div><div class="post-meta-right"><a class="read-more" href="/blog/2026/03/01/DES%E5%8A%A0%E5%AF%86%E8%AF%A6%E7%BB%86%E8%A7%A3%E6%9E%90/">阅读全文<i class="fas fa-arrow-right"></i></a></div></div></div></div></div></div></article></div></main><footer class="footer"><div class="footer-bottom"><div class="footer-copyright">© 2025 李思然. All rights reserved.</div><!-- Footer centered image with link--><div class="footer-image" style="text-align: center; margin: 15px 0;"><a href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral" target="_blank" rel="noopener noreferrer"><img src="https://s21.ax1x.com/2024/08/23/pAFm0cq.png" alt="Footer Image" style="max-width: 100%; height: auto;"/></a></div><div class="footer-badges"><a target="_blank" rel="noopener" href="https://hexo.io/" title="博客框架为Hexo_v5.4.0"><img src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Frame-Hexo.svg" alt="博客框架为Hexo_v5.4.0"/></a><a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"><img src="https://npm.elemecdn.com/anzhiyu-blog@2.2.0/img/badge/Copyright-BY-NC-SA.svg" alt="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a></div></div></footer></div><!-- 立即应用暗色模式，避免页面闪烁--><script>(function() {
+加密核心流程整体流程如下1234567891011121314151617181920212223    64位明文        |        ↓初始置换（IP）        |        ↓将6...</p></div><div class="post-item-meta"><div class="post-meta-left"><span class="post-date"><i class="far fa-calendar"></i> 2026-03-01</span><span class="post-tags"><i class="fas fa-tags"></i><a href="/blog/tags/DES/">DES</a></span></div><div class="post-meta-right"><a class="read-more" href="/blog/2026/03/01/DES%E5%8A%A0%E5%AF%86%E8%AF%A6%E7%BB%86%E8%A7%A3%E6%9E%90/">阅读全文<i class="fas fa-arrow-right"></i></a></div></div></div></div></div></div></article></div></main><footer class="footer"><div class="footer-bottom"><div class="footer-copyright">© Rainlike. All rights reserved.</div><!-- Footer centered image with link--><div class="footer-image" style="text-align: center; margin: 15px 0;"><a href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referral" target="_blank" rel="noopener noreferrer"><img src="https://s21.ax1x.com/2024/08/23/pAFm0cq.png" alt="Footer Image" style="max-width: 100%; height: auto;"/></a></div><div class="footer-badges"><a target="_blank" rel="noopener" href="https://hexo.io/" title="博客框架为Hexo_v5.4.0"><img src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Frame-Hexo.svg" alt="博客框架为Hexo_v5.4.0"/></a><a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"><img src="https://npm.elemecdn.com/anzhiyu-blog@2.2.0/img/badge/Copyright-BY-NC-SA.svg" alt="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a></div></div></footer></div><!-- 立即应用暗色模式，避免页面闪烁--><script>(function() {
   // 检查本地存储中的暗色模式设置
   const savedDarkMode = localStorage.getItem('darkMode') === 'true';
   // 如果设置为暗色模式，立即应用到body
@@ -159,8 +138,8 @@ DES概述64位明文明文分组进行16轮完全相同的变换（轮函数）
 <script>window.theme = {
   features: {"dark_mode":true,"smooth_scroll":true,"back_to_top":true,"loading_animation":true},
   code_block: {"height_limit":200,"enable_folding":true,"max_height":"300px","show_lang":true},
-  ai_summary: {"enable":true,"api_key":"","summary_directly":false,"ai_name":"然-AI","ai_introduce":"我是文章辅助AI: 然-AI，一个基于deepseek的强大语言模型，有什么可以帮到您？😊","ai_version":"deepseekv3","buttons":["介绍自己","来点灵感","生成AI简介"]},
+  ai_summary: {"enable":false,"api_key":"","summary_directly":false,"ai_name":"然-AI","ai_introduce":"我是文章辅助AI: 然-AI，一个基于deepseek的强大语言模型，有什么可以帮到您？😊","ai_version":"deepseekv3","buttons":["介绍自己","来点灵感","生成AI简介"]},
   categories: {"layout":"accordion","accordion_animation":true,"show_empty_categories":true},
   article_list: {"card_size":"normal","view_mode":"modal"}
 };
-</script><script src="/js/ai.js"></script><script src="/js/postai.js"></script></body></html>
+</script></body></html>
