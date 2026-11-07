@@ -48,7 +48,7 @@ function initSearch() {
   let searchIndex;
 
   // Load search index
-  fetch('/search.json')
+  fetch((window.theme && window.theme.root || '/') + 'search.json')
     .then(response => response.json())
     .then(data => {
       searchIndex = data;
